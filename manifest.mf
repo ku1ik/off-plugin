@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: net.sickill.taz
+OpenIDE-Module-Layer: net/sickill/taz/layer.xml
+OpenIDE-Module-Localizing-Bundle: net/sickill/taz/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
