@@ -28,9 +28,14 @@ public class NetbeansActionsProvider implements ActionsProvider {
         try {
             DataObject data = DataObject.find(((NetbeansProjectFile)pf).getFileObject());
             data.getLookup().lookup(OpenCookie.class).open();
+            performGoto(lineNo);
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);
         }
+    }
+
+    private boolean performGoto(int lineNo) {
+        return true;
     }
 
     public void closeWindow() {
