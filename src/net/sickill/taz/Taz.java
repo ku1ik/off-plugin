@@ -35,21 +35,18 @@ public class Taz extends JPanel {
     private Settings settings;
     private ProjectFilesProvider projectFiles;
 
-    public Taz(ProjectFilesProvider pf) {
-        this.projectFiles = pf;
+    public Taz(Settings s, ProjectFilesProvider pfp) {
+        this.settings = s;
+        this.projectFiles = pfp;
         setupTaz();
     }
 
-    public Settings getSettings() {
-        return this.settings;
-    }
+//    public Settings getSettings() {
+//        return this.settings;
+//    }
 
-    public void setSettings(Settings s) {
-        this.settings = s;
-    }
-
-    public void setActionsProvider(ActionsProvider a) {
-        this.actionsProvider = a;
+    public void setActionsProvider(ActionsProvider ap) {
+        this.actionsProvider = ap;
     }
 
     private void setupTaz() {
@@ -72,7 +69,7 @@ public class Taz extends JPanel {
 
 		this.add(pnlNorth, BorderLayout.NORTH);
 
-		this.listModel = new TazListModel(this.settings, this.projectFiles);
+		this.listModel = new TazListModel(settings, projectFiles);
 
 		resultsList = new TazList(this, listModel);
 

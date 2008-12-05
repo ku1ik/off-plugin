@@ -3,9 +3,9 @@
 <filesystem>
     <folder name="Actions">
         <folder name="Project">
-            <file name="net-sickill-taz-OpenTazAction.instance">
+            <file name="net-sickill-taz-netbeans-OpenTazAction.instance">
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="net.sickill.taz.Bundle"/>
-                <attr name="delegate" newvalue="net.sickill.taz.OpenTazAction"/>
+                <attr name="delegate" newvalue="net.sickill.taz.netbeans.OpenTazAction"/>
                 <attr name="displayName" bundlevalue="net.sickill.taz.Bundle#CTL_OpenTazAction"/>
                 <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
                 <attr name="noIconInMenu" stringvalue="false"/>
@@ -14,8 +14,8 @@
     </folder>
     <folder name="Menu">
         <folder name="GoTo">
-            <file name="net-sickill-taz-OpenTazAction.shadow">
-                <attr name="originalFile" stringvalue="Actions/Project/net-sickill-taz-OpenTazAction.instance"/>
+            <file name="net-sickill-taz-netbeans-OpenTazAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Project/net-sickill-taz-netbeans-OpenTazAction.instance"/>
                 <attr name="position" intvalue="0"/>
             </file>
         </folder>

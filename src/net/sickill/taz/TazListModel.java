@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.AbstractListModel;
@@ -21,60 +23,31 @@ import javax.swing.event.ListDataListener;
  */
 public class TazListModel extends AbstractListModel implements ListDataListener {
 	private static final long serialVersionUID = 7121724322112004624L;
-
-	//private Collection<VPTNode> projectFiles;
-	//private VPTProject project;
 	private List<TazListElement> matchedFiles;
 	private String filter;
 	private boolean emptyFilter;
     private ProjectFilesProvider projectFilesProvider;
     private Settings settings;
+    private Taz taz;
 
-	// {{{ FilteredTableModel() constructor
 	protected TazListModel(Settings s, ProjectFilesProvider projectFilesProvider) {
         this.settings = s;
         this.projectFilesProvider = projectFilesProvider;
 		resetFilter();
-	} // }}}
+	}
 
-/*	private Collection<VPTNode> getProjectFiles() {
-		setProject(ProjectViewer.getActiveProject(jEdit.getActiveView()));
-		return projectFiles;
-	}
-*/
-/*	public void setProject(VPTProject project) {
-		this.project = project;
-		if (project != null) {
-			this.projectFiles = project.getOpenableNodes();
-		} else {
-			this.projectFiles = new ArrayList<VPTNode>();
-		}
-	}
-*/
-	// {{{ setList() method
-	/**
-	 * Set the JList that uses this model. It is used to restore the selection
-	 * after the filter has been applied If it is null,
-	 *
-	 * @param list
-	 *            the list that uses the model
-	 */
-/*	public void setList(JList list) {
-		if (list.getModel() != this)
-			throw new IllegalArgumentException("The given list " + list
-					+ " doesn't use this model " + this);
-		this.list = list;
-	} // }}}
-*/
-	// {{{ resetFilter() method
+    public void setProjectFilesProvider(ProjectFilesProvider pfp) {
+        this.projectFilesProvider = pfp;
+    }
+
 	private void resetFilter() {
 		this.filter = null;
 		matchedFiles = new ArrayList<TazListElement>();
 		this.emptyFilter = true;
-	} // }}}
+	}
 
 	public void setFilter(final String filter) {
-		try {
+//		try {
 			this.filter = filter;
 			matchedFiles = new ArrayList<TazListElement>();
 			if (filter != null && filter.length() > 0 && !filter.equals("*")) {
@@ -95,10 +68,16 @@ public class TazListModel extends AbstractListModel implements ListDataListener 
 				resetFilter();
 			}
 
+            Logger logger = Logger.getLogger(TazListModel.class.getName());
+            logger.log(Level.INFO, "projectFiles = " + projectFilesProvider.getProjectFiles());
+            logger.log(Level.INFO, "matchedFiles = " + matchedFiles);
+
 			fireContentsChanged(this, 0, getSize());
-		} catch (Exception e) {
+//		} catch (Exception e) {
+//            Logger logger = Logger.getLogger(TazListModel.class.getName());
+//            logger.log(Level.SEVERE, e.g);
 			//Log.log(Log.ERROR, this.getClass(), e);
-		}
+//		}
 	} // }}}
 
 	// {{{ prepareFilter() method

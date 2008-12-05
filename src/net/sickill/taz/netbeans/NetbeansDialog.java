@@ -11,6 +11,7 @@ import java.awt.event.ComponentListener;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 import net.sickill.taz.ActionsProvider;
+import net.sickill.taz.Settings;
 import net.sickill.taz.Taz;
 import org.openide.windows.WindowManager;
 
@@ -20,6 +21,7 @@ import org.openide.windows.WindowManager;
  */
 public class NetbeansDialog extends JDialog implements ComponentListener {
     static Taz taz;
+    static Settings settings;
     ActionsProvider actions;
 
     public NetbeansDialog() {
@@ -27,20 +29,20 @@ public class NetbeansDialog extends JDialog implements ComponentListener {
         this.addComponentListener(this);
         addNotify();
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        actions = new NetbeansActionsProvider(this);
         if (taz == null) {
-            taz = new Taz(new NetbeansProjectFilesProvider());
-            taz.setSettings(new NetbeansSettings());
+            settings = new NetbeansSettings();
+            taz = new Taz(settings, new NetbeansProjectFilesProvider());
         }
+        actions = new NetbeansActionsProvider(this);
         taz.setActionsProvider(actions);
-        setSize(taz.getSettings().getDialogWidth(), taz.getSettings().getDialogHeight());
+        setSize(settings.getDialogWidth(), settings.getDialogHeight());
         setLocationRelativeTo(null);
         getContentPane().add(taz, BorderLayout.CENTER);
     }
 
     public void componentResized(ComponentEvent e) {
-        taz.getSettings().setDialogWidth(this.getWidth());
-        taz.getSettings().setDialogHeight(this.getHeight());
+        settings.setDialogWidth(this.getWidth());
+        settings.setDialogHeight(this.getHeight());
     }
 
     public void componentMoved(ComponentEvent e) {
