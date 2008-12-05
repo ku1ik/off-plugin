@@ -20,4 +20,16 @@
             </file>
         </folder>
     </folder>
+    <folder name="OptionsDialog">
+        <folder name="Advanced">
+            <file name="net-sickill-taz-netbeans-options-TazAdvancedOption.instance">
+                <attr name="controller" newvalue="net.sickill.taz.netbeans.options.TazOptionsPanelController"/>
+                <attr name="displayName" bundlevalue="net.sickill.taz.netbeans.options.Bundle#AdvancedOption_DisplayName_Taz"/>
+                <attr name="instanceCreate" methodvalue="org.netbeans.spi.options.AdvancedOption.createSubCategory"/>
+                <attr name="keywords" bundlevalue="net.sickill.taz.netbeans.options.Bundle#AdvancedOption_Keywords_Taz"/>
+                <attr name="keywordsCategory" stringvalue="Advanced/null"/>
+                <attr name="toolTip" bundlevalue="net.sickill.taz.netbeans.options.Bundle#AdvancedOption_Tooltip_Taz"/>
+            </file>
+        </folder>
+    </folder>
 </filesystem>

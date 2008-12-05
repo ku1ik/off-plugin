@@ -32,10 +32,24 @@ public class Taz extends JPanel {
     private Timer timer;
 	private String previousFilePattern = "";
     private ActionsProvider actionsProvider;
+    private Settings settings;
+    private ProjectFilesProvider projectFiles;
 
-    public Taz(ActionsProvider actionsProvider) {
-        this.actionsProvider = actionsProvider;
+    public Taz(ProjectFilesProvider pf) {
+        this.projectFiles = pf;
         setupTaz();
+    }
+
+    public Settings getSettings() {
+        return this.settings;
+    }
+
+    public void setSettings(Settings s) {
+        this.settings = s;
+    }
+
+    public void setActionsProvider(ActionsProvider a) {
+        this.actionsProvider = a;
     }
 
     private void setupTaz() {
@@ -58,7 +72,7 @@ public class Taz extends JPanel {
 
 		this.add(pnlNorth, BorderLayout.NORTH);
 
-		this.listModel = new TazListModel(new NetbeansProjectFilesProvider());
+		this.listModel = new TazListModel(this.settings, this.projectFiles);
 
 		resultsList = new TazList(this, listModel);
 
@@ -108,7 +122,7 @@ public class Taz extends JPanel {
 //		Log.log(Log.DEBUG, this, "startSearching");
 		if (timer == null) {
 //			Log.log(Log.DEBUG, this, "starting new timer");
-			timer = new Timer(TazPlugin.getSearchDelay(), new SearchAction());
+			timer = new Timer(settings.getSearchDelay(), new SearchAction());
 			timer.setRepeats(false);
 			timer.start();
 		} else {
@@ -140,7 +154,7 @@ public class Taz extends JPanel {
 		} else {
 			previousFilePattern = filePattern;
 
-			if (filePattern.equals("*") || filePattern.length() < TazPlugin.getMinPatternLength()) {
+			if (filePattern.equals("*") || filePattern.length() < settings.getMinPatternLength()) {
 				this.listModel.setFilter("*");
 				patternInput.setSearchSuccess(true);
 				resultsList.setSelectedIndex(0);

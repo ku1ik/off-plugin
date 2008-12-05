@@ -6,7 +6,6 @@
 package net.sickill.taz;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -29,9 +28,11 @@ public class TazListModel extends AbstractListModel implements ListDataListener 
 	private String filter;
 	private boolean emptyFilter;
     private ProjectFilesProvider projectFilesProvider;
+    private Settings settings;
 
 	// {{{ FilteredTableModel() constructor
-	protected TazListModel(ProjectFilesProvider projectFilesProvider) {
+	protected TazListModel(Settings s, ProjectFilesProvider projectFilesProvider) {
+        this.settings = s;
         this.projectFilesProvider = projectFilesProvider;
 		resetFilter();
 	} // }}}
@@ -83,11 +84,11 @@ public class TazListModel extends AbstractListModel implements ListDataListener 
 				}
 
 				// sort
-				if (TazPlugin.isSortResults()) {
+				if (settings.isSortResults()) {
 					Collections.sort(matchedFiles, new CaseInsensitiveComparator());
 				}
 				// group
-				if (TazPlugin.isGroupResults()) {
+				if (settings.isGroupResults()) {
 					Collections.sort(matchedFiles, new FileGroupComparator());
 				}
 			} else {
@@ -106,7 +107,7 @@ public class TazListModel extends AbstractListModel implements ListDataListener 
 		this.emptyFilter = false;
 		filter = filter.toLowerCase();
 		String regexFilter;
-		if (TazPlugin.isSmartMatch()) {
+		if (settings.isSmartMatch()) {
 			String[] chars = filter.split("");
 			regexFilter = "";
 			for (String s : chars) {
@@ -131,16 +132,16 @@ public class TazListModel extends AbstractListModel implements ListDataListener 
 		Matcher matcher = regex.matcher(file.getName().toLowerCase());
 		if (matcher.matches()) {
 			String label = file.getName();
-			if (!TazPlugin.isShowExt()) {
+			if (!settings.isShowExt()) {
 				label = label.replaceFirst("\\.[^\\.]+$", "");
 			}
-			if (TazPlugin.isShowPath()) {
+			if (settings.isShowPath()) {
 				String pathInProject = file.getPathInProject();
 				if (!pathInProject.equals("")) {
 					label += " [" + pathInProject + "]";
 				}
 			}
-			if (TazPlugin.isShowSize()) {
+			if (settings.isShowSize()) {
 				label += " - " + formatSize(file.getSize());
 			}
 			TazListElement e = new TazListElement(matcher, file, label);
