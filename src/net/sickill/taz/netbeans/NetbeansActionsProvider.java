@@ -6,8 +6,11 @@
 package net.sickill.taz.netbeans;
 
 import javax.swing.JDialog;
+import javax.swing.text.Document;
+import javax.swing.text.JTextComponent;
 import net.sickill.taz.ActionsProvider;
 import net.sickill.taz.ProjectFile;
+import org.netbeans.api.editor.EditorRegistry;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.util.Exceptions;
@@ -35,6 +38,10 @@ public class NetbeansActionsProvider implements ActionsProvider {
     }
 
     private boolean performGoto(int lineNo) {
+        JTextComponent editor = EditorRegistry.lastFocusedComponent();
+        Document doc = editor.getDocument();
+        //doc.
+        editor.setCaretPosition(lineNo);
         return true;
     }
 
