@@ -26,17 +26,17 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	private List<OffListElement> matchedFiles;
 	private String filter;
 	private boolean emptyFilter;
-    private ProjectFilesProvider projectFilesProvider;
+    private ProjectProvider projectFilesProvider;
     private Settings settings;
     private OffPanel taz;
 
-	protected OffListModel(Settings s, ProjectFilesProvider projectFilesProvider) {
+	protected OffListModel(Settings s, ProjectProvider projectFilesProvider) {
         this.settings = s;
         this.projectFilesProvider = projectFilesProvider;
 		resetFilter();
 	}
 
-    public void setProjectFilesProvider(ProjectFilesProvider pfp) {
+    public void setProjectFilesProvider(ProjectProvider pfp) {
         this.projectFilesProvider = pfp;
     }
 
@@ -53,7 +53,8 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 			if (filter != null && filter.length() > 0 && !filter.equals("*")) {
 				Pattern preparedFilter = prepareFilter(filter);
 				for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
-					passFilter(file, preparedFilter);
+					String name = filter.indexOf("/") == -1 ? file.getName().toLowerCase() : file.getFullPath().toLowerCase();
+					passFilter(preparedFilter, name, file);
 				}
 
 				// sort
@@ -102,20 +103,20 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	}
 
 	// {{{ passFilter() method
-	private void passFilter(ProjectFile file, Pattern regex) {
+	private void passFilter(Pattern regex, String name, ProjectFile file) {
 		if (this.emptyFilter) {
 			// Log.log(Log.DEBUG, this.getClass(), "passFilter: false(empty)");
 			return;
 		}
 
-		Matcher matcher = regex.matcher(file.getName().toLowerCase());
+		Matcher matcher = regex.matcher(name);
 		if (matcher.matches()) {
 			String label = file.getName();
 			if (!settings.isShowExt()) {
 				label = label.replaceFirst("\\.[^\\.]+$", "");
 			}
 			if (settings.isShowPath()) {
-				String pathInProject = file.getPathInProject();
+				String pathInProject = file.getDirectory();
 				if (!pathInProject.equals("")) {
 					label += " [" + pathInProject + "]";
 				}

@@ -31,7 +31,7 @@ public class NetbeansDialog extends JDialog implements ComponentListener {
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         if (taz == null) {
             settings = new NetbeansSettings();
-            taz = new OffPanel(settings, new NetbeansProjectFilesProvider());
+            taz = new OffPanel(settings, new NetbeansProjectProvider());
         }
         actions = new NetbeansActionsProvider(this);
         taz.setActionsProvider(actions);

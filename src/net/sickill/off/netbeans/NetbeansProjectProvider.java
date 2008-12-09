@@ -22,9 +22,9 @@ import org.openide.filesystems.FileUtil;
  *
  * @author kill
  */
-public class NetbeansProjectFilesProvider implements ProjectFilesProvider {
+public class NetbeansProjectProvider implements ProjectProvider {
 
-    public NetbeansProjectFilesProvider() {
+    public NetbeansProjectProvider() {
     }
 
     public Iterable<ProjectFile> getProjectFiles() {
@@ -32,7 +32,7 @@ public class NetbeansProjectFilesProvider implements ProjectFilesProvider {
         List<FileObject> srcFolders = ProjectOperations.getDataFiles(p);
         ArrayList<ProjectFile> projectFiles = new ArrayList<ProjectFile>();
 
-        Logger logger = Logger.getLogger(NetbeansProjectFilesProvider.class.getName());
+        Logger logger = Logger.getLogger(NetbeansProjectProvider.class.getName());
 //        logger.log(Level.INFO, "dataFiles.size = " + srcFolders.size());
 
 //        String a = "";
@@ -50,9 +50,7 @@ public class NetbeansProjectFilesProvider implements ProjectFilesProvider {
         return projectFiles;
     }
 
-    public String getProjectRoot() {
-        Project p = OpenProjects.getDefault().getMainProject();
-        return FileUtil.getFileDisplayName(p.getProjectDirectory());
+    public String getProjectRootPath() {
+        return FileUtil.getFileDisplayName(OpenProjects.getDefault().getMainProject().getProjectDirectory());
     }
-
 }

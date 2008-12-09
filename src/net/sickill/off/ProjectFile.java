@@ -11,14 +11,23 @@ import javax.swing.Icon;
  *
  * @author kill
  */
-public interface ProjectFile {
-    public int getGroupPriority();
+public abstract class ProjectFile {
+    private ProjectProvider projectProvider;
 
-    public Icon getIcon();
+    public abstract int getGroupPriority();
+    public abstract Icon getIcon();
+    public abstract String getName();
+    public abstract String getFullPath();
+    public abstract long getSize();
 
-    public String getName();
+    public ProjectFile(ProjectProvider pp) {
+        this.projectProvider = pp;
+    }
 
-    public String getPathInProject();
-
-    public long getSize();
+    public String getDirectory() {
+        String fullPath = getFullPath();//FileUtil.getFileDisplayName(fileObject);
+        int start = projectProvider.getProjectRootPath().length() + 1;
+        int end = fullPath.length() - getName().length() - 1;
+        return fullPath.substring(start, end);
+    }
 }

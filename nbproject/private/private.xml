@@ -1,28 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/ActionsProvider.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/Bundle.properties</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/OffCellRenderer.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/OffList.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/OffListElement.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/OffListModel.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/OffPanel.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/OffTextField.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/ProjectFile.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/ProjectFilesProvider.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/Settings.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/layer.xml</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/NetbeansActionsProvider.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/NetbeansDialog.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/NetbeansProjectFile.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/NetbeansProjectFilesProvider.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/NetbeansSettings.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/OpenOffAction.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/options/Bundle.properties</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/options/TazOptionsPanelController.java</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/options/TazPanel.form</file>
-        <file>file:/home/kill/workspace/off-plugin/src/net/sickill/off/netbeans/options/TazPanel.java</file>
-    </open-files>
 </project-private>

@@ -11,13 +11,13 @@ import net.sickill.off.*;
  *
  * @author kill
  */
-public class JEditProjectViewerFilesProvider implements ProjectFilesProvider {
+public class JEditProjectViewerFilesProvider implements ProjectProvider {
 
     public Iterable<ProjectFile> getProjectFiles() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public String getProjectRoot() {
+    public String getProjectRootPath() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

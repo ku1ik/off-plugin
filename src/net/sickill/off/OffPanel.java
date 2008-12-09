@@ -5,7 +5,7 @@
 
 package net.sickill.off;
 
-import net.sickill.off.netbeans.NetbeansProjectFilesProvider;
+import net.sickill.off.netbeans.NetbeansProjectProvider;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,9 +33,9 @@ public class OffPanel extends JPanel {
 	private String previousFilePattern = "";
     private ActionsProvider actionsProvider;
     private Settings settings;
-    private ProjectFilesProvider projectFiles;
+    private ProjectProvider projectFiles;
 
-    public OffPanel(Settings s, ProjectFilesProvider pfp) {
+    public OffPanel(Settings s, ProjectProvider pfp) {
         this.settings = s;
         this.projectFiles = pfp;
         setupTaz();

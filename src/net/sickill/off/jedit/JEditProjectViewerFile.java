@@ -12,7 +12,7 @@ import javax.swing.Icon;
  *
  * @author kill
  */
-public class JEditProjectViewerFile implements ProjectFile {
+public class JEditProjectViewerFile extends ProjectFile {
 
     public int getGroupPriority() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -26,7 +26,7 @@ public class JEditProjectViewerFile implements ProjectFile {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public String getPathInProject() {
+    public String getFullPath() {
 //				int start = project.getRootPath().length() + 1;
 //				int end = file.getNodePath().length() - file.getName().length();
 //				if (end > start) {
@@ -40,5 +40,4 @@ public class JEditProjectViewerFile implements ProjectFile {
         //getFile().getLength());
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }

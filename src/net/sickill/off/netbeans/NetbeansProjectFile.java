@@ -20,13 +20,12 @@ import org.openide.util.Exceptions;
  *
  * @author kill
  */
-class NetbeansProjectFile implements ProjectFile {
+class NetbeansProjectFile extends ProjectFile {
     FileObject fileObject;
-    ProjectFilesProvider projectFilesProvider;
 
-    public NetbeansProjectFile(ProjectFilesProvider pfp, FileObject fo) {
+    public NetbeansProjectFile(ProjectProvider pp, FileObject fo) {
+        super(pp);
         this.fileObject = fo;
-        this.projectFilesProvider = pfp;
     }
 
     public FileObject getFileObject() {
@@ -52,11 +51,8 @@ class NetbeansProjectFile implements ProjectFile {
         return fileObject.getNameExt();
     }
 
-    public String getPathInProject() {
-        String fullPath = FileUtil.getFileDisplayName(fileObject);
-        int start = projectFilesProvider.getProjectRoot().length() + 1;
-        int end = fullPath.length() - getName().length() - 1;
-        return fullPath.substring(start, end);
+    public String getFullPath() {
+        return FileUtil.getFileDisplayName(fileObject);
     }
 
     public long getSize() {

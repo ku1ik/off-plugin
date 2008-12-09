@@ -9,8 +9,8 @@ package net.sickill.off;
  *
  * @author kill
  */
-public interface ProjectFilesProvider {
+public interface ProjectProvider {
 
     public Iterable<ProjectFile> getProjectFiles();
-    public String getProjectRoot();
+    public String getProjectRootPath();
 }
