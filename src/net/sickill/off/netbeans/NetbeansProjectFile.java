@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz.netbeans;
+package net.sickill.off.netbeans;
 
-import net.sickill.taz.*;
+import net.sickill.off.*;
 import java.beans.BeanInfo;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;

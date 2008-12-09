@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz;
+package net.sickill.off;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,16 +21,16 @@ import javax.swing.event.ListDataListener;
  *
  * @author kill
  */
-public class TazListModel extends AbstractListModel implements ListDataListener {
+public class OffListModel extends AbstractListModel implements ListDataListener {
 	private static final long serialVersionUID = 7121724322112004624L;
-	private List<TazListElement> matchedFiles;
+	private List<OffListElement> matchedFiles;
 	private String filter;
 	private boolean emptyFilter;
     private ProjectFilesProvider projectFilesProvider;
     private Settings settings;
-    private Taz taz;
+    private OffPanel taz;
 
-	protected TazListModel(Settings s, ProjectFilesProvider projectFilesProvider) {
+	protected OffListModel(Settings s, ProjectFilesProvider projectFilesProvider) {
         this.settings = s;
         this.projectFilesProvider = projectFilesProvider;
 		resetFilter();
@@ -42,14 +42,14 @@ public class TazListModel extends AbstractListModel implements ListDataListener 
 
 	private void resetFilter() {
 		this.filter = null;
-		matchedFiles = new ArrayList<TazListElement>();
+		matchedFiles = new ArrayList<OffListElement>();
 		this.emptyFilter = true;
 	}
 
 	public void setFilter(final String filter) {
 //		try {
 			this.filter = filter;
-			matchedFiles = new ArrayList<TazListElement>();
+			matchedFiles = new ArrayList<OffListElement>();
 			if (filter != null && filter.length() > 0 && !filter.equals("*")) {
 				Pattern preparedFilter = prepareFilter(filter);
 				for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
@@ -68,7 +68,7 @@ public class TazListModel extends AbstractListModel implements ListDataListener 
 				resetFilter();
 			}
 
-            Logger logger = Logger.getLogger(TazListModel.class.getName());
+            Logger logger = Logger.getLogger(OffListModel.class.getName());
             logger.log(Level.INFO, "projectFiles = " + projectFilesProvider.getProjectFiles());
             logger.log(Level.INFO, "matchedFiles = " + matchedFiles);
 
@@ -123,7 +123,7 @@ public class TazListModel extends AbstractListModel implements ListDataListener 
 			if (settings.isShowSize()) {
 				label += " - " + formatSize(file.getSize());
 			}
-			TazListElement e = new TazListElement(matcher, file, label);
+			OffListElement e = new OffListElement(matcher, file, label);
 			matchedFiles.add(e);
 		}
 	}
@@ -165,15 +165,15 @@ public class TazListModel extends AbstractListModel implements ListDataListener 
 		setFilter(filter);
 	} // }}}
 
-	class CaseInsensitiveComparator implements Comparator<TazListElement> {
-		public int compare(TazListElement o1, TazListElement o2) {
+	class CaseInsensitiveComparator implements Comparator<OffListElement> {
+		public int compare(OffListElement o1, OffListElement o2) {
 			return o1.getLabel().toLowerCase().compareTo(
 					o2.getLabel().toLowerCase());
 		}
 	}
 
-	class FileGroupComparator implements Comparator<TazListElement> {
-		public int compare(TazListElement o1, TazListElement o2) {
+	class FileGroupComparator implements Comparator<OffListElement> {
+		public int compare(OffListElement o1, OffListElement o2) {
 			//FileGroup fg1 = o1.getFile().getFileGroup();
 			//FileGroup fg2 = o2.getFile().getFileGroup();
 			//int a = fg1 != null ? fg1.getOrder() : -1000;

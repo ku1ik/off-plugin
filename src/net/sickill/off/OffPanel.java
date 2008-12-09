@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz;
+package net.sickill.off;
 
-import net.sickill.taz.netbeans.NetbeansProjectFilesProvider;
+import net.sickill.off.netbeans.NetbeansProjectFilesProvider;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,19 +23,19 @@ import javax.swing.border.EmptyBorder;
  *
  * @author kill
  */
-public class Taz extends JPanel {
-	private TazTextField patternInput;
-	private TazList resultsList;
+public class OffPanel extends JPanel {
+	private OffTextField patternInput;
+	private OffList resultsList;
 	private JLabel statusBar;
 	//private JDialog dialog = null;
-	private TazListModel listModel;
+	private OffListModel listModel;
     private Timer timer;
 	private String previousFilePattern = "";
     private ActionsProvider actionsProvider;
     private Settings settings;
     private ProjectFilesProvider projectFiles;
 
-    public Taz(Settings s, ProjectFilesProvider pfp) {
+    public OffPanel(Settings s, ProjectFilesProvider pfp) {
         this.settings = s;
         this.projectFiles = pfp;
         setupTaz();
@@ -53,7 +53,7 @@ public class Taz extends JPanel {
 		setLayout(new BorderLayout());
         setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		patternInput = new TazTextField(this);
+		patternInput = new OffTextField(this);
 
 		// Below steps are used to receive notifications of the
 		// KeyStrokes we are interested in unlike
@@ -62,16 +62,16 @@ public class Taz extends JPanel {
 
 		JPanel pnlNorth = new JPanel(new BorderLayout());
 
-		URL url = Taz.class.getResource("search.png");
+		URL url = OffPanel.class.getResource("search.png");
 		JLabel searchIcon = new JLabel(new ImageIcon(url));
 		pnlNorth.add(searchIcon, BorderLayout.WEST);
 		pnlNorth.add(patternInput, BorderLayout.CENTER);
 
 		this.add(pnlNorth, BorderLayout.NORTH);
 
-		this.listModel = new TazListModel(settings, projectFiles);
+		this.listModel = new OffListModel(settings, projectFiles);
 
-		resultsList = new TazList(this, listModel);
+		resultsList = new OffList(this, listModel);
 
 		//this.listModel.setList(resultsList);
 
@@ -96,7 +96,7 @@ public class Taz extends JPanel {
         actionsProvider.closeWindow();
     }
 
-    public TazList getResultsList() {
+    public OffList getResultsList() {
 		return resultsList;
 	}
 
@@ -111,7 +111,7 @@ public class Taz extends JPanel {
 		if (selectedIndex != -1 && listSize != 0 && selectedIndex < listSize) {
 			int lineNo = getLineNumber();
 			closeMainWindow();
-            actionsProvider.openFile(((TazListElement) resultsList.getSelectedValue()).getFile(), lineNo);
+            actionsProvider.openFile(((OffListElement) resultsList.getSelectedValue()).getFile(), lineNo);
 		}
 	}
 

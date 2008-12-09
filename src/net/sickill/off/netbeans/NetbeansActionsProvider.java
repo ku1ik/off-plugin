@@ -3,13 +3,13 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz.netbeans;
+package net.sickill.off.netbeans;
 
 import javax.swing.JDialog;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
-import net.sickill.taz.ActionsProvider;
-import net.sickill.taz.ProjectFile;
+import net.sickill.off.ActionsProvider;
+import net.sickill.off.ProjectFile;
 import org.netbeans.api.editor.EditorRegistry;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;

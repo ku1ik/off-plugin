@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz;
+package net.sickill.off;
 
 import java.util.regex.Matcher;
 import javax.swing.Icon;
@@ -12,13 +12,13 @@ import javax.swing.Icon;
  *
  * @author kill
  */
-public class TazListElement {
+public class OffListElement {
 	ProjectFile file;
 	Matcher matcher;
 	String highlightedText;
 	String label;
 
-	public TazListElement(Matcher matcher, ProjectFile file, String label) {
+	public OffListElement(Matcher matcher, ProjectFile file, String label) {
 		this.matcher = matcher;
 		this.file = file;
 		this.label = label;

@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz.jedit;
+package net.sickill.off.jedit;
 
-import net.sickill.taz.*;
+import net.sickill.off.*;
 
 /**
  *

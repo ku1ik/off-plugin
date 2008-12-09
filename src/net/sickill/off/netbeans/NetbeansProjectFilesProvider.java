@@ -3,10 +3,10 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz.netbeans;
+package net.sickill.off.netbeans;
 
-import net.sickill.taz.*;
-import net.sickill.taz.netbeans.NetbeansProjectFile;
+import net.sickill.off.*;
+import net.sickill.off.netbeans.NetbeansProjectFile;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Project">
+            <file name="net-sickill-off-netbeans-OpenOffAction.instance">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="net.sickill.off.Bundle"/>
+                <attr name="delegate" newvalue="net.sickill.off.netbeans.OpenOffAction"/>
+                <attr name="displayName" bundlevalue="net.sickill.off.Bundle#CTL_OpenOffAction"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
+                <attr name="noIconInMenu" stringvalue="false"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="GoTo">
+            <file name="net-sickill-off-netbeans-OpenOffAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Project/net-sickill-off-netbeans-OpenOffAction.instance"/>
+                <attr name="position" intvalue="0"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="OptionsDialog">
+        <folder name="Advanced">
+            <file name="net-sickill-off-netbeans-options-OffAdvancedOption.instance">
+                <attr name="controller" newvalue="net.sickill.off.netbeans.options.OffOptionsPanelController"/>
+                <attr name="displayName" bundlevalue="net.sickill.off.netbeans.options.Bundle#AdvancedOption_DisplayName_Off"/>
+                <attr name="instanceCreate" methodvalue="org.netbeans.spi.options.AdvancedOption.createSubCategory"/>
+                <attr name="keywords" bundlevalue="net.sickill.off.netbeans.options.Bundle#AdvancedOption_Keywords_Off"/>
+                <attr name="keywordsCategory" stringvalue="Advanced/null"/>
+                <attr name="toolTip" bundlevalue="net.sickill.off.netbeans.options.Bundle#AdvancedOption_Tooltip_Off"/>
+            </file>
+        </folder>
+    </folder>
+</filesystem>

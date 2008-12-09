@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz;
+package net.sickill.off;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,14 +15,14 @@ import javax.swing.JList;
  *
  * @author kill
  */
-public class TazList extends JList implements MouseListener, KeyListener {
+public class OffList extends JList implements MouseListener, KeyListener {
 	private static final long serialVersionUID = -3358863446749199157L;
-	private Taz taz;
+	private OffPanel taz;
 
-	public TazList(Taz taz, TazListModel listModel) {
+	public OffList(OffPanel taz, OffListModel listModel) {
 		super(listModel);
 		this.taz = taz;
-		setCellRenderer(new TazCellRenderer());
+		setCellRenderer(new OffCellRenderer());
 		addKeyListener(this);
 	}
 

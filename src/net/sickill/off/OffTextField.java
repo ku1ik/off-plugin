@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz;
+package net.sickill.off;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -24,13 +24,13 @@ import javax.swing.event.DocumentListener;
  *
  * @author kill
  */
-public class TazTextField extends JTextField implements DocumentListener, ActionListener {
+public class OffTextField extends JTextField implements DocumentListener, ActionListener {
 
 	private static final long serialVersionUID = 5284529373291656641L;
-	private Taz taz;
+	private OffPanel taz;
 	private Color origColor;
 
-	public TazTextField(Taz taz) {
+	public OffTextField(OffPanel taz) {
 		super();
 		this.taz = taz;
 		setup();

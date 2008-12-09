@@ -3,16 +3,16 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz.netbeans;
+package net.sickill.off.netbeans;
 
 import java.awt.BorderLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
-import net.sickill.taz.ActionsProvider;
-import net.sickill.taz.Settings;
-import net.sickill.taz.Taz;
+import net.sickill.off.ActionsProvider;
+import net.sickill.off.Settings;
+import net.sickill.off.OffPanel;
 import org.openide.windows.WindowManager;
 
 /**
@@ -20,7 +20,7 @@ import org.openide.windows.WindowManager;
  * @author kill
  */
 public class NetbeansDialog extends JDialog implements ComponentListener {
-    static Taz taz;
+    static OffPanel taz;
     static Settings settings;
     ActionsProvider actions;
 
@@ -31,7 +31,7 @@ public class NetbeansDialog extends JDialog implements ComponentListener {
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         if (taz == null) {
             settings = new NetbeansSettings();
-            taz = new Taz(settings, new NetbeansProjectFilesProvider());
+            taz = new OffPanel(settings, new NetbeansProjectFilesProvider());
         }
         actions = new NetbeansActionsProvider(this);
         taz.setActionsProvider(actions);

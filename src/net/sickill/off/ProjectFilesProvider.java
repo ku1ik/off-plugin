@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package net.sickill.taz;
+package net.sickill.off;
 
 /**
  *
