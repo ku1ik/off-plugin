@@ -13,6 +13,9 @@ import javax.swing.Icon;
  * @author kill
  */
 public class JEditProjectViewerFile extends ProjectFile {
+    public JEditProjectViewerFile(ProjectProvider pp) {
+        super(pp);
+    }
 
     public int getGroupPriority() {
         throw new UnsupportedOperationException("Not supported yet.");

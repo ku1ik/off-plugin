@@ -25,7 +25,7 @@ public class NetbeansDialog extends JDialog implements ComponentListener {
     ActionsProvider actions;
 
     public NetbeansDialog() {
-        super(WindowManager.getDefault().getMainWindow(), "Taz");
+        super(WindowManager.getDefault().getMainWindow(), "Open File Fast");
         this.addComponentListener(this);
         addNotify();
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -38,6 +38,7 @@ public class NetbeansDialog extends JDialog implements ComponentListener {
         setSize(settings.getDialogWidth(), settings.getDialogHeight());
         setLocationRelativeTo(null);
         getContentPane().add(taz, BorderLayout.CENTER);
+        taz.focusOnDefaultComponent();
     }
 
     public void componentResized(ComponentEvent e) {

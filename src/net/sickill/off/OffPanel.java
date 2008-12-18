@@ -128,6 +128,11 @@ public class OffPanel extends JPanel {
 		}
 	}
 
+    public void focusOnDefaultComponent() {
+        patternInput.selectAll();
+        patternInput.requestFocus();
+    }
+
 	private String getFilePattern() {
 		String[] parts = patternInput.getText().split(":", 2);
 		return parts[0];
