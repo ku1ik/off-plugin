@@ -11,7 +11,7 @@ import net.sickill.off.*;
  *
  * @author kill
  */
-public class JEditProjectViewerFilesProvider implements ProjectProvider {
+public class JEditProjectProvider implements ProjectProvider {
 
     public Iterable<ProjectFile> getProjectFiles() {
         throw new UnsupportedOperationException("Not supported yet.");
