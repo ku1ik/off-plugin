@@ -5,6 +5,8 @@
 
 package net.sickill.off;
 
+import java.util.regex.Pattern;
+
 /**
  *
  * @author kill
@@ -32,4 +34,6 @@ public interface Settings {
     public int getSearchDelay();
 
     public int getMinPatternLength();
+
+    public Pattern getIgnoreMask();
 }

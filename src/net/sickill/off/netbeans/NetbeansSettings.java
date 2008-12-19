@@ -6,6 +6,7 @@
 package net.sickill.off.netbeans;
 
 import java.util.prefs.Preferences;
+import java.util.regex.Pattern;
 import net.sickill.off.Settings;
 import net.sickill.off.OffPanel;
 import org.openide.util.NbPreferences;
@@ -64,6 +65,11 @@ public class NetbeansSettings implements Settings {
 
     public boolean isSortResults() {
         return NbPreferences.forModule(OffPanel.class).getBoolean("sort-results", true);
+    }
+
+    public Pattern getIgnoreMask() {
+        String mask = NbPreferences.forModule(OffPanel.class).get("ignore-mask", "(^gems\\/|(.*\\/)?\\.svn\\/|(.*\\/)?\\.git\\/).*");
+        return mask.equals("") ? null : Pattern.compile(mask);
     }
 
 }

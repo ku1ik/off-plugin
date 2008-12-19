@@ -25,9 +25,13 @@ public abstract class ProjectFile {
     }
 
     public String getDirectory() {
-        String fullPath = getFullPath();//FileUtil.getFileDisplayName(fileObject);
+        String fullPath = getFullPath();
         int start = projectProvider.getProjectRootPath().length() + 1;
         int end = fullPath.length() - getName().length() - 1;
         return fullPath.substring(start, end);
+    }
+
+    public String getPathInProject() {
+        return getDirectory() + "/" + getName();
     }
 }

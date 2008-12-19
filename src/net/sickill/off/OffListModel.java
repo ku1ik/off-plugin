@@ -46,10 +46,11 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 			this.filter = filter;
 			matchedFiles = new ArrayList<OffListElement>();
 			if (filter != null && filter.length() > 0 && !filter.equals("*")) {
+                Pattern mask = settings.getIgnoreMask();
 				Pattern regexp = prepareRegexp(filter);
 				for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
-					String name = filter.indexOf("/") == -1 ? file.getName().toLowerCase() : (file.getDirectory() + "/" + file.getName()).toLowerCase();
-					passFilter(regexp, name, file);
+					String name = filter.indexOf("/") == -1 ? file.getName().toLowerCase() : file.getPathInProject().toLowerCase();
+					passFilter(regexp, mask, name, file);
 				}
 
 				// sort
@@ -80,27 +81,33 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	private Pattern prepareRegexp(String filter) {
 		//Log.log(Log.DEBUG, this.getClass(), "filter: " + filter);
 		this.emptyFilter = false;
-		filter = filter.toLowerCase();
-		String regexFilter;
+		filter = filter.toLowerCase().replaceAll("\\*{2,}", "*");
+		String regex;
 		if (settings.isSmartMatch()) {
 			String[] chars = filter.split("");
-			regexFilter = "";
-			for (String s : chars) {
-				if (!s.equals("")) {
-					regexFilter += "(" + s + ")" + "*";
+			regex = "";
+			for (String c : chars) {
+				if (!c.equals("")) {
+                    if (c.equals("*")) {
+                        regex += ".*?";
+                    } else if (c.equals(".")) {
+                        regex += "\\\\.";
+                    } else {
+                        regex += c + "[^\\/]*?";
+                    }
 				}
 			}
+            //regex = regex.substring(0, regex.length() - 1);
 		} else {
-			regexFilter = filter + "*";
+			regex = (filter + "*").replaceAll("\\.", "\\\\.").replaceAll("\\*", "[^\\/]*?");
 		}
-		regexFilter = regexFilter.replaceAll("\\.", "\\\\.").replaceAll("\\*", ".*?");
-		return Pattern.compile(regexFilter);
+		//regex = regex.replaceAll("\\.", "\\\\.").replaceAll("\\*", "[^\\/]*?"); // + ".*?";
+		return Pattern.compile(regex);
 	}
 
 	// {{{ passFilter() method
-	private void passFilter(Pattern regex, String name, ProjectFile file) {
-		if (this.emptyFilter) {
-			// Log.log(Log.DEBUG, this.getClass(), "passFilter: false(empty)");
+	private void passFilter(Pattern regex, Pattern mask, String name, ProjectFile file) {
+		if (this.emptyFilter || (mask != null && mask.matcher(file.getPathInProject().toLowerCase()).matches())) {
 			return;
 		}
 
