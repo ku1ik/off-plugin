@@ -39,4 +39,12 @@ public class OffListElement {
 	public Icon getIcon() {
 		return file.getIcon();
 	}
+
+    int getFilterDistance() {
+        int dist = 0;
+        for (int i=1; i<matcher.groupCount(); i++) {
+            dist += matcher.start(i+1) - matcher.start(i) - 1;
+        }
+        return dist;
+    }
 }

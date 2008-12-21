@@ -31,17 +31,18 @@ public class NetbeansActionsProvider implements ActionsProvider {
         try {
             DataObject data = DataObject.find(((NetbeansProjectFile)pf).getFileObject());
             data.getLookup().lookup(OpenCookie.class).open();
-            performGoto(lineNo);
+            if (lineNo > -1)
+                performGoto(lineNo);
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);
         }
     }
 
     private boolean performGoto(int lineNo) {
-        JTextComponent editor = EditorRegistry.lastFocusedComponent();
-        Document doc = editor.getDocument();
+        //JTextComponent editor = EditorRegistry.lastFocusedComponent();
+        //Document doc = editor.getDocument();
         //doc.
-        editor.setCaretPosition(lineNo);
+        //editor.setCaretPosition(lineNo);
         return true;
     }
 

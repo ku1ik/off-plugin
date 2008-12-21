@@ -34,4 +34,10 @@ public abstract class ProjectFile {
     public String getPathInProject() {
         return getDirectory() + "/" + getName();
     }
+
+    String getExtension() {
+        String name = getName();
+        int index = name.lastIndexOf(".");
+        return (index == -1) ? "" : name.substring(index + 1, name.length());
+    }
 }

@@ -12,8 +12,26 @@ import java.util.regex.Pattern;
  * @author kill
  */
 public interface Settings {
+    public static int DEFAULT_DIALOG_WIDTH = 380;
+    public static int DEFAULT_DIALOG_HEIGHT = 400;
+    public static int DEFAULT_SEARCH_DELAY = 300;
+    public static int DEFAULT_MIN_PATTERN_LENGTH = 3;
+    public static boolean DEFAULT_NAME_SORTING = true;
+    public static boolean DEFAULT_EXTENSION_SORTING = false;
+    public static boolean DEFAULT_SMART_MATCH = true;
+    public static String DEFAULT_IGNORE_MASK = "(^gems\\/|(.*\\/)?\\.svn\\/|(.*\\/)?\\.git\\/).*";
+    public static boolean DEFAULT_SHOW_EXTENSION = true;
+    public static boolean DEFAULT_SHOW_PATH = true;
+    public static boolean DEFAULT_SHOW_SIZE = false;
+    public static boolean DEFAULT_POPULARITY_SORTING = true;
+    public static boolean DEFAULT_DISTANCE_SORTING = true;
 
-    public boolean isGroupResults();
+    public boolean isCustomSorting();
+
+    public boolean isDistanceSorting();
+    public boolean isExtensionSorting();
+
+    public boolean isPopularitySorting();
 
     public boolean isShowExt();
 
@@ -23,7 +41,7 @@ public interface Settings {
 
     public boolean isSmartMatch();
 
-    public boolean isSortResults();
+    public boolean isNameSorting();
 
     public void setDialogWidth(int w);
     public int getDialogWidth();

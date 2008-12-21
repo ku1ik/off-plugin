@@ -5,7 +5,6 @@
 
 package net.sickill.off;
 
-import net.sickill.off.netbeans.NetbeansProjectProvider;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +26,6 @@ public class OffPanel extends JPanel {
 	private OffTextField patternInput;
 	private OffList resultsList;
 	private JLabel statusBar;
-	//private JDialog dialog = null;
 	private OffListModel listModel;
     private Timer timer;
 	private String previousFilePattern = "";
@@ -40,10 +38,6 @@ public class OffPanel extends JPanel {
         this.projectFiles = pfp;
         setupTaz();
     }
-
-//    public Settings getSettings() {
-//        return this.settings;
-//    }
 
     public void setActionsProvider(ActionsProvider ap) {
         this.actionsProvider = ap;
@@ -106,24 +100,21 @@ public class OffPanel extends JPanel {
 		int selectedIndex = resultsList.getSelectedIndex();
 		int listSize = resultsList.getModel().getSize();
 
-		//Log.log(Log.DEBUG, this.getClass(), "open selected...");
-
 		if (selectedIndex != -1 && listSize != 0 && selectedIndex < listSize) {
 			int lineNo = getLineNumber();
 			closeMainWindow();
-            actionsProvider.openFile(((OffListElement) resultsList.getSelectedValue()).getFile(), lineNo);
+            ProjectFile pf = ((OffListElement) resultsList.getSelectedValue()).getFile();
+            listModel.incrementAccessCounter(pf);
+            actionsProvider.openFile(pf, lineNo);
 		}
 	}
 
 	void startSearching() {
-//		Log.log(Log.DEBUG, this, "startSearching");
 		if (timer == null) {
-//			Log.log(Log.DEBUG, this, "starting new timer");
 			timer = new Timer(settings.getSearchDelay(), new SearchAction());
 			timer.setRepeats(false);
 			timer.start();
 		} else {
-//			Log.log(Log.DEBUG, this, "restarting old timer");
 			timer.restart();
 		}
 	}
@@ -172,13 +163,10 @@ public class OffPanel extends JPanel {
 		}
 
 		statusBar.setText("Found " + listModel.getSize() + " files");
-		//Log.log(Log.DEBUG, this.getClass(), "found: "
-		//		+ this.listModel.getSize());
 	}
 
     class SearchAction implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //Log.log(Log.DEBUG, this, "actionPerformed");
             search();
             timer = null;
         }

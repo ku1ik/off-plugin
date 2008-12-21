@@ -17,10 +17,6 @@ import javax.swing.JList;
 public class OffCellRenderer extends DefaultListCellRenderer {
 	private static final long serialVersionUID = 4562757887321715315L;
 
-	/**
-	 * Gets the listCellRendererComponent attribute of the TazCellRenderer
-	 * object
-	 */
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 
@@ -34,4 +30,4 @@ public class OffCellRenderer extends DefaultListCellRenderer {
 		return comp;
 	}
 
-}// End of class TazCellRenderer
+}

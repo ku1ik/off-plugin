@@ -3,6 +3,7 @@ package net.sickill.off;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
     private ProjectProvider projectFilesProvider;
     private Settings settings;
     private OffPanel taz;
+    private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
 
 	protected OffListModel(Settings s, ProjectProvider projectFilesProvider) {
         this.settings = s;
@@ -42,44 +44,48 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	}
 
 	public void setFilter(final String filter) {
-//		try {
-			this.filter = filter;
-			matchedFiles = new ArrayList<OffListElement>();
-			if (filter != null && filter.length() > 0 && !filter.equals("*")) {
-                Pattern mask = settings.getIgnoreMask();
-				Pattern regexp = prepareRegexp(filter);
-				for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
-					String name = filter.indexOf("/") == -1 ? file.getName().toLowerCase() : file.getPathInProject().toLowerCase();
-					passFilter(regexp, mask, name, file);
-				}
+        this.filter = filter;
+        matchedFiles = new ArrayList<OffListElement>();
+        if (filter != null && filter.length() > 0 && !filter.equals("*")) {
+            Pattern mask = settings.getIgnoreMask();
+            Pattern regexp = prepareRegexp(filter);
+            for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
+                String name = filter.indexOf("/") == -1 ? file.getName().toLowerCase() : file.getPathInProject().toLowerCase();
+                passFilter(regexp, mask, name, file);
+            }
 
-				// sort
-				if (settings.isSortResults()) {
-					Collections.sort(matchedFiles, new CaseInsensitiveComparator());
-				}
-				// group
-				if (settings.isGroupResults()) {
-					Collections.sort(matchedFiles, new FileGroupComparator());
-				}
-			} else {
-				resetFilter();
-			}
+            // sort by filename
+            if (settings.isNameSorting()) {
+                Collections.sort(matchedFiles, new FileNameComparator());
+            }
 
-            Logger logger = Logger.getLogger(OffListModel.class.getName());
-            logger.log(Level.INFO, "projectFiles = " + projectFilesProvider.getProjectFiles());
-            logger.log(Level.INFO, "matchedFiles = " + matchedFiles);
+            // sort by file extension
+            if (settings.isExtensionSorting()) {
+                Collections.sort(matchedFiles, new FileExtensionComparator());
+            }
 
-			fireContentsChanged(this, 0, getSize());
-//		} catch (Exception e) {
-//            Logger logger = Logger.getLogger(TazListModel.class.getName());
-//            logger.log(Level.SEVERE, e.g);
-			//Log.log(Log.ERROR, this.getClass(), e);
-//		}
-	} // }}}
+            // custom sorting/grouping (ie. JEdit's project viewer groups)
+            if (settings.isCustomSorting()) {
+                ///Collections.sort(matchedFiles, new FileGroupComparator());
+            }
 
-	// {{{ prepareFilter() method
+            // sort by match distance if smart matching
+            if (settings.isSmartMatch() && settings.isDistanceSorting()) {
+                Collections.sort(matchedFiles, new DistanceComparator());
+            }
+
+            // sort by access frequency
+            if (settings.isPopularitySorting()) {
+                Collections.sort(matchedFiles, new PopularityComparator());
+            }
+        } else {
+            resetFilter();
+        }
+
+        fireContentsChanged(this, 0, getSize());
+	}
+
 	private Pattern prepareRegexp(String filter) {
-		//Log.log(Log.DEBUG, this.getClass(), "filter: " + filter);
 		this.emptyFilter = false;
 		filter = filter.toLowerCase().replaceAll("\\*{2,}", "*");
 		String regex;
@@ -88,24 +94,22 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 			regex = "";
 			for (String c : chars) {
 				if (!c.equals("")) {
+                    if (c.equals("."))
+                        c = "\\.";
+
                     if (c.equals("*")) {
                         regex += ".*?";
-                    } else if (c.equals(".")) {
-                        regex += "\\\\.";
                     } else {
-                        regex += c + "[^\\/]*?";
+                        regex += c + "([^\\/]*?)";
                     }
 				}
 			}
-            //regex = regex.substring(0, regex.length() - 1);
 		} else {
 			regex = (filter + "*").replaceAll("\\.", "\\\\.").replaceAll("\\*", "[^\\/]*?");
 		}
-		//regex = regex.replaceAll("\\.", "\\\\.").replaceAll("\\*", "[^\\/]*?"); // + ".*?";
 		return Pattern.compile(regex);
 	}
 
-	// {{{ passFilter() method
 	private void passFilter(Pattern regex, Pattern mask, String name, ProjectFile file) {
 		if (this.emptyFilter || (mask != null && mask.matcher(file.getPathInProject().toLowerCase()).matches())) {
 			return;
@@ -126,6 +130,8 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 			if (settings.isShowSize()) {
 				label += " - " + formatSize(file.getSize());
 			}
+            
+            //label += " {"+ getPopularity(file.getFullPath()) +"}";
 			OffListElement e = new OffListElement(matcher, file, label);
 			matchedFiles.add(e);
 		}
@@ -141,48 +147,67 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 		}
 	}
 
-	// }}}
-
-	// {{{ getElementAt() method
 	public Object getElementAt(int index) {
 		return matchedFiles.get(index);
-	} // }}}
+	}
 
-	// {{{ getSize() method
 	public int getSize() {
 		return matchedFiles.size();
-	} // }}}
+	}
 
-	// {{{ contentsChanged() method
 	public void contentsChanged(ListDataEvent e) {
 		setFilter(filter);
-	} // }}}
+	}
 
-	// {{{ intervalAdded() method
 	public void intervalAdded(ListDataEvent e) {
 		setFilter(filter);
-	} // }}}
+	}
 
-	// {{{ intervalRemoved() method
 	public void intervalRemoved(ListDataEvent e) {
 		setFilter(filter);
-	} // }}}
+	}
 
-	class CaseInsensitiveComparator implements Comparator<OffListElement> {
+    void incrementAccessCounter(ProjectFile pf) {
+        String path = pf.getFullPath();
+        if (accessFrequency.containsKey(path)) {
+            accessFrequency.put(path, accessFrequency.get(path)+1);
+        } else {
+            accessFrequency.put(path, 1);
+        }
+    }
+
+    private int getPopularity(String fullPath) {
+        Integer p = accessFrequency.get(fullPath);
+        return p == null ? 0 : p;
+    }
+
+	class FileNameComparator implements Comparator<OffListElement> {
 		public int compare(OffListElement o1, OffListElement o2) {
 			return o1.getLabel().toLowerCase().compareTo(
 					o2.getLabel().toLowerCase());
 		}
 	}
 
-	class FileGroupComparator implements Comparator<OffListElement> {
+	class FileExtensionComparator implements Comparator<OffListElement> {
 		public int compare(OffListElement o1, OffListElement o2) {
-			//FileGroup fg1 = o1.getFile().getFileGroup();
-			//FileGroup fg2 = o2.getFile().getFileGroup();
-			//int a = fg1 != null ? fg1.getOrder() : -1000;
-			//int b = fg2 != null ? fg2.getOrder() : -1000;
-			//return (a > b ? -1 : (a == b) ? 0 : 1);
-            return 0;
+			return o1.getFile().getExtension().toLowerCase().compareTo(
+					o2.getFile().getExtension().toLowerCase());
+		}
+	}
+
+	class PopularityComparator implements Comparator<OffListElement> {
+		public int compare(OffListElement o1, OffListElement o2) {
+			int a = getPopularity(o1.getFile().getFullPath());
+			int b = getPopularity(o2.getFile().getFullPath());
+			return (a > b ? -1 : (a == b) ? 0 : 1);
+		}
+	}
+
+    class DistanceComparator implements Comparator<OffListElement> {
+		public int compare(OffListElement o1, OffListElement o2) {
+			int a = o1.getFilterDistance();
+			int b = o2.getFilterDistance();
+			return (a < b ? -1 : (a == b) ? 0 : 1);
 		}
 	}
 }

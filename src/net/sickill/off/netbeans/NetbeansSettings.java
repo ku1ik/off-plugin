@@ -17,13 +17,15 @@ import org.openide.util.NbPreferences;
  */
 public class NetbeansSettings implements Settings {
 
+    // dialog
+
     public void setDialogWidth(int w) {
         Preferences prefs = NbPreferences.forModule(OffPanel.class);
         prefs.putInt("dialog-width", w);
     }
 
     public int getDialogWidth() {
-        return NbPreferences.forModule(OffPanel.class).getInt("dialog-width", 380);
+        return NbPreferences.forModule(OffPanel.class).getInt("dialog-width", Settings.DEFAULT_DIALOG_WIDTH);
     }
 
     public void setDialogHeight(int h) {
@@ -32,44 +34,63 @@ public class NetbeansSettings implements Settings {
     }
 
     public int getDialogHeight() {
-        return NbPreferences.forModule(OffPanel.class).getInt("dialog-height", 400);
+        return NbPreferences.forModule(OffPanel.class).getInt("dialog-height", Settings.DEFAULT_DIALOG_HEIGHT);
     }
 
+    // behaviour
+
     public int getSearchDelay() {
-        return NbPreferences.forModule(OffPanel.class).getInt("search-delay", 300);
+        return NbPreferences.forModule(OffPanel.class).getInt("search-delay", Settings.DEFAULT_SEARCH_DELAY);
     }
 
     public int getMinPatternLength() {
-        return NbPreferences.forModule(OffPanel.class).getInt("min-pattern-length", 3);
-    }
-
-    public boolean isGroupResults() {
-        return NbPreferences.forModule(OffPanel.class).getBoolean("group-results", false);
-    }
-
-    public boolean isShowExt() {
-        return NbPreferences.forModule(OffPanel.class).getBoolean("show-ext", true);
-    }
-
-    public boolean isShowPath() {
-        return NbPreferences.forModule(OffPanel.class).getBoolean("show-path", true);
-    }
-
-    public boolean isShowSize() {
-        return NbPreferences.forModule(OffPanel.class).getBoolean("show-size", false);
+        return NbPreferences.forModule(OffPanel.class).getInt("min-pattern-length", Settings.DEFAULT_MIN_PATTERN_LENGTH);
     }
 
     public boolean isSmartMatch() {
-        return NbPreferences.forModule(OffPanel.class).getBoolean("smart-match", true);
-    }
-
-    public boolean isSortResults() {
-        return NbPreferences.forModule(OffPanel.class).getBoolean("sort-results", true);
+        return NbPreferences.forModule(OffPanel.class).getBoolean("smart-match", Settings.DEFAULT_SMART_MATCH);
     }
 
     public Pattern getIgnoreMask() {
-        String mask = NbPreferences.forModule(OffPanel.class).get("ignore-mask", "(^gems\\/|(.*\\/)?\\.svn\\/|(.*\\/)?\\.git\\/).*");
+        String mask = NbPreferences.forModule(OffPanel.class).get("ignore-mask", Settings.DEFAULT_IGNORE_MASK);
         return mask.equals("") ? null : Pattern.compile(mask);
     }
+
+    // show
+
+    public boolean isShowExt() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("show-ext", Settings.DEFAULT_SHOW_EXTENSION);
+    }
+
+    public boolean isShowPath() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("show-path", Settings.DEFAULT_SHOW_PATH);
+    }
+
+    public boolean isShowSize() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("show-size", Settings.DEFAULT_SHOW_SIZE);
+    }
+
+    // sorting
+
+    public boolean isNameSorting() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("name-sorting", Settings.DEFAULT_NAME_SORTING);
+    }
+
+    public boolean isExtensionSorting() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("extension-sorting", Settings.DEFAULT_EXTENSION_SORTING);
+    }
+
+    public boolean isPopularitySorting() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("popularity-sorting", Settings.DEFAULT_POPULARITY_SORTING);
+    }
+
+    public boolean isCustomSorting() {
+        return false;
+    }
+
+    public boolean isDistanceSorting() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("distance-sorting", Settings.DEFAULT_DISTANCE_SORTING);
+    }
+
 
 }
