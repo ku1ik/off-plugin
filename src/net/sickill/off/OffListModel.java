@@ -49,8 +49,9 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
         if (filter != null && filter.length() > 0 && !filter.equals("*")) {
             Pattern mask = settings.getIgnoreMask();
             Pattern regexp = prepareRegexp(filter);
+            boolean withPath = filter.indexOf("/") != -1;
             for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
-                String name = filter.indexOf("/") == -1 ? file.getName().toLowerCase() : file.getPathInProject().toLowerCase();
+                String name = withPath ? file.getPathInProject().toLowerCase() : file.getName().toLowerCase();
                 passFilter(regexp, mask, name, file);
             }
 

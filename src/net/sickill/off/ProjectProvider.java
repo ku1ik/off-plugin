@@ -5,12 +5,14 @@
 
 package net.sickill.off;
 
+import java.util.Collection;
+
 /**
  *
  * @author kill
  */
 public interface ProjectProvider {
 
-    public Iterable<ProjectFile> getProjectFiles();
+    public Collection<ProjectFile> getProjectFiles();
     public String getProjectRootPath();
 }

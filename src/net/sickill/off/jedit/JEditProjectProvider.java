@@ -5,6 +5,7 @@
 
 package net.sickill.off.jedit;
 
+import java.util.Collection;
 import net.sickill.off.*;
 
 /**
@@ -13,7 +14,7 @@ import net.sickill.off.*;
  */
 public class JEditProjectProvider implements ProjectProvider {
 
-    public Iterable<ProjectFile> getProjectFiles() {
+    public Collection<ProjectFile> getProjectFiles() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
