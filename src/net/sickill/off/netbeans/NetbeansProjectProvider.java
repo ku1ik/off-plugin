@@ -10,7 +10,6 @@ import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import javax.swing.event.ChangeEvent;
 import net.sickill.off.*;
-import net.sickill.off.netbeans.NetbeansProjectFile;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;

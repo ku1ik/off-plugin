@@ -27,31 +27,19 @@ public interface Settings {
     public static boolean DEFAULT_DISTANCE_SORTING = true;
 
     public boolean isCustomSorting();
-
     public boolean isDistanceSorting();
     public boolean isExtensionSorting();
-
     public boolean isPopularitySorting();
-
     public boolean isShowExt();
-
     public boolean isShowPath();
-
     public boolean isShowSize();
-
     public boolean isSmartMatch();
-
     public boolean isNameSorting();
-
     public void setDialogWidth(int w);
     public int getDialogWidth();
-
     public void setDialogHeight(int h);
     public int getDialogHeight();
-
     public int getSearchDelay();
-
     public int getMinPatternLength();
-
     public Pattern getIgnoreMask();
 }
