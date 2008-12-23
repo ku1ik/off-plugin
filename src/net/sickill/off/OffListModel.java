@@ -112,7 +112,7 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	}
 
 	private void passFilter(Pattern regex, Pattern mask, String name, ProjectFile file) {
-		if (this.emptyFilter || (mask != null && mask.matcher(file.getPathInProject().toLowerCase()).matches())) {
+		if (this.emptyFilter) { // || (mask != null && mask.matcher(file.getPathInProject().toLowerCase()).matches())) {
 			return;
 		}
 

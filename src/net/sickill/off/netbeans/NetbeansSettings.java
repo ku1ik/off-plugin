@@ -16,7 +16,18 @@ import org.openide.util.NbPreferences;
  * @author kill
  */
 public class NetbeansSettings implements Settings {
+    private static NetbeansSettings settings;
 
+    private NetbeansSettings() {
+    }
+
+    public static NetbeansSettings getInstance() {
+        if (settings == null) {
+            settings = new NetbeansSettings();
+        }
+        return settings;
+    }
+    
     // dialog
 
     public void setDialogWidth(int w) {

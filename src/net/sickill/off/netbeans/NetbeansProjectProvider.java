@@ -5,6 +5,8 @@
 
 package net.sickill.off.netbeans;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import javax.swing.event.ChangeEvent;
 import net.sickill.off.*;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
@@ -33,7 +36,7 @@ import org.openide.filesystems.FileUtil;
  *
  * @author kill
  */
-public class NetbeansProjectProvider implements ProjectProvider, ChangeListener, FileChangeListener {
+public class NetbeansProjectProvider implements ProjectProvider, ChangeListener, FileChangeListener, PropertyChangeListener {
     private static Collection<ProjectFile> projectFiles;
     private Logger logger;
 
@@ -43,7 +46,16 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
 
     public void fetchProjectFiles() {
         Project p = OpenProjects.getDefault().getMainProject();
+        if (p == null) {
+            logger.info("no main project selected");
+            projectFiles = new ArrayList<ProjectFile>();
+            return;
+        }
         logger.info("project: " + p.getProjectDirectory().getPath());
+
+        OpenProjects.getDefault().removePropertyChangeListener(this);
+        OpenProjects.getDefault().addPropertyChangeListener(this);
+
 //        Sources s = ProjectUtils.getSources(p);
         //s.addChangeListener(this);
 //        SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
@@ -54,6 +66,8 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
         List<FileObject> srcFolders = ProjectOperations.getDataFiles(p);
 //        ArrayList<ProjectFile> projectFiles = new ArrayList<ProjectFile>();
         HashMap<String, ProjectFile> projectFilesHash = new HashMap<String, ProjectFile>();
+
+        Pattern mask = NetbeansSettings.getInstance().getIgnoreMask();
 
         for (FileObject folder : srcFolders) {
             folder.removeFileChangeListener(this);
@@ -68,7 +82,7 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
 //                    projectFiles.add(new NetbeansProjectFile(this, fo));
                     ProjectFile pf = new NetbeansProjectFile(this, fo);
                     String fullPath = pf.getFullPath();
-                    if (NetbeansSettings.getSettings().ignoreMask !~ fullPath && !projectFilesHash.containsKey(fullPath)) {
+                    if ((mask == null || !mask.matcher(pf.getPathInProject().toLowerCase()).matches()) && !projectFilesHash.containsKey(fullPath)) {
                         projectFilesHash.put(fullPath, pf);
                     }
                 }
@@ -121,5 +135,12 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
     public void fileAttributeChanged(FileAttributeEvent fe) {
         logger.info("fileAttributeChanged");
         fetchProjectFiles();
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(OpenProjects.PROPERTY_MAIN_PROJECT)) {
+            logger.info("main project changed");
+            fetchProjectFiles();
+        }
     }
 }
