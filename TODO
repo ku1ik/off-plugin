@@ -1,0 +1,42 @@
+0.9
+- replace html rendering with something else (HtmlRenderer in Netbeans?)
+- add group dividers/labels to results
+
+0.8
+- clear on open option
+- option to prepend filter with "*"
+
+NETBEANS
+- options pane
+- go to line
+
+JEDIT
+- validation for numbers in option pane
+- add projectviewer dependency
+- plugin unloading/reloading
+
+----------------------------------------------------------------------
+
+0.7
++ caching of project files (Netbeans)
++ allow searching with path when keyword contains "/" 
++ configurable file exclusion list (ie: to exclude gems dir in merb app)
++ names with smaller distances between typed characters should be moved higher
+
+0.6
++ create TazPanel instance once (Netbeans)
++ sort by (name+path) instead of shown text (???? done ????)
+
+0.5
++ search delay like in fastopen (or similar, ie 0.3 second after keyup)
++ goto line sometimes doesn't work (JEdit)
++ sort by "name + project path"
++ minimum pattern length (2? 3?)
++ new name
++ add magnifier/lightning icon to the left of search box
++ "*" doesn't search
++ project path, not filesystem path
++ page up/down
++ goto line
++ selectedIndex(0) if filePattern changed
+
