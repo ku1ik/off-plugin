@@ -52,7 +52,8 @@ class NetbeansProjectFile extends ProjectFile {
     }
 
     public String getFullPath() {
-        return FileUtil.getFileDisplayName(fileObject);
+        return fileObject.getPath();
+        //return FileUtil.getFileDisplayName(fileObject);
     }
 
     public long getSize() {
