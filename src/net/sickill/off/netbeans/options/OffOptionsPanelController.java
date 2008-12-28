@@ -11,9 +11,9 @@ import org.netbeans.spi.options.OptionsPanelController;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 
-public final class TazOptionsPanelController extends OptionsPanelController {
+public final class OffOptionsPanelController extends OptionsPanelController {
 
-    private TazPanel panel;
+    private OffOptionsPanel panel;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private boolean changed;
 
@@ -55,9 +55,9 @@ public final class TazOptionsPanelController extends OptionsPanelController {
         pcs.removePropertyChangeListener(l);
     }
 
-    private TazPanel getPanel() {
+    private OffOptionsPanel getPanel() {
         if (panel == null) {
-            panel = new TazPanel(this);
+            panel = new OffOptionsPanel(this);
         }
         return panel;
     }

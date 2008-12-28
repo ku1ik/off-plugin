@@ -111,7 +111,7 @@ public class OffPanel extends JPanel {
 
 	void startSearching() {
 		if (timer == null) {
-			timer = new Timer(settings.getSearchDelay(), new SearchAction());
+			timer = new Timer((int)(settings.getSearchDelay() * 1000.0), new SearchAction());
 			timer.setRepeats(false);
 			timer.start();
 		} else {

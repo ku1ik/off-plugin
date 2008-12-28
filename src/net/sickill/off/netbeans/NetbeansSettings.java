@@ -50,21 +50,45 @@ public class NetbeansSettings implements Settings {
 
     // behaviour
 
-    public int getSearchDelay() {
-        return NbPreferences.forModule(OffPanel.class).getInt("search-delay", Settings.DEFAULT_SEARCH_DELAY);
+    public float getSearchDelay() {
+        return NbPreferences.forModule(OffPanel.class).getFloat("search-delay", Settings.DEFAULT_SEARCH_DELAY);
+    }
+
+    public void setSearchDelay(float value) {
+        NbPreferences.forModule(OffPanel.class).putFloat("search-delay", value);
     }
 
     public int getMinPatternLength() {
         return NbPreferences.forModule(OffPanel.class).getInt("min-pattern-length", Settings.DEFAULT_MIN_PATTERN_LENGTH);
     }
 
+    public void setMinPatternLength(int value) {
+        NbPreferences.forModule(OffPanel.class).putInt("min-pattern-length", value);
+    }
+
     public boolean isSmartMatch() {
         return NbPreferences.forModule(OffPanel.class).getBoolean("smart-match", Settings.DEFAULT_SMART_MATCH);
+    }
+
+    public void setSmartMatch(boolean selected) {
+        NbPreferences.forModule(OffPanel.class).putBoolean("smart-match", selected);
     }
 
     public Pattern getIgnoreMask() {
         String mask = NbPreferences.forModule(OffPanel.class).get("ignore-mask", Settings.DEFAULT_IGNORE_MASK);
         return mask.equals("") ? null : Pattern.compile(mask);
+    }
+
+    public void setIgnoreMask(String mask) {
+        NbPreferences.forModule(OffPanel.class).put("ignore-mask", mask);
+    }
+
+    public boolean getMatchFromStart() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("match-from-start", Settings.DEFAULT_MATCH_FROM_START);
+    }
+
+    public void setMatchFromStart(boolean selected) {
+        NbPreferences.forModule(OffPanel.class).putBoolean("match-from-start", selected);
     }
 
     // show
@@ -103,5 +127,7 @@ public class NetbeansSettings implements Settings {
         return NbPreferences.forModule(OffPanel.class).getBoolean("distance-sorting", Settings.DEFAULT_DISTANCE_SORTING);
     }
 
-
+    public boolean isMatchFromStart() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("match-from-start", Settings.DEFAULT_MATCH_FROM_START);
+    }
 }
