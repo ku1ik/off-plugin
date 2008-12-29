@@ -2,5 +2,5 @@ Manifest-Version: 1.0
 OpenIDE-Module: net.sickill.off
 OpenIDE-Module-Layer: net/sickill/off/layer.xml
 OpenIDE-Module-Localizing-Bundle: net/sickill/off/Bundle.properties
-OpenIDE-Module-Specification-Version: 0.7
+OpenIDE-Module-Specification-Version: 0.8
 

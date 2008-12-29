@@ -8,6 +8,7 @@ package net.sickill.off.netbeans;
 import javax.swing.JDialog;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
+import javax.swing.text.StyledDocument;
 import net.sickill.off.ActionsProvider;
 import net.sickill.off.ProjectFile;
 import org.netbeans.api.editor.EditorRegistry;
@@ -15,6 +16,7 @@ import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.util.Exceptions;
 import org.openide.cookies.OpenCookie;
+import org.openide.text.NbDocument;
 
 /**
  *
@@ -39,10 +41,9 @@ public class NetbeansActionsProvider implements ActionsProvider {
     }
 
     private boolean performGoto(int lineNo) {
-        //JTextComponent editor = EditorRegistry.lastFocusedComponent();
-        //Document doc = editor.getDocument();
-        //doc.
-        //editor.setCaretPosition(lineNo);
+        JTextComponent editor = EditorRegistry.lastFocusedComponent();
+        Document doc = editor.getDocument();
+        editor.setCaretPosition(NbDocument.findLineOffset((StyledDocument)doc, lineNo-1));
         return true;
     }
 
