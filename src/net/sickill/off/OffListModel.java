@@ -21,33 +21,25 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	private static final long serialVersionUID = 7121724322112004624L;
 	private List<OffListElement> matchingFiles;
 	private String filter;
-	private boolean emptyFilter;
     private ProjectProvider projectFilesProvider;
     private Settings settings;
-    private OffPanel taz;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
 
 	protected OffListModel(Settings s, ProjectProvider projectFilesProvider) {
         this.settings = s;
         this.projectFilesProvider = projectFilesProvider;
-		resetFilter();
+        this.filter = null;
+        matchingFiles = new ArrayList<OffListElement>();
 	}
 
     public void setProjectFilesProvider(ProjectProvider pfp) {
         this.projectFilesProvider = pfp;
     }
 
-	private void resetFilter() {
-		this.filter = null;
-		matchingFiles = new ArrayList<OffListElement>();
-		this.emptyFilter = true;
-	}
-
 	public void setFilter(final String filter) {
         this.filter = filter;
         matchingFiles = new ArrayList<OffListElement>();
-        if (filter != null && filter.length() > 0 && !filter.equals("*")) {
-    		this.emptyFilter = false;
+        if (filter != null && filter.length() > 0) {
             Pattern mask = settings.getIgnoreMask();
             Pattern regexp = Pattern.compile(escapeFilter(filter));
             boolean withPath = filter.indexOf("/") != -1;
@@ -80,8 +72,6 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
             if (settings.isPopularitySorting()) {
                 Collections.sort(matchingFiles, new PopularityComparator());
             }
-        } else {
-            resetFilter();
         }
 
         fireContentsChanged(this, 0, getSize());
@@ -115,10 +105,6 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	}
 
 	private void passFilter(Pattern regex, Pattern mask, String name, ProjectFile file) {
-		if (this.emptyFilter) {
-			return;
-		}
-
 		Matcher matcher = regex.matcher(name);
 		if (matcher.matches()) {
 			String label = file.getName();
