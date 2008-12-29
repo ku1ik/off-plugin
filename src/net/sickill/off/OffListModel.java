@@ -19,7 +19,7 @@ import javax.swing.event.ListDataListener;
  */
 public class OffListModel extends AbstractListModel implements ListDataListener {
 	private static final long serialVersionUID = 7121724322112004624L;
-	private List<OffListElement> matchedFiles;
+	private List<OffListElement> matchingFiles;
 	private String filter;
 	private boolean emptyFilter;
     private ProjectProvider projectFilesProvider;
@@ -39,16 +39,17 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 
 	private void resetFilter() {
 		this.filter = null;
-		matchedFiles = new ArrayList<OffListElement>();
+		matchingFiles = new ArrayList<OffListElement>();
 		this.emptyFilter = true;
 	}
 
 	public void setFilter(final String filter) {
         this.filter = filter;
-        matchedFiles = new ArrayList<OffListElement>();
+        matchingFiles = new ArrayList<OffListElement>();
         if (filter != null && filter.length() > 0 && !filter.equals("*")) {
+    		this.emptyFilter = false;
             Pattern mask = settings.getIgnoreMask();
-            Pattern regexp = prepareRegexp(filter);
+            Pattern regexp = Pattern.compile(escapeFilter(filter));
             boolean withPath = filter.indexOf("/") != -1;
             for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
                 String name = withPath ? file.getPathInProject().toLowerCase() : file.getName().toLowerCase();
@@ -57,12 +58,12 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 
             // sort by filename
             if (settings.isNameSorting()) {
-                Collections.sort(matchedFiles, new FileNameComparator());
+                Collections.sort(matchingFiles, new FileNameComparator());
             }
 
             // sort by file extension
             if (settings.isExtensionSorting()) {
-                Collections.sort(matchedFiles, new FileExtensionComparator());
+                Collections.sort(matchingFiles, new FileExtensionComparator());
             }
 
             // custom sorting/grouping (ie. JEdit's project viewer groups)
@@ -72,12 +73,12 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 
             // sort by match distance if smart matching
             if (settings.isSmartMatch() && settings.isDistanceSorting()) {
-                Collections.sort(matchedFiles, new DistanceComparator());
+                Collections.sort(matchingFiles, new DistanceComparator());
             }
 
             // sort by access frequency
             if (settings.isPopularitySorting()) {
-                Collections.sort(matchedFiles, new PopularityComparator());
+                Collections.sort(matchingFiles, new PopularityComparator());
             }
         } else {
             resetFilter();
@@ -86,9 +87,11 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
         fireContentsChanged(this, 0, getSize());
 	}
 
-	private Pattern prepareRegexp(String filter) {
-		this.emptyFilter = false;
+	private String escapeFilter(String filter) {
 		filter = filter.toLowerCase().replaceAll("\\*{2,}", "*");
+        if (!settings.isMatchFromStart()) {
+            filter = "*" + filter;
+        }
 		String regex;
 		if (settings.isSmartMatch()) {
 			String[] chars = filter.split("");
@@ -108,7 +111,7 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 		} else {
 			regex = (filter + "*").replaceAll("\\.", "\\\\.").replaceAll("\\*", "[^\\/]*?");
 		}
-		return Pattern.compile(regex);
+        return regex;
 	}
 
 	private void passFilter(Pattern regex, Pattern mask, String name, ProjectFile file) {
@@ -134,7 +137,7 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
             
             //label += " {"+ getPopularity(file.getFullPath()) +"}";
 			OffListElement e = new OffListElement(matcher, file, label);
-			matchedFiles.add(e);
+			matchingFiles.add(e);
 		}
 	}
 
@@ -149,11 +152,11 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	}
 
 	public Object getElementAt(int index) {
-		return matchedFiles.get(index);
+		return matchingFiles.get(index);
 	}
 
 	public int getSize() {
-		return matchedFiles.size();
+		return matchingFiles.size();
 	}
 
 	public void contentsChanged(ListDataEvent e) {
