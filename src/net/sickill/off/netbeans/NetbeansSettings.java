@@ -91,6 +91,14 @@ public class NetbeansSettings implements Settings {
         NbPreferences.forModule(OffPanel.class).putBoolean("match-from-start", selected);
     }
 
+    public boolean isClearOnOpen() {
+        return NbPreferences.forModule(OffPanel.class).getBoolean("clear-on-open", Settings.DEFAULT_CLEAR_ON_OPEN);
+    }
+
+    public void setClearOnOpen(boolean selected) {
+        NbPreferences.forModule(OffPanel.class).putBoolean("clear-on-open", selected);
+    }
+
     // show
 
     public boolean isShowExt() {

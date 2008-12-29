@@ -26,6 +26,7 @@ public interface Settings {
     public static boolean DEFAULT_POPULARITY_SORTING = true;
     public static boolean DEFAULT_DISTANCE_SORTING = true;
     public static boolean DEFAULT_MATCH_FROM_START = true;
+    public static boolean DEFAULT_CLEAR_ON_OPEN = false;
 
     public boolean isCustomSorting();
     public boolean isDistanceSorting();
@@ -37,6 +38,7 @@ public interface Settings {
     public boolean isShowSize();
     public boolean isSmartMatch();
     public boolean isNameSorting();
+    public boolean isClearOnOpen();
     public void setDialogWidth(int w);
     public int getDialogWidth();
     public void setDialogHeight(int h);
@@ -44,15 +46,11 @@ public interface Settings {
     public float getSearchDelay();
     public int getMinPatternLength();
     public Pattern getIgnoreMask();
-
     public void setIgnoreMask(String mask);
-
     public void setMatchFromStart(boolean selected);
     public boolean getMatchFromStart();
-
     public void setMinPatternLength(int value);
-
     public void setSearchDelay(float value);
-
     public void setSmartMatch(boolean selected);
+    public void setClearOnOpen(boolean selected);
 }

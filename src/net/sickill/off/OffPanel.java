@@ -120,8 +120,12 @@ public class OffPanel extends JPanel {
 	}
 
     public void focusOnDefaultComponent() {
-        patternInput.selectAll();
-        patternInput.requestFocus();
+        if (settings.isClearOnOpen()) {
+            patternInput.setText("");
+        } else {
+            patternInput.selectAll();
+            patternInput.requestFocus();
+        }
     }
 
 	private String getFilePattern() {
