@@ -7,13 +7,17 @@
   - add projectviewer dependency
   - plugin unloading/reloading
 
+  NETBEANS
+  - go to line
+
 0.8
 + clear on open option
 + option to prepend filter with "*"
++ opening multiple files
++ opening with mouse double-click
 
   NETBEANS
   + options pane
-  - go to line
 
 ----------------------------------------------------------------------
 
