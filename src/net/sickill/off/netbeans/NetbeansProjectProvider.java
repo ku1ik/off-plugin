@@ -14,14 +14,10 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
-import org.netbeans.api.project.ProjectUtils;
-import org.netbeans.api.project.SourceGroup;
-import org.netbeans.api.project.Sources;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.spi.project.support.ProjectOperations;
 import org.openide.filesystems.FileAttributeEvent;
@@ -29,31 +25,41 @@ import org.openide.filesystems.FileChangeListener;
 import org.openide.filesystems.FileEvent;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileRenameEvent;
-import org.openide.filesystems.FileUtil;
 
 /**
  *
  * @author kill
  */
 public class NetbeansProjectProvider implements ProjectProvider, ChangeListener, FileChangeListener, PropertyChangeListener {
+    private static NetbeansProjectProvider instance;
     private static Collection<ProjectFile> projectFiles;
     private Logger logger;
+
+    static NetbeansProjectProvider getInstance() {
+        if (instance == null) {
+            instance = new NetbeansProjectProvider();
+        }
+        return instance;
+    }
 
     public NetbeansProjectProvider() {
         logger = Logger.getLogger(this.getClass().getName());
     }
 
     public void fetchProjectFiles() {
+        // ensure we have listener registered
+        OpenProjects.getDefault().removePropertyChangeListener(this);
+        OpenProjects.getDefault().addPropertyChangeListener(this);
+
         Project p = OpenProjects.getDefault().getMainProject();
         if (p == null) {
-            logger.info("no main project selected");
+            logger.info("[OFF] no main project selected");
+            System.out.println("[OFF] no main project selected");
             projectFiles = new ArrayList<ProjectFile>();
             return;
         }
-        logger.info("project: " + p.getProjectDirectory().getPath());
-
-        OpenProjects.getDefault().removePropertyChangeListener(this);
-        OpenProjects.getDefault().addPropertyChangeListener(this);
+        logger.info("[OFF] fetching files from project " + p.getProjectDirectory().getPath());
+        System.out.println("[OFF] fetching files from project " + p.getProjectDirectory().getPath());
 
 //        Sources s = ProjectUtils.getSources(p);
         //s.addChangeListener(this);
