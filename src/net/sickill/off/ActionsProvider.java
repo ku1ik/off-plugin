@@ -10,6 +10,7 @@ package net.sickill.off;
  * @author kill
  */
 public interface ActionsProvider {
+    public void openFile(ProjectFile pf);
     public void openFile(ProjectFile pf, int lineNo);
     public void closeWindow();
 }

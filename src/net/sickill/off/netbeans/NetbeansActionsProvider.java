@@ -40,6 +40,10 @@ public class NetbeansActionsProvider implements ActionsProvider {
         }
     }
 
+    public void openFile(ProjectFile pf) {
+        openFile(pf, -1);
+    }
+
     private boolean performGoto(int lineNo) {
         JTextComponent editor = EditorRegistry.lastFocusedComponent();
         Document doc = editor.getDocument();
@@ -50,4 +54,5 @@ public class NetbeansActionsProvider implements ActionsProvider {
     public void closeWindow() {
         dialog.dispose();
     }
+
 }

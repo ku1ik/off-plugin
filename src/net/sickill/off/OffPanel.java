@@ -97,15 +97,16 @@ public class OffPanel extends JPanel {
     public void openSelected() {
 		// For enter keys pressed inside txtfilename
 
-		int selectedIndex = resultsList.getSelectedIndex();
-		int listSize = resultsList.getModel().getSize();
+//		int selectedIndex = resultsList.getSelectedIndex();
+//		int listSize = resultsList.getModel().getSize();
 
-		if (selectedIndex != -1 && listSize != 0 && selectedIndex < listSize) {
-			int lineNo = getLineNumber();
-			closeMainWindow();
-            ProjectFile pf = ((OffListElement) resultsList.getSelectedValue()).getFile();
+        closeMainWindow();
+//		if (selectedIndex != -1 && listSize != 0 && selectedIndex < listSize) {
+        for (Object o : resultsList.getSelectedValues()) {
+//			int lineNo = getLineNumber();
+            ProjectFile pf = ((OffListElement)o).getFile();
             listModel.incrementAccessCounter(pf);
-            actionsProvider.openFile(pf, lineNo);
+            actionsProvider.openFile(pf);
 		}
 	}
 

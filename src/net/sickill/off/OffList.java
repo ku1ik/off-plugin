@@ -17,13 +17,14 @@ import javax.swing.JList;
  */
 public class OffList extends JList implements MouseListener, KeyListener {
 	private static final long serialVersionUID = -3358863446749199157L;
-	private OffPanel taz;
+	private OffPanel off;
 
-	public OffList(OffPanel taz, OffListModel listModel) {
+	public OffList(OffPanel off, OffListModel listModel) {
 		super(listModel);
-		this.taz = taz;
+		this.off = off;
 		setCellRenderer(new OffCellRenderer());
 		addKeyListener(this);
+        addMouseListener(this);
 	}
 
 	/** Description of the Method */
@@ -79,7 +80,7 @@ public class OffList extends JList implements MouseListener, KeyListener {
 */
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			taz.openSelected();
+			off.openSelected();
 		}
 	}
 
@@ -95,7 +96,7 @@ public class OffList extends JList implements MouseListener, KeyListener {
 
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 2) {
-			taz.openSelected();
+			off.openSelected();
 		}
 	}
 
