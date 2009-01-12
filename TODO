@@ -10,16 +10,22 @@
   NETBEANS
   - go to line
 
+0.8.2
+  NETBEANS
+  - add tooltips for options panel
+
+----------------------------------------------------------------------
+
+0.8.1
++ opening multiple files
++ opening with mouse double-click
++ preloading project files
+
 0.8
 + clear on open option
 + option to prepend filter with "*"
-+ opening multiple files
-+ opening with mouse double-click
-
   NETBEANS
   + options pane
-
-----------------------------------------------------------------------
 
 0.7
 + caching of project files (Netbeans)
