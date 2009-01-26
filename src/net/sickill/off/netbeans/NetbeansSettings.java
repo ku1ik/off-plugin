@@ -138,4 +138,17 @@ public class NetbeansSettings implements Settings {
     public boolean isMatchFromStart() {
         return NbPreferences.forModule(OffPanel.class).getBoolean("match-from-start", Settings.DEFAULT_MATCH_FROM_START);
     }
+
+    public void setLessPriorityMask(String mask) {
+        NbPreferences.forModule(OffPanel.class).put("less-priority-mask", mask);
+    }
+
+    public String getLessPriorityMask() {
+        return NbPreferences.forModule(OffPanel.class).get("less-priority-mask", Settings.DEFAULT_LESS_PRIORITY_MASK);
+    }
+
+    public Pattern getLessPriorityMaskCompiled() {
+        String mask = getLessPriorityMask();
+        return mask.equals("") ? null : Pattern.compile("(" + mask.replaceAll("\n", ")|(") + ")");
+    }
 }

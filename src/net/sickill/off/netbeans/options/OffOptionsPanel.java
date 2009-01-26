@@ -39,6 +39,9 @@ final class OffOptionsPanel extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         ignoreMask = new javax.swing.JTextField();
         clearOnOpen = new javax.swing.JCheckBox();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lessPriorityMask = new javax.swing.JTextArea();
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "Matching mode:");
 
@@ -46,7 +49,7 @@ final class OffOptionsPanel extends javax.swing.JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, "Start searching");
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, "Hide files matching following regular expresions:");
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, "Hide files matching following regexps:");
 
         buttonGroup1.add(smartMatch);
         org.openide.awt.Mnemonics.setLocalizedText(smartMatch, "smart");
@@ -66,6 +69,12 @@ final class OffOptionsPanel extends javax.swing.JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(clearOnOpen, "Clear search pattern on dialog open");
 
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel7, "Give less priority to files matching regexps:");
+
+        lessPriorityMask.setColumns(20);
+        lessPriorityMask.setRows(5);
+        jScrollPane1.setViewportView(lessPriorityMask);
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,31 +84,36 @@ final class OffOptionsPanel extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(clearOnOpen)
                     .add(matchFromStart)
-                    .add(layout.createSequentialGroup()
-                        .add(jLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(smartMatch)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(normalMatch))
-                    .add(layout.createSequentialGroup()
-                        .add(jLabel5)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(ignoreMask, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 320, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                                .add(jLabel4)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(searchDelay))
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(minPatternLength, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jLabel3))
-                            .add(jLabel6))))
-                .addContainerGap(112, Short.MAX_VALUE))
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                        .add(layout.createSequentialGroup()
+                            .add(jLabel1)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(smartMatch)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                            .add(normalMatch))
+                        .add(layout.createSequentialGroup()
+                            .add(jLabel5)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(ignoreMask, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 320, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(layout.createSequentialGroup()
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                                    .add(jLabel4)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                    .add(searchDelay))
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2))
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(layout.createSequentialGroup()
+                                    .add(minPatternLength, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                    .add(jLabel3))
+                                .add(jLabel6)))
+                        .add(layout.createSequentialGroup()
+                            .add(jLabel7)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(jScrollPane1))))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -124,10 +138,14 @@ final class OffOptionsPanel extends javax.swing.JPanel {
                     .add(jLabel5)
                     .add(ignoreMask, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel7)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(15, 15, 15)
                 .add(matchFromStart)
                 .add(18, 18, 18)
                 .add(clearOnOpen)
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -150,6 +168,7 @@ final class OffOptionsPanel extends javax.swing.JPanel {
         ignoreMask.setText(s.getIgnoreMask().toString());
         matchFromStart.setSelected(s.isMatchFromStart());
         clearOnOpen.setSelected(s.isClearOnOpen());
+        lessPriorityMask.setText(s.getLessPriorityMask());
     }
 
     void store() {
@@ -167,6 +186,7 @@ final class OffOptionsPanel extends javax.swing.JPanel {
         s.setIgnoreMask(ignoreMask.getText());
         s.setMatchFromStart(matchFromStart.isSelected());
         s.setClearOnOpen(clearOnOpen.isSelected());
+        s.setLessPriorityMask(lessPriorityMask.getText());
     }
 
     boolean valid() {
@@ -184,6 +204,9 @@ final class OffOptionsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea lessPriorityMask;
     private javax.swing.JCheckBox matchFromStart;
     private javax.swing.JSpinner minPatternLength;
     private javax.swing.JRadioButton normalMatch;

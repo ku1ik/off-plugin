@@ -27,6 +27,7 @@ public interface Settings {
     public static boolean DEFAULT_DISTANCE_SORTING = true;
     public static boolean DEFAULT_MATCH_FROM_START = true;
     public static boolean DEFAULT_CLEAR_ON_OPEN = false;
+    public static String DEFAULT_LESS_PRIORITY_MASK = "";
 
     public boolean isCustomSorting();
     public boolean isDistanceSorting();
@@ -53,4 +54,7 @@ public interface Settings {
     public void setSearchDelay(float value);
     public void setSmartMatch(boolean selected);
     public void setClearOnOpen(boolean selected);
+    public void setLessPriorityMask(String mask);
+    public String getLessPriorityMask();
+    public Pattern getLessPriorityMaskCompiled();
 }

@@ -72,6 +72,9 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
             if (settings.isPopularitySorting()) {
                 Collections.sort(matchingFiles, new PopularityComparator());
             }
+
+            // put files on less-priority-mask to the bottom of list
+            Collections.sort(matchingFiles, new PriorityComparator());
         }
 
         fireContentsChanged(this, 0, getSize());
@@ -198,6 +201,21 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 			int a = o1.getFilterDistance();
 			int b = o2.getFilterDistance();
 			return (a < b ? -1 : (a == b) ? 0 : 1);
+		}
+	}
+
+	class PriorityComparator implements Comparator<OffListElement> {
+        Pattern mask;
+
+        public PriorityComparator(Pattern mask) {
+            this.mask = mask;
+        }
+
+		public int compare(OffListElement o1, OffListElement o2) {
+            return mask.matcher()
+	//		int a = getPopularity(o1.getFile().getFullPath());
+	//		int b = getPopularity(o2.getFile().getFullPath());
+	//		return (a > b ? -1 : (a == b) ? 0 : 1);
 		}
 	}
 }
