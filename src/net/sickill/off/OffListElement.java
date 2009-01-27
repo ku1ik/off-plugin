@@ -17,6 +17,7 @@ public class OffListElement {
 	Matcher matcher;
 	String highlightedText;
 	String label;
+    int priority = 0;
 
 	public OffListElement(Matcher matcher, ProjectFile file, String label) {
 		this.matcher = matcher;
@@ -46,5 +47,13 @@ public class OffListElement {
             dist += matcher.start(i+1) - matcher.start(i) - 1;
         }
         return dist;
+    }
+
+    void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    int getPriority() {
+        return this.priority;
     }
 }

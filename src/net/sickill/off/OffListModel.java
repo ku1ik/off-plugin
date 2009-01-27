@@ -123,9 +123,13 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 			if (settings.isShowSize()) {
 				label += " - " + formatSize(file.getSize());
 			}
-            
-            //label += " {"+ getPopularity(file.getFullPath()) +"}";
+
 			OffListElement e = new OffListElement(matcher, file, label);
+            if (!settings.getLessPriorityMask().equals("")) {
+                if (settings.getLessPriorityMaskCompiled().matcher(file.getPathInProject().toLowerCase()).matches()) {
+                    e.setPriority(-1);
+                }
+            }
 			matchingFiles.add(e);
 		}
 	}
@@ -205,17 +209,10 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	}
 
 	class PriorityComparator implements Comparator<OffListElement> {
-        Pattern mask;
-
-        public PriorityComparator(Pattern mask) {
-            this.mask = mask;
-        }
-
 		public int compare(OffListElement o1, OffListElement o2) {
-            return mask.matcher()
-	//		int a = getPopularity(o1.getFile().getFullPath());
-	//		int b = getPopularity(o2.getFile().getFullPath());
-	//		return (a > b ? -1 : (a == b) ? 0 : 1);
+            int a = o1.getPriority();
+            int b = o2.getPriority();
+			return (a > b ? -1 : (a == b) ? 0 : 1);
 		}
 	}
 }
