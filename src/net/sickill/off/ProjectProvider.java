@@ -15,4 +15,6 @@ public interface ProjectProvider {
 
     public Collection<ProjectFile> getProjectFiles();
     public String getProjectRootPath();
+
+    public void setModel(OffListModel aThis);
 }

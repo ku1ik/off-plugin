@@ -22,6 +22,10 @@ public class JEditProjectProvider implements ProjectProvider {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public void setModel(OffListModel aThis) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
 		//this.icon = icon;
 

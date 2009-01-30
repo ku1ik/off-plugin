@@ -64,6 +64,7 @@ public class OffPanel extends JPanel {
 		this.add(pnlNorth, BorderLayout.NORTH);
 
 		this.listModel = new OffListModel(settings, projectFiles);
+        projectFiles.setModel(this.listModel);
 
 		resultsList = new OffList(this, listModel);
 

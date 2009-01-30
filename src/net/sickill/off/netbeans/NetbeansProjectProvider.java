@@ -34,6 +34,7 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
     private static NetbeansProjectProvider instance;
     private static Collection<ProjectFile> projectFiles;
     private Logger logger;
+    private OffListModel model;
 
     static NetbeansProjectProvider getInstance() {
         if (instance == null) {
@@ -94,6 +95,7 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
             }
         }
         projectFiles = projectFilesHash.values();
+        resetModel();
     }
 
     public Collection<ProjectFile> getProjectFiles() {
@@ -147,5 +149,14 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
             logger.info("main project changed");
             fetchProjectFiles();
         }
+    }
+
+    public void setModel(OffListModel m) {
+        this.model = m;
+    }
+
+    private void resetModel() {
+        if (model != null)
+            model.refresh();
     }
 }

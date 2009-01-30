@@ -24,16 +24,22 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
     private ProjectProvider projectFilesProvider;
     private Settings settings;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
+    private OffPanel off;
 
 	protected OffListModel(Settings s, ProjectProvider projectFilesProvider) {
         this.settings = s;
         this.projectFilesProvider = projectFilesProvider;
+        this.projectFilesProvider.setModel(this);
         this.filter = null;
         matchingFiles = new ArrayList<OffListElement>();
 	}
 
     public void setProjectFilesProvider(ProjectProvider pfp) {
         this.projectFilesProvider = pfp;
+    }
+
+    public void refresh() {
+        setFilter(this.filter);
     }
 
 	public void setFilter(final String filter) {
