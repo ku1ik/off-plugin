@@ -72,7 +72,7 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
 //        ArrayList<ProjectFile> projectFiles = new ArrayList<ProjectFile>();
         HashMap<String, ProjectFile> projectFilesHash = new HashMap<String, ProjectFile>();
 
-        Pattern mask = NetbeansSettings.getInstance().getIgnoreMask();
+        Pattern mask = NetbeansSettings.getInstance().getIgnoreMaskCompiled();
 
         for (FileObject folder : srcFolders) {
             folder.removeFileChangeListener(this);

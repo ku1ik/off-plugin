@@ -40,12 +40,11 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
         this.filter = filter;
         matchingFiles = new ArrayList<OffListElement>();
         if (filter != null && filter.length() > 0) {
-            Pattern mask = settings.getIgnoreMask();
             Pattern regexp = Pattern.compile(escapeFilter(filter));
             boolean withPath = filter.indexOf("/") != -1;
             for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
                 String name = withPath ? file.getPathInProject().toLowerCase() : file.getName().toLowerCase();
-                passFilter(regexp, mask, name, file);
+                passFilter(regexp, name, file);
             }
 
             // sort by filename
@@ -107,7 +106,7 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
         return regex;
 	}
 
-	private void passFilter(Pattern regex, Pattern mask, String name, ProjectFile file) {
+	private void passFilter(Pattern regex, String name, ProjectFile file) {
 		Matcher matcher = regex.matcher(name);
 		if (matcher.matches()) {
 			String label = file.getName();

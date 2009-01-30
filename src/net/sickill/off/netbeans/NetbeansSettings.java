@@ -15,7 +15,7 @@ import org.openide.util.NbPreferences;
  *
  * @author kill
  */
-public class NetbeansSettings implements Settings {
+public class NetbeansSettings extends Settings {
     private static NetbeansSettings settings;
 
     private NetbeansSettings() {
@@ -74,9 +74,8 @@ public class NetbeansSettings implements Settings {
         NbPreferences.forModule(OffPanel.class).putBoolean("smart-match", selected);
     }
 
-    public Pattern getIgnoreMask() {
-        String mask = NbPreferences.forModule(OffPanel.class).get("ignore-mask", Settings.DEFAULT_IGNORE_MASK);
-        return mask.equals("") ? null : Pattern.compile(mask);
+    public String getIgnoreMask() {
+        return NbPreferences.forModule(OffPanel.class).get("ignore-mask", Settings.DEFAULT_IGNORE_MASK);
     }
 
     public void setIgnoreMask(String mask) {
@@ -145,10 +144,5 @@ public class NetbeansSettings implements Settings {
 
     public String getLessPriorityMask() {
         return NbPreferences.forModule(OffPanel.class).get("less-priority-mask", Settings.DEFAULT_LESS_PRIORITY_MASK);
-    }
-
-    public Pattern getLessPriorityMaskCompiled() {
-        String mask = getLessPriorityMask();
-        return mask.equals("") ? null : Pattern.compile("(" + mask.replaceAll("\n", ")|(") + ")");
     }
 }
