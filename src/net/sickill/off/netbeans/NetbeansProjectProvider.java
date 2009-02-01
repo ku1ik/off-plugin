@@ -95,7 +95,7 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
             }
         }
         projectFiles = projectFilesHash.values();
-        resetModel();
+        refreshModel();
     }
 
     public Collection<ProjectFile> getProjectFiles() {
@@ -155,7 +155,7 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
         this.model = m;
     }
 
-    private void resetModel() {
+    private void refreshModel() {
         if (model != null)
             model.refresh();
     }

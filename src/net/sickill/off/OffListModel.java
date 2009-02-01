@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.AbstractListModel;
+import javax.swing.JList;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
@@ -17,10 +18,10 @@ import javax.swing.event.ListDataListener;
  *
  * @author kill
  */
-public class OffListModel extends AbstractListModel implements ListDataListener {
+public class OffListModel extends AbstractListModel { // implements ListDataListener {
 	private static final long serialVersionUID = 7121724322112004624L;
 	private List<OffListElement> matchingFiles;
-	private String filter;
+	private Filter filter;
     private ProjectProvider projectFilesProvider;
     private Settings settings;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
@@ -38,19 +39,18 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
         this.projectFilesProvider = pfp;
     }
 
-    public void refresh() {
-        setFilter(this.filter);
+    public void setFilter(final String f) {
+        this.filter = (f == null ? null : new Filter(f, settings));
+        refresh();
     }
 
-	public void setFilter(final String filter) {
-        this.filter = filter;
+	public void refresh() {
         matchingFiles = new ArrayList<OffListElement>();
-        if (filter != null && filter.length() > 0) {
-            Pattern regexp = Pattern.compile(escapeFilter(filter));
-            boolean withPath = filter.indexOf("/") != -1;
+        if (filter != null) {
+            boolean withPath = filter.toString().indexOf("/") != -1;
             for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
                 String name = withPath ? file.getPathInProject().toLowerCase() : file.getName().toLowerCase();
-                passFilter(regexp, name, file);
+                passFilter(name, file);
             }
 
             // sort by filename
@@ -64,9 +64,9 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
             }
 
             // custom sorting/grouping (ie. JEdit's project viewer groups)
-            if (settings.isCustomSorting()) {
+//            if (settings.isCustomSorting()) {
                 ///Collections.sort(matchedFiles, new FileGroupComparator());
-            }
+//            }
 
             // sort by match distance if smart matching
             if (settings.isSmartMatch() && settings.isDistanceSorting()) {
@@ -85,35 +85,8 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
         fireContentsChanged(this, 0, getSize());
 	}
 
-	private String escapeFilter(String filter) {
-		filter = filter.toLowerCase().replaceAll("\\*{2,}", "*");
-        if (!settings.isMatchFromStart()) {
-            filter = "*" + filter;
-        }
-		String regex;
-		if (settings.isSmartMatch()) {
-			String[] chars = filter.split("");
-			regex = "";
-			for (String c : chars) {
-				if (!c.equals("")) {
-                    if (c.equals("."))
-                        c = "\\.";
-
-                    if (c.equals("*")) {
-                        regex += ".*?";
-                    } else {
-                        regex += c + "([^\\/]*?)";
-                    }
-				}
-			}
-		} else {
-			regex = (filter + "*").replaceAll("\\.", "\\\\.").replaceAll("\\*", "[^\\/]*?");
-		}
-        return regex;
-	}
-
-	private void passFilter(Pattern regex, String name, ProjectFile file) {
-		Matcher matcher = regex.matcher(name);
+	private void passFilter(String name, ProjectFile file) {
+		Matcher matcher = filter.matcher(name);
 		if (matcher.matches()) {
 			String label = file.getName();
 			if (!settings.isShowExt()) {
@@ -157,7 +130,7 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 		return matchingFiles.size();
 	}
 
-	public void contentsChanged(ListDataEvent e) {
+/*	public void contentsChanged(ListDataEvent e) {
 		setFilter(filter);
 	}
 
@@ -168,7 +141,7 @@ public class OffListModel extends AbstractListModel implements ListDataListener 
 	public void intervalRemoved(ListDataEvent e) {
 		setFilter(filter);
 	}
-
+*/
     void incrementAccessCounter(ProjectFile pf) {
         String path = pf.getFullPath();
         if (accessFrequency.containsKey(path)) {

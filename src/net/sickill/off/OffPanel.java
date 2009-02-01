@@ -36,14 +36,14 @@ public class OffPanel extends JPanel {
     public OffPanel(Settings s, ProjectProvider pfp) {
         this.settings = s;
         this.projectFiles = pfp;
-        setupTaz();
+        build();
     }
 
     public void setActionsProvider(ActionsProvider ap) {
         this.actionsProvider = ap;
     }
 
-    private void setupTaz() {
+    private void build() {
 		setLayout(new BorderLayout());
         setBorder(new EmptyBorder(5, 5, 5, 5));
 
