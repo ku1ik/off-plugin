@@ -29,19 +29,16 @@ public class Filter {
 			String[] chars = filter.split("");
 			regex = "";
 			for (String c : chars) {
-				if (!c.equals("")) {
-                    if (c.equals("."))
-                        c = "\\.";
-
-                    if (c.equals("*")) {
-                        regex += ".*?";
-                    } else {
-                        regex += c + "([^\\/]*?)";
-                    }
-				}
+				if (c.equals(""))
+                    continue;
+                if (c.equals("*")) {
+                    regex += ".*?";
+                } else {
+                    regex += "\\Q" + c + "\\E([^\\/]*?)"; // \Q \E quoting
+                }
 			}
 		} else {
-			regex = (filter + "*").replaceAll("\\.", "\\\\.").replaceAll("\\*", "[^\\/]*?");
+			regex = (filter + "*").replaceAll("([^\\*]+)", "\\\\Q$1\\\\E").replaceAll("\\*", "[^\\/]*?");
 		}
 
         pattern = Pattern.compile(regex);
@@ -50,10 +47,6 @@ public class Filter {
     public boolean matches(String s) {
         return matcher(s).matches();
     }
-
-//    int length() {
-//        return stringPattern.length();
-//    }
 
     public String toString() {
         return stringPattern;

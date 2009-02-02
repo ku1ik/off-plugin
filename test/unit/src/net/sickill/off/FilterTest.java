@@ -44,13 +44,17 @@ public class FilterTest {
     public void testNormalMatch() {
         settings.setSmartMatch(false);
         assertTrue(new Filter("foo", settings).matches("foobar.rb"));
+        assertFalse(new Filter("foo", settings).matches("foob/ar.rb"));
         assertTrue(new Filter("Foo", settings).matches("foobar.rb"));
         assertFalse(new Filter("foo", settings).matches("floobar"));
         assertTrue(new Filter("*bar", settings).matches("foobar.rb"));
         assertTrue(new Filter("ba*r", settings).matches("bazaar"));
-//        assertTrue(RegexpTools.prepareFilter("ba\\", settings).matches("ba\\"));
-//        assertTrue(RegexpTools.prepareFilter("ba\\nk", settings).matches("ba\\nk"));
-//        assertFalse(RegexpTools.prepareFilter("ba\\", settings).matches("bank"));
+        assertTrue(new Filter("ba\\", settings).matches("ba\\"));
+        assertTrue(new Filter("ba\\nk", settings).matches("ba\\nk"));
+        assertFalse(new Filter("ba\\", settings).matches("bank"));
+
+        // with dir
+        assertTrue(new Filter("app/mo", settings).matches("app/model1"));
 
         settings.setMatchFromStart(false);
         assertTrue(new Filter("bar", settings).matches("foobar.rb"));
@@ -68,7 +72,11 @@ public class FilterTest {
         assertTrue(new Filter("kab.c", settings).matches("kabal.c"));
         assertFalse(new Filter("blan.cak", settings).matches("blanecak"));
         assertTrue(new Filter("*br2", settings).matches("foobar2000"));
-//        assertTrue(RegexpTools.prepareFilter("ba\\nk", settings).matches("bla\\ncak"));
+        assertTrue(new Filter("ba\\nk", settings).matches("bla\\ncak"));
+
+        // with dir
+        assertTrue(new Filter("a/m/us", settings).matches("app/models/user.rb"));
+        assertFalse(new Filter("a/m/us", settings).matches("app.models.user.rb"));
 
         settings.setMatchFromStart(false);
         assertTrue(new Filter("br2", settings).matches("foobar2000"));
