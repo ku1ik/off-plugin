@@ -147,25 +147,11 @@ public class OffPanel extends JPanel {
 	}
 
 	private void search() {
-		String filePattern = getFilePattern();
-
-		if (filePattern.equals(previousFilePattern)) {
-			return;
-		}
-
-        previousFilePattern = filePattern;
-
-        if (filePattern.equals("*") || filePattern.length() < settings.getMinPatternLength()) {
-            listModel.setFilter(null);
+        if (listModel.setFilter(getFilePattern())) {
             patternInput.setSearchSuccess(true);
+            resultsList.setSelectedIndex(0);
         } else {
-            listModel.setFilter(filePattern);
-            if (listModel.getSize() > 0) {
-                patternInput.setSearchSuccess(true);
-                resultsList.setSelectedIndex(0);
-            } else {
-                patternInput.setSearchSuccess(false);
-            }
+            patternInput.setSearchSuccess(false);
         }
 
 		statusBar.setText("Found " + listModel.getSize() + " files");

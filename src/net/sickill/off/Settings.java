@@ -59,6 +59,7 @@ public abstract class Settings {
     public abstract void setClearOnOpen(boolean selected);
     public abstract void setLessPriorityMask(String mask);
     public abstract String getLessPriorityMask();
+    public abstract void setNameSorting(boolean b);
 
     protected void compileLessPriorityMask() {
         String mask = getLessPriorityMask();

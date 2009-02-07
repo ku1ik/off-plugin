@@ -145,4 +145,9 @@ public class NetbeansSettings extends Settings {
     public String getLessPriorityMask() {
         return NbPreferences.forModule(OffPanel.class).get("less-priority-mask", Settings.DEFAULT_LESS_PRIORITY_MASK);
     }
+
+    @Override
+    public void setNameSorting(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

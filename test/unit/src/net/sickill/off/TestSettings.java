@@ -14,6 +14,13 @@ import net.sickill.off.Settings;
 class TestSettings extends Settings {
     private boolean matchFromStart = true;
     private boolean smartMatch = true;
+    private boolean nameSorting = true;
+    private boolean distanceSorting = true;
+    private boolean popularitySorting = true;
+    private boolean isShowExt = Settings.DEFAULT_SHOW_EXTENSION;
+    private boolean isShowPath = Settings.DEFAULT_SHOW_PATH;
+    private boolean isShowSize = Settings.DEFAULT_SHOW_SIZE;
+    private String lessPriorityMask = Settings.DEFAULT_LESS_PRIORITY_MASK;
 
     public TestSettings() {
     }
@@ -25,12 +32,12 @@ class TestSettings extends Settings {
 
     @Override
     public boolean isDistanceSorting() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return distanceSorting;
     }
 
     @Override
     public boolean isExtensionSorting() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     @Override
@@ -40,22 +47,22 @@ class TestSettings extends Settings {
 
     @Override
     public boolean isPopularitySorting() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return popularitySorting;
     }
 
     @Override
     public boolean isShowExt() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return isShowExt;
     }
 
     @Override
     public boolean isShowPath() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return isShowPath;
     }
 
     @Override
     public boolean isShowSize() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return isShowSize;
     }
 
     @Override
@@ -65,7 +72,7 @@ class TestSettings extends Settings {
 
     @Override
     public boolean isNameSorting() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return nameSorting;
     }
 
     @Override
@@ -100,7 +107,7 @@ class TestSettings extends Settings {
 
     @Override
     public int getMinPatternLength() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return 3;
     }
 
     @Override
@@ -150,7 +157,12 @@ class TestSettings extends Settings {
 
     @Override
     public String getLessPriorityMask() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return lessPriorityMask;
+    }
+
+    @Override
+    public void setNameSorting(boolean b) {
+        nameSorting = b;
     }
 
 }

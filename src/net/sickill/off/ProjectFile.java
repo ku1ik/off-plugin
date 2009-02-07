@@ -26,13 +26,13 @@ public abstract class ProjectFile {
 
     public String getDirectory() {
         String fullPath = getFullPath();
-        int start = projectProvider.getProjectRootPath().length() + 1;
-        int end = fullPath.length() - getName().length() - 1;
+        int start = projectProvider.getProjectRootPath().length();
+        int end = fullPath.length() - getName().length();
         return fullPath.substring(start, end);
     }
 
     public String getPathInProject() {
-        return getDirectory() + "/" + getName();
+        return getDirectory() + getName();
     }
 
     String getExtension() {

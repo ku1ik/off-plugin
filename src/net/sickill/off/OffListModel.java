@@ -39,13 +39,27 @@ public class OffListModel extends AbstractListModel { // implements ListDataList
         this.projectFilesProvider = pfp;
     }
 
-    public void setFilter(final String f) {
-        this.filter = (f == null ? null : new Filter(f, settings));
+    public boolean setFilter(final String f) {
+        if (filter != null &&  f.equals(filter.toString())) {
+            return true;
+        }
+        if (f.length() < settings.getMinPatternLength()) {
+            filter = null;
+            reset();
+            fireContentsChanged(this, 0, getSize());
+            return true;
+        }
+        filter = (f == null ? null : new Filter(f, settings));
         refresh();
+        return getSize() > 0;
+    }
+
+    private void reset() {
+        matchingFiles = new ArrayList<OffListElement>();
     }
 
 	public void refresh() {
-        matchingFiles = new ArrayList<OffListElement>();
+        reset();
         if (filter != null) {
             boolean withPath = filter.toString().indexOf("/") != -1;
             for (ProjectFile file : projectFilesProvider.getProjectFiles()) {

@@ -17,6 +17,9 @@ import static org.junit.Assert.*;
  * @author kill
  */
 public class OffListModelTest {
+    private Settings settings;
+    private ProjectProvider projectProvider;
+    private OffListModel model;
 
     public OffListModelTest() {
     }
@@ -31,90 +34,109 @@ public class OffListModelTest {
 
     @Before
     public void setUp() {
+        settings = new TestSettings();
+        projectProvider = new TestProjectProvider();
+        model = new OffListModel(settings, projectProvider);
     }
 
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of setProjectFilesProvider method, of class OffListModel.
-     */
     @Test
-    public void testSetProjectFilesProvider() {
-        System.out.println("setProjectFilesProvider");
-        ProjectProvider pfp = null;
-        OffListModel instance = null;
-        instance.setProjectFilesProvider(pfp);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testMinPatternLength() {
+        assertTrue(model.setFilter(""));
+        assertEquals(0, model.getSize());
+        assertTrue(model.setFilter("u"));
+        assertEquals(0, model.getSize());
+        assertTrue(model.setFilter("us"));
+        assertEquals(0, model.getSize());
+        assertTrue(model.setFilter("use"));
+        assertTrue(model.getSize() > 0);
     }
 
-    /**
-     * Test of setFilter method, of class OffListModel.
-     */
     @Test
-    public void testSetFilter() {
-        System.out.println("setFilter");
-        String f = "";
-        OffListModel instance = null;
-        instance.setFilter(f);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testFilterWithPath() {
+        assertTrue(model.setFilter("a/m/ut"));
+        assertEquals(1, model.getSize());
     }
 
-    /**
-     * Test of refresh method, of class OffListModel.
-     */
     @Test
-    public void testRefresh() {
-        System.out.println("refresh");
-        OffListModel instance = null;
-        instance.refresh();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testPopularitySorting() {
+        model.setFilter("***");
+        assertFalse(elementNameMatches(0, "Rakefile"));
+        model.incrementAccessCounter(fileByName("Rakefile"));
+        model.refresh();
+        assertTrue(elementNameMatches(0, "Rakefile"));
+    }
+    
+    @Test
+    public void testNameSorting() {
+        settings.setSmartMatch(false);
+        model.setFilter("***");
+        assertTrue(elementNameMatches(0, "helper.rb"));
+        assertTrue(elementNameMatches(model.getSize()-1, "zone.cfg"));
+    }
+    
+    @Test
+    public void testNoSorting() {
+        settings.setSmartMatch(false);
+        settings.setNameSorting(false);
+        model.setFilter("***");
+        assertTrue(elementNameMatches(0, "README"));
+        assertTrue(elementNameMatches(model.getSize()-1, "user_topic.rb"));
     }
 
-    /**
-     * Test of getElementAt method, of class OffListModel.
-     */
     @Test
-    public void testGetElementAt() {
-        System.out.println("getElementAt");
-        int index = 0;
-        OffListModel instance = null;
-        Object expResult = null;
-        Object result = instance.getElementAt(index);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testDistanceSorting() {
+        model.setFilter("rae");
+        assertTrue(model.getSize() == 2);
+        assertTrue(elementNameMatches(0, "Rakefile"));
+        assertTrue(elementNameMatches(1, "README"));
+
+        model.setFilter("ust");
+        assertTrue(model.getSize() == 3);
+        assertTrue(elementNameMatches(0, "user_test.rb"));
+        assertTrue(elementNameMatches(1, "user_topic.rb"));
+        assertTrue(elementNameMatches(2, "users_controller.rb"));
+
+        model.setFilter("hlr");
+        assertTrue(model.getSize() == 2);
+        assertTrue(elementNameMatches(0, "hlr.rb"));
+        assertTrue(elementNameMatches(1, "helper.rb"));
+
+        model.setFilter("index");
+        assertTrue(model.getSize() == 3);
+        assertTrue(elementPathMatches(0, "app/views/elements/index.html"));
+        assertTrue(elementPathMatches(1, "app/views/topics/index.html"));
+        assertTrue(elementPathMatches(2, "app/views/users/index.html"));
     }
 
-    /**
-     * Test of getSize method, of class OffListModel.
-     */
     @Test
-    public void testGetSize() {
-        System.out.println("getSize");
-        OffListModel instance = null;
-        int expResult = 0;
-        int result = instance.getSize();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testPrioritySorting() {
+    }
+    
+    @Test
+    public void testSortingOrder() {
+    } 
+
+    
+    
+    // -----------------------------------------------------------------------------------
+    
+    // helpers
+
+    private boolean elementNameMatches(int index, String n) {
+        OffListElement ole = (OffListElement)model.getElementAt(index);
+        return ole.getFile().getName().equals(n);
     }
 
-    /**
-     * Test of incrementAccessCounter method, of class OffListModel.
-     */
-    @Test
-    public void testIncrementAccessCounter() {
-        System.out.println("incrementAccessCounter");
-        ProjectFile pf = null;
-        OffListModel instance = null;
-        instance.incrementAccessCounter(pf);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    private boolean elementPathMatches(int index, String n) {
+        OffListElement ole = (OffListElement)model.getElementAt(index);
+        return ole.getFile().getPathInProject().equals(n);
     }
 
+    private ProjectFile fileByName(String n) {
+      return ((TestProjectProvider)projectProvider).getFileByName(n);
+    }
 }
