@@ -65,7 +65,7 @@ public class OffListModelTest {
     public void testPopularitySorting() {
         model.setFilter("***");
         assertFalse(elementNameMatches(0, "Rakefile"));
-        model.incrementAccessCounter(fileByName("Rakefile"));
+        model.incrementAccessCounter(findFileInProject("Rakefile"));
         model.refresh();
         assertTrue(elementNameMatches(0, "Rakefile"));
     }
@@ -114,8 +114,22 @@ public class OffListModelTest {
 
     @Test
     public void testPrioritySorting() {
+        settings.setLessPriorityMask(".*inde.*");
+        model.setFilter("***");
+        assertTrue(elementPathMatches(model.getSize() - 3, "app/views/elements/index.html"));
+        assertTrue(elementPathMatches(model.getSize() - 2, "app/views/topics/index.html"));
+        assertTrue(elementPathMatches(model.getSize() - 1, "app/views/users/index.html"));
     }
     
+    @Test
+    public void testIgnoreMask() {
+        model.setFilter("***");
+        assertTrue(findFileInResults("zone.cfg") != null);
+        settings.setIgnoreMask(".*\\.cfg");
+        model.refresh();
+        assertTrue(findFileInResults("zone.cfg") == null); // przeciez to przy imporcie
+    }
+
     @Test
     public void testSortingOrder() {
     } 
@@ -126,17 +140,26 @@ public class OffListModelTest {
     
     // helpers
 
-    private boolean elementNameMatches(int index, String n) {
-        OffListElement ole = (OffListElement)model.getElementAt(index);
-        return ole.getFile().getName().equals(n);
+    private ProjectFile findFileInResults(String name) {
+        for(int i=0; i<model.getSize(); i++) {
+            ProjectFile file = ((OffListElement)model.getElementAt(i)).getFile();
+            if (file.getName().equals(name))
+                return file;
+        }
+        return null;
     }
 
-    private boolean elementPathMatches(int index, String n) {
+    private boolean elementNameMatches(int index, String name) {
         OffListElement ole = (OffListElement)model.getElementAt(index);
-        return ole.getFile().getPathInProject().equals(n);
+        return ole.getFile().getName().equals(name);
     }
 
-    private ProjectFile fileByName(String n) {
-      return ((TestProjectProvider)projectProvider).getFileByName(n);
+    private boolean elementPathMatches(int index, String path) {
+        OffListElement ole = (OffListElement)model.getElementAt(index);
+        return ole.getFile().getPathInProject().equals(path);
+    }
+
+    private ProjectFile findFileInProject(String name) {
+      return ((TestProjectProvider)projectProvider).getFileByName(name);
     }
 }

@@ -21,6 +21,7 @@ class TestSettings extends Settings {
     private boolean isShowPath = Settings.DEFAULT_SHOW_PATH;
     private boolean isShowSize = Settings.DEFAULT_SHOW_SIZE;
     private String lessPriorityMask = Settings.DEFAULT_LESS_PRIORITY_MASK;
+    private String ignoreMask = "";
 
     public TestSettings() {
     }
@@ -117,7 +118,7 @@ class TestSettings extends Settings {
 
     @Override
     public void setIgnoreMask(String mask) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ignoreMask = mask;
     }
 
     @Override
@@ -152,7 +153,7 @@ class TestSettings extends Settings {
 
     @Override
     public void setLessPriorityMask(String mask) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        lessPriorityMask = mask;
     }
 
     @Override
