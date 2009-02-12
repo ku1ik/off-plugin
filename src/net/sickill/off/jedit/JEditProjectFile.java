@@ -14,7 +14,7 @@ import javax.swing.Icon;
  */
 public class JEditProjectFile extends ProjectFile {
     
-    public JEditProjectFile(ProjectProvider pp) {
+    public JEditProjectFile(AbstractProject pp) {
         super(pp);
     }
 

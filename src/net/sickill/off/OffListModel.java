@@ -20,23 +20,34 @@ import javax.swing.event.ListDataListener;
  */
 public class OffListModel extends AbstractListModel { // implements ListDataListener {
 	private static final long serialVersionUID = 7121724322112004624L;
+	private HashMap<String, ProjectFile> allFiles;
 	private List<OffListElement> matchingFiles;
 	private Filter filter;
-    private ProjectProvider projectFilesProvider;
     private Settings settings;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
-    private OffPanel off;
+//    private OffPanel off;
 
-	protected OffListModel(Settings s, ProjectProvider projectFilesProvider) {
-        this.settings = s;
-        this.projectFilesProvider = projectFilesProvider;
-        this.projectFilesProvider.setModel(this);
-        this.filter = null;
-        matchingFiles = new ArrayList<OffListElement>();
+	protected OffListModel(Settings s) {
+        settings = s;
+        filter = null;
+        clear();
 	}
 
-    public void setProjectFilesProvider(ProjectProvider pfp) {
-        this.projectFilesProvider = pfp;
+    public void clear() {
+        allFiles = new HashMap<String, ProjectFile>();
+        reset();
+    }
+
+    private void reset() {
+        matchingFiles = new ArrayList<OffListElement>();
+    }
+
+    public void addFile(ProjectFile pf) {
+        Pattern mask = settings.getIgnoreMaskCompiled();
+        String fullPath = pf.getFullPath();
+        if ((mask == null || !mask.matcher(pf.getPathInProject().toLowerCase()).matches()) && !allFiles.containsKey(fullPath)) {
+            allFiles.put(fullPath, pf);
+        }
     }
 
     public boolean setFilter(final String f) {
@@ -54,15 +65,11 @@ public class OffListModel extends AbstractListModel { // implements ListDataList
         return getSize() > 0;
     }
 
-    private void reset() {
-        matchingFiles = new ArrayList<OffListElement>();
-    }
-
 	public void refresh() {
         reset();
         if (filter != null) {
             boolean withPath = filter.toString().indexOf("/") != -1;
-            for (ProjectFile file : projectFilesProvider.getProjectFiles()) {
+            for (ProjectFile file : allFiles.values()) {
                 String name = withPath ? file.getPathInProject().toLowerCase() : file.getName().toLowerCase();
                 passFilter(name, file);
             }

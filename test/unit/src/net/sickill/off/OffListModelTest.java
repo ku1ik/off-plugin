@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  */
 public class OffListModelTest {
     private Settings settings;
-    private ProjectProvider projectProvider;
+    private AbstractProject project;
     private OffListModel model;
 
     public OffListModelTest() {
@@ -34,9 +34,10 @@ public class OffListModelTest {
 
     @Before
     public void setUp() {
-        settings = new TestSettings();
-        projectProvider = new TestProjectProvider();
-        model = new OffListModel(settings, projectProvider);
+        settings = new FakeSettings();
+        project = new FakeProject();
+        model = new OffListModel(settings);
+        project.init(model);
     }
 
     @After
@@ -127,7 +128,7 @@ public class OffListModelTest {
         assertTrue(findFileInResults("zone.cfg") != null);
         settings.setIgnoreMask(".*\\.cfg");
         model.refresh();
-        assertTrue(findFileInResults("zone.cfg") == null); // przeciez to przy imporcie
+        assertTrue(findFileInResults("zone.cfg") == null);
     }
 
     @Test
@@ -160,6 +161,6 @@ public class OffListModelTest {
     }
 
     private ProjectFile findFileInProject(String name) {
-      return ((TestProjectProvider)projectProvider).getFileByName(name);
+      return ((FakeProject)project).getFileByName(name);
     }
 }

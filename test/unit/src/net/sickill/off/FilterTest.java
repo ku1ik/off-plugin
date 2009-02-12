@@ -33,7 +33,7 @@ public class FilterTest {
 
     @Before
     public void setUp() {
-        settings = new TestSettings(); // smart = true, matchFromStart = true
+        settings = new FakeSettings(); // smart = true, matchFromStart = true
     }
 
     @After

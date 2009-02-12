@@ -12,7 +12,7 @@ import javax.swing.Icon;
  * @author kill
  */
 public abstract class ProjectFile {
-    private ProjectProvider projectProvider;
+    private AbstractProject projectProvider;
 
     public abstract int getGroupPriority();
     public abstract Icon getIcon();
@@ -20,7 +20,7 @@ public abstract class ProjectFile {
     public abstract String getFullPath();
     public abstract long getSize();
 
-    public ProjectFile(ProjectProvider pp) {
+    public ProjectFile(AbstractProject pp) {
         this.projectProvider = pp;
     }
 

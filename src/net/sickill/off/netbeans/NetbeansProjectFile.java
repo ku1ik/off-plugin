@@ -23,7 +23,7 @@ import org.openide.util.Exceptions;
 class NetbeansProjectFile extends ProjectFile {
     FileObject fileObject;
 
-    public NetbeansProjectFile(ProjectProvider pp, FileObject fo) {
+    public NetbeansProjectFile(AbstractProject pp, FileObject fo) {
         super(pp);
         this.fileObject = fo;
     }

@@ -12,7 +12,7 @@ import net.sickill.off.*;
  *
  * @author kill
  */
-public class JEditProjectProvider implements ProjectProvider {
+public class JEditProjectProvider implements AbstractProject {
 
     public Collection<ProjectFile> getProjectFiles() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -23,6 +23,11 @@ public class JEditProjectProvider implements ProjectProvider {
     }
 
     public void setModel(OffListModel aThis) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void init(OffListModel model) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

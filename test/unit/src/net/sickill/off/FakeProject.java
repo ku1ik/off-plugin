@@ -9,17 +9,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import net.sickill.off.OffListModel;
 import net.sickill.off.ProjectFile;
-import net.sickill.off.ProjectProvider;
+import net.sickill.off.AbstractProject;
 
 /**
  *
  * @author kill
  */
-class TestProjectProvider implements ProjectProvider {
+class FakeProject implements AbstractProject {
     static String PROJECT_ROOT = "/home/kill/workspace/project-x/";
     private Collection<ProjectFile> col;
+    private OffListModel model;
 
-    public TestProjectProvider() {
+    public FakeProject() {
         col = new ArrayList<ProjectFile>();
         String[] names = {                 "README",
                                            "Rakefile",
@@ -38,19 +39,12 @@ class TestProjectProvider implements ProjectProvider {
         };
 
         for (String name : names) {
-            col.add(new TestProjectFile(this, name));
+            col.add(new FakeProjectFile(this, name));
         }
-    }
-
-    public Collection<ProjectFile> getProjectFiles() {
-        return col;
     }
 
     public String getProjectRootPath() {
         return PROJECT_ROOT;
-    }
-
-    public void setModel(OffListModel aThis) {
     }
 
     public ProjectFile getFileByName(String n) {
@@ -59,6 +53,18 @@ class TestProjectProvider implements ProjectProvider {
                 return pf;
         }
         return null;
+    }
+
+    @Override
+    public void init(OffListModel model) {
+        this.model = model;
+        fetchProjectFiles();
+    }
+
+    private void fetchProjectFiles() {
+        for (ProjectFile pf : col) {
+            model.addFile(pf);
+        }
     }
 
 }

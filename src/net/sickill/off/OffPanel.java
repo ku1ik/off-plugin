@@ -23,24 +23,23 @@ import javax.swing.border.EmptyBorder;
  * @author kill
  */
 public class OffPanel extends JPanel {
+    // UI
 	private OffTextField patternInput;
 	private OffList resultsList;
-	private JLabel statusBar;
 	private OffListModel listModel;
-    private Timer timer;
-	private String previousFilePattern = "";
+	private JLabel statusBar;
+
+    // providers
     private ActionsProvider actionsProvider;
     private Settings settings;
-    private ProjectProvider projectFiles;
+    private AbstractProject project;
 
-    public OffPanel(Settings s, ProjectProvider pfp) {
+    private Timer timer;
+
+    public OffPanel(Settings s, AbstractProject p) {
         this.settings = s;
-        this.projectFiles = pfp;
+        this.project = p;
         build();
-    }
-
-    public void setActionsProvider(ActionsProvider ap) {
-        this.actionsProvider = ap;
     }
 
     private void build() {
@@ -61,30 +60,31 @@ public class OffPanel extends JPanel {
 		pnlNorth.add(searchIcon, BorderLayout.WEST);
 		pnlNorth.add(patternInput, BorderLayout.CENTER);
 
-		this.add(pnlNorth, BorderLayout.NORTH);
+		add(pnlNorth, BorderLayout.NORTH);
 
-		this.listModel = new OffListModel(settings, projectFiles);
-        projectFiles.setModel(this.listModel);
-
+		listModel = new OffListModel(settings);//, projectFiles);
+//        project.setModel(this.listModel);
+        project.init(listModel);
 		resultsList = new OffList(this, listModel);
 
-		//this.listModel.setList(resultsList);
-
 		JScrollPane scroller = new JScrollPane(resultsList);
-		this.add(scroller, BorderLayout.CENTER);
+		add(scroller, BorderLayout.CENTER);
 
 		// status bar
 		JPanel pnlSouth = new JPanel(new BorderLayout());
 		statusBar = new JLabel(" ");
 		pnlSouth.add(statusBar, BorderLayout.EAST);
-		this.add(pnlSouth, BorderLayout.SOUTH);
+		add(pnlSouth, BorderLayout.SOUTH);
 
 		// Add escape-key event handling to widgets
 		KeyHandler keyHandler = new KeyHandler();
-		this.addKeyListener(keyHandler);
+		addKeyListener(keyHandler);
 		patternInput.addKeyListener(keyHandler);
 		resultsList.addKeyListener(keyHandler);
+    }
 
+    public void setActionsProvider(ActionsProvider ap) {
+        this.actionsProvider = ap;
     }
 
     private void closeMainWindow() {
@@ -97,12 +97,7 @@ public class OffPanel extends JPanel {
 
     public void openSelected() {
 		// For enter keys pressed inside txtfilename
-
-//		int selectedIndex = resultsList.getSelectedIndex();
-//		int listSize = resultsList.getModel().getSize();
-
         closeMainWindow();
-//		if (selectedIndex != -1 && listSize != 0 && selectedIndex < listSize) {
         for (Object o : resultsList.getSelectedValues()) {
 //			int lineNo = getLineNumber();
             ProjectFile pf = ((OffListElement)o).getFile();

@@ -11,10 +11,9 @@ import java.util.Collection;
  *
  * @author kill
  */
-public interface ProjectProvider {
+public interface AbstractProject {
 
-    public Collection<ProjectFile> getProjectFiles();
+    public void init(OffListModel model);
+//    public Collection<ProjectFile> getProjectFiles();
     public String getProjectRootPath();
-
-    public void setModel(OffListModel aThis);
 }

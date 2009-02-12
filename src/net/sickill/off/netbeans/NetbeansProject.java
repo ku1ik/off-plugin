@@ -30,24 +30,31 @@ import org.openide.filesystems.FileRenameEvent;
  *
  * @author kill
  */
-public class NetbeansProjectProvider implements ProjectProvider, ChangeListener, FileChangeListener, PropertyChangeListener {
-    private static NetbeansProjectProvider instance;
-    private static Collection<ProjectFile> projectFiles;
+public class NetbeansProject implements AbstractProject, ChangeListener, FileChangeListener, PropertyChangeListener {
+    private static NetbeansProject instance;
+//    private static Collection<ProjectFile> projectFiles;
     private Logger logger;
     private OffListModel model;
 
-    static NetbeansProjectProvider getInstance() {
+    static NetbeansProject getInstance() {
         if (instance == null) {
-            instance = new NetbeansProjectProvider();
+            instance = new NetbeansProject();
         }
         return instance;
     }
 
-    public NetbeansProjectProvider() {
+    public NetbeansProject() {
         logger = Logger.getLogger(this.getClass().getName());
     }
 
+    public void init(OffListModel m) {
+        model = m;
+        fetchProjectFiles();
+    }
+
     public void fetchProjectFiles() {
+        model.clear();
+
         // ensure we have listener registered
         OpenProjects.getDefault().removePropertyChangeListener(this);
         OpenProjects.getDefault().addPropertyChangeListener(this);
@@ -56,7 +63,7 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
         if (p == null) {
             logger.info("[OFF] no main project selected");
             System.out.println("[OFF] no main project selected");
-            projectFiles = new ArrayList<ProjectFile>();
+//            projectFiles = new ArrayList<ProjectFile>();
             return;
         }
         logger.info("[OFF] fetching files from project " + p.getProjectDirectory().getPath());
@@ -71,9 +78,8 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
 //        }
         List<FileObject> srcFolders = ProjectOperations.getDataFiles(p);
 //        ArrayList<ProjectFile> projectFiles = new ArrayList<ProjectFile>();
-        HashMap<String, ProjectFile> projectFilesHash = new HashMap<String, ProjectFile>();
+//        HashMap<String, ProjectFile> projectFilesHash = new HashMap<String, ProjectFile>();
 
-        Pattern mask = NetbeansSettings.getInstance().getIgnoreMaskCompiled();
 
         for (FileObject folder : srcFolders) {
             folder.removeFileChangeListener(this);
@@ -87,22 +93,16 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
                 } else {
 //                    projectFiles.add(new NetbeansProjectFile(this, fo));
                     ProjectFile pf = new NetbeansProjectFile(this, fo);
-                    String fullPath = pf.getFullPath();
-                    if ((mask == null || !mask.matcher(pf.getPathInProject().toLowerCase()).matches()) && !projectFilesHash.containsKey(fullPath)) {
-                        projectFilesHash.put(fullPath, pf);
-                    }
+                    model.addFile(pf);
+//                    String fullPath = pf.getFullPath();
+//                    if ((mask == null || !mask.matcher(pf.getPathInProject().toLowerCase()).matches()) && !projectFilesHash.containsKey(fullPath)) {
+//                        projectFilesHash.put(fullPath, pf);
+//                    }
                 }
             }
         }
-        projectFiles = projectFilesHash.values();
-        refreshModel();
-    }
-
-    public Collection<ProjectFile> getProjectFiles() {
-        if (projectFiles == null) {
-            fetchProjectFiles();
-        }
-        return projectFiles;
+//        projectFiles = projectFilesHash.values();
+        model.refresh();
     }
 
     public String getProjectRootPath() {
@@ -151,12 +151,4 @@ public class NetbeansProjectProvider implements ProjectProvider, ChangeListener,
         }
     }
 
-    public void setModel(OffListModel m) {
-        this.model = m;
-    }
-
-    private void refreshModel() {
-        if (model != null)
-            model.refresh();
-    }
 }

@@ -13,7 +13,7 @@ import javax.swing.Icon;
  * @author kill
  */
 public class JEditProjectViewerFile extends ProjectFile {
-    public JEditProjectViewerFile(ProjectProvider pp) {
+    public JEditProjectViewerFile(AbstractProject pp) {
         super(pp);
     }
 

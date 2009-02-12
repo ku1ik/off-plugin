@@ -14,6 +14,6 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
-        NetbeansProjectProvider.getInstance().fetchProjectFiles();
+//        NetbeansProject.getInstance().fetchProjectFiles();
     }
 }

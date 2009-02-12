@@ -11,7 +11,7 @@ import net.sickill.off.Settings;
  *
  * @author kill
  */
-class TestSettings extends Settings {
+class FakeSettings extends Settings {
     private boolean matchFromStart = true;
     private boolean smartMatch = true;
     private boolean nameSorting = true;
@@ -23,7 +23,7 @@ class TestSettings extends Settings {
     private String lessPriorityMask = Settings.DEFAULT_LESS_PRIORITY_MASK;
     private String ignoreMask = "";
 
-    public TestSettings() {
+    public FakeSettings() {
     }
 
     @Override
@@ -113,7 +113,7 @@ class TestSettings extends Settings {
 
     @Override
     public String getIgnoreMask() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ignoreMask;
     }
 
     @Override

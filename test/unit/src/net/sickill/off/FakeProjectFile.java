@@ -11,11 +11,11 @@ import javax.swing.Icon;
  *
  * @author kill
  */
-class TestProjectFile extends ProjectFile {
+class FakeProjectFile extends ProjectFile {
     private String pathInProject;
     private String name;
 
-    public TestProjectFile(ProjectProvider pp, String path) {
+    public FakeProjectFile(AbstractProject pp, String path) {
         super(pp);
         this.pathInProject = path;
         this.name = path.substring(path.lastIndexOf("/") + 1);
@@ -38,7 +38,7 @@ class TestProjectFile extends ProjectFile {
 
     @Override
     public String getFullPath() {
-        return TestProjectProvider.PROJECT_ROOT + pathInProject;
+        return FakeProject.PROJECT_ROOT + pathInProject;
     }
 
     @Override
