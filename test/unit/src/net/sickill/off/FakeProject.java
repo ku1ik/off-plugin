@@ -62,6 +62,7 @@ class FakeProject implements AbstractProject {
     }
 
     private void fetchProjectFiles() {
+        model.clear();
         for (ProjectFile pf : col) {
             model.addFile(pf);
         }

@@ -80,15 +80,6 @@ public class OffListModelTest {
     }
     
     @Test
-    public void testNoSorting() {
-        settings.setSmartMatch(false);
-        settings.setNameSorting(false);
-        model.setFilter("***");
-        assertTrue(elementNameMatches(0, "README"));
-        assertTrue(elementNameMatches(model.getSize()-1, "user_topic.rb"));
-    }
-
-    @Test
     public void testDistanceSorting() {
         model.setFilter("rae");
         assertTrue(model.getSize() == 2);
@@ -127,6 +118,7 @@ public class OffListModelTest {
         model.setFilter("***");
         assertTrue(findFileInResults("zone.cfg") != null);
         settings.setIgnoreMask(".*\\.cfg");
+        project.init(model);
         model.refresh();
         assertTrue(findFileInResults("zone.cfg") == null);
     }
