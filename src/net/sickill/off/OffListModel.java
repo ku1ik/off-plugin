@@ -116,7 +116,7 @@ public class OffListModel extends AbstractListModel { // implements ListDataList
 			if (settings.isShowPath()) {
 				String pathInProject = file.getDirectory();
 				if (!pathInProject.equals("")) {
-					label += " [" + pathInProject + "]";
+					label += " [" + pathInProject.substring(0, pathInProject.length()-1) + "]";
 				}
 			}
 			if (settings.isShowSize()) {
@@ -124,6 +124,8 @@ public class OffListModel extends AbstractListModel { // implements ListDataList
 			}
 
 			OffListElement e = new OffListElement(matcher, file, label);
+
+            // lower priority
             if (!settings.getLessPriorityMask().equals("")) {
                 if (settings.getLessPriorityMaskCompiled().matcher(file.getPathInProject().toLowerCase()).matches()) {
                     e.setPriority(-1);

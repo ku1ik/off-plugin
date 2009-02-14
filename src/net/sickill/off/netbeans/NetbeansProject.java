@@ -7,15 +7,11 @@ package net.sickill.off.netbeans;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Collection;
 import javax.swing.event.ChangeEvent;
 import net.sickill.off.*;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ui.OpenProjects;
@@ -32,9 +28,9 @@ import org.openide.filesystems.FileRenameEvent;
  */
 public class NetbeansProject implements AbstractProject, ChangeListener, FileChangeListener, PropertyChangeListener {
     private static NetbeansProject instance;
-//    private static Collection<ProjectFile> projectFiles;
     private Logger logger;
     private OffListModel model;
+    private String projectRoot;
 
     static NetbeansProject getInstance() {
         if (instance == null) {
@@ -62,12 +58,11 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
         Project p = OpenProjects.getDefault().getMainProject();
         if (p == null) {
             logger.info("[OFF] no main project selected");
-            System.out.println("[OFF] no main project selected");
-//            projectFiles = new ArrayList<ProjectFile>();
             return;
         }
-        logger.info("[OFF] fetching files from project " + p.getProjectDirectory().getPath());
-        System.out.println("[OFF] fetching files from project " + p.getProjectDirectory().getPath());
+
+        projectRoot = OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + "/";
+        logger.info("[OFF] fetching files from project " + projectRoot);
 
 //        Sources s = ProjectUtils.getSources(p);
         //s.addChangeListener(this);
@@ -77,9 +72,6 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
 //            group.getRootFolder().addFileChangeListener(this);
 //        }
         List<FileObject> srcFolders = ProjectOperations.getDataFiles(p);
-//        ArrayList<ProjectFile> projectFiles = new ArrayList<ProjectFile>();
-//        HashMap<String, ProjectFile> projectFilesHash = new HashMap<String, ProjectFile>();
-
 
         for (FileObject folder : srcFolders) {
             folder.removeFileChangeListener(this);
@@ -91,22 +83,15 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
                     fo.removeFileChangeListener(this);
                     fo.addFileChangeListener(this);
                 } else {
-//                    projectFiles.add(new NetbeansProjectFile(this, fo));
-                    ProjectFile pf = new NetbeansProjectFile(this, fo);
-                    model.addFile(pf);
-//                    String fullPath = pf.getFullPath();
-//                    if ((mask == null || !mask.matcher(pf.getPathInProject().toLowerCase()).matches()) && !projectFilesHash.containsKey(fullPath)) {
-//                        projectFilesHash.put(fullPath, pf);
-//                    }
+                    model.addFile(new NetbeansProjectFile(this, fo));
                 }
             }
         }
-//        projectFiles = projectFilesHash.values();
         model.refresh();
     }
 
     public String getProjectRootPath() {
-        return OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath();
+        return projectRoot;
     }
 
     public void stateChanged(ChangeEvent e) {

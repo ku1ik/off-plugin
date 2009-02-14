@@ -5,11 +5,13 @@
 
 package net.sickill.off;
 
+import java.util.regex.Pattern;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openide.util.NotImplementedException;
 import static org.junit.Assert.*;
 
 /**
@@ -125,8 +127,29 @@ public class OffListModelTest {
 
     @Test
     public void testSortingOrder() {
+        throw new NotImplementedException();
     } 
 
+    @Test
+    public void testLabel() {
+        // README
+        // lib/tags.rb
+        // app/models/user_topic.rb
+        OffListElement ole;
+
+        model.setFilter("readme");
+        ole = (OffListElement)model.getElementAt(0);
+        assertTrue(Pattern.matches("^README$", ole.getLabel()));
+
+        model.setFilter("tags");
+        ole = (OffListElement)model.getElementAt(0);
+        System.out.println(ole.getLabel());
+        assertTrue(Pattern.matches("^tags\\.rb\\s\\[lib\\]$", ole.getLabel()));
+
+        model.setFilter("user_topic");
+        ole = (OffListElement)model.getElementAt(0);
+        assertTrue(Pattern.matches("^user_topic\\.rb\\s\\[app\\/models\\]$", ole.getLabel()));
+    }
     
     
     // -----------------------------------------------------------------------------------

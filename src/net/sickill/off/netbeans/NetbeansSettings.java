@@ -6,7 +6,6 @@
 package net.sickill.off.netbeans;
 
 import java.util.prefs.Preferences;
-import java.util.regex.Pattern;
 import net.sickill.off.Settings;
 import net.sickill.off.OffPanel;
 import org.openide.util.NbPreferences;

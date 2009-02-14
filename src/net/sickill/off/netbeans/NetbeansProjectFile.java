@@ -21,11 +21,27 @@ import org.openide.util.Exceptions;
  * @author kill
  */
 class NetbeansProjectFile extends ProjectFile {
-    FileObject fileObject;
+    private FileObject fileObject;
+    private String fullPath;
+    private String name;
+    private long size;
+    private Icon icon;
 
     public NetbeansProjectFile(AbstractProject pp, FileObject fo) {
         super(pp);
-        this.fileObject = fo;
+        fileObject = fo;
+        fullPath = fileObject.getPath();
+        name = fileObject.getNameExt();
+        size = fileObject.getSize();
+
+        try {
+            DataObject dataObj = DataObject.find(fileObject);
+            Node n = dataObj.getNodeDelegate();
+            icon = new ImageIcon(n.getIcon(BeanInfo.ICON_COLOR_16x16));
+        } catch (DataObjectNotFoundException ex) {
+            icon = null;
+            Exceptions.printStackTrace(ex);
+        }
     }
 
     public FileObject getFileObject() {
@@ -37,26 +53,18 @@ class NetbeansProjectFile extends ProjectFile {
     }
 
     public Icon getIcon() {
-        try {
-            DataObject dataObj = DataObject.find(fileObject);
-            Node n = dataObj.getNodeDelegate();
-            return new ImageIcon(n.getIcon(BeanInfo.ICON_COLOR_16x16));
-        } catch (DataObjectNotFoundException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-        return null;
+        return icon;
     }
 
     public String getName() {
-        return fileObject.getNameExt();
+        return name;
     }
 
     public String getFullPath() {
-        return fileObject.getPath();
-        //return FileUtil.getFileDisplayName(fileObject);
+        return fullPath;
     }
 
     public long getSize() {
-        return fileObject.getSize();
+        return size;
     }
 }

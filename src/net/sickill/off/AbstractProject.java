@@ -5,8 +5,6 @@
 
 package net.sickill.off;
 
-import java.util.Collection;
-
 /**
  *
  * @author kill
@@ -14,6 +12,5 @@ import java.util.Collection;
 public interface AbstractProject {
 
     public void init(OffListModel model);
-//    public Collection<ProjectFile> getProjectFiles();
-    public String getProjectRootPath();
+    public String getProjectRootPath(); // return path WITH trailing slash
 }
