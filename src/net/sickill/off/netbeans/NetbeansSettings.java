@@ -79,6 +79,7 @@ public class NetbeansSettings extends Settings {
 
     public void setIgnoreMask(String mask) {
         NbPreferences.forModule(OffPanel.class).put("ignore-mask", mask);
+        compileIgnoreMask();
     }
 
     public boolean getMatchFromStart() {

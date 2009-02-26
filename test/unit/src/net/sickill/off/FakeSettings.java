@@ -119,6 +119,7 @@ class FakeSettings extends Settings {
     @Override
     public void setIgnoreMask(String mask) {
         ignoreMask = mask;
+        compileIgnoreMask();
     }
 
     @Override

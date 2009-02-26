@@ -126,6 +126,15 @@ public class OffListModelTest {
     }
 
     @Test
+    public void testSvnGitIgnoring() {
+        model.setFilter("***");
+        assertTrue(findFileInResults(".git/config") == null);
+        assertTrue(findFileInResults("myapp/.git/config") == null);
+        assertTrue(findFileInResults(".svn/file") == null);
+        assertTrue(findFileInResults("myapp/.svn/file") == null);
+    }
+
+    @Test
     public void testSortingOrder() {
         throw new NotImplementedException();
     } 

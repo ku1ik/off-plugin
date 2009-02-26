@@ -36,6 +36,10 @@ class FakeProject implements AbstractProject {
                                       "spec/zone.cfg",
                         "app/views/elements/index.html",
                                 "app/models/user_topic.rb",
+                                      ".git/config",
+                                "myapp/.git/config",
+                                      ".svn/file",
+                                "myapp/.svn/file"
         };
 
         for (String name : names) {
