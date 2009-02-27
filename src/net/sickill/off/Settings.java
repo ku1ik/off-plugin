@@ -19,7 +19,7 @@ public abstract class Settings {
     public static boolean DEFAULT_NAME_SORTING = true;
     public static boolean DEFAULT_EXTENSION_SORTING = false;
     public static boolean DEFAULT_SMART_MATCH = true;
-    public static String DEFAULT_IGNORE_MASK = "(^gems\\/|(.*\\/)?\\.svn\\/|(.*\\/)?\\.git\\/).*";
+    public static String DEFAULT_IGNORE_MASK = "^gems\\/";
     public static boolean DEFAULT_SHOW_EXTENSION = true;
     public static boolean DEFAULT_SHOW_PATH = true;
     public static boolean DEFAULT_SHOW_SIZE = false;
@@ -67,7 +67,7 @@ public abstract class Settings {
     }
 
     protected void compileIgnoreMask() {
-        String mask = getIgnoreMask();
+        String mask = (getIgnoreMask().trim() + "\n(.*\\/)?\\.svn\\/.*\n(.*\\/)?\\.git\\/.*").trim(); // ignore git and svn repos files
         ignoreMaskCompiled = mask.equals("") ? null : Pattern.compile("(" + mask.replaceAll("\n", ")|(") + ")");
     }
 
