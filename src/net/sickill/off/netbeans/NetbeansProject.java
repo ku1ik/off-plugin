@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
+import org.netbeans.api.project.ProjectUtils;
+import org.netbeans.api.project.SourceGroup;
+import org.netbeans.api.project.Sources;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.netbeans.spi.project.support.ProjectOperations;
 import org.openide.filesystems.FileAttributeEvent;
@@ -64,26 +67,25 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
         projectRoot = OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + "/";
         logger.info("[OFF] fetching files from project " + projectRoot);
 
-//        Sources s = ProjectUtils.getSources(p);
+        Sources s = ProjectUtils.getSources(p);
         //s.addChangeListener(this);
-//        SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
-//        for (SourceGroup group : groups) {
-//            logger.info("group: " + group.getName() + " | " + group.getRootFolder().getPath());
-//            group.getRootFolder().addFileChangeListener(this);
-//        }
-        List<FileObject> srcFolders = ProjectOperations.getDataFiles(p);
+        SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
 
-        for (FileObject folder : srcFolders) {
+        for (SourceGroup group : groups) {
+            logger.info("[OFF] found source group: " + group.getName() + " (" + group.getRootFolder().getPath() + ")");
+            FileObject folder = group.getRootFolder();
             folder.removeFileChangeListener(this);
             folder.addFileChangeListener(this);
             Enumeration<? extends FileObject> children = folder.getChildren(true);
             while (children.hasMoreElements()) {
                 FileObject fo = children.nextElement();
-                if (fo.isFolder()) {
-                    fo.removeFileChangeListener(this);
-                    fo.addFileChangeListener(this);
-                } else {
-                    model.addFile(new NetbeansProjectFile(this, fo));
+                if (fo.isValid() && group.contains(fo)) {
+                    if (fo.isFolder()) {
+                        fo.removeFileChangeListener(this);
+                        fo.addFileChangeListener(this);
+                    } else {
+                        model.addFile(new NetbeansProjectFile(this, fo));
+                    }
                 }
             }
         }

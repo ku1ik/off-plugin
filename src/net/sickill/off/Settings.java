@@ -67,7 +67,7 @@ public abstract class Settings {
     }
 
     protected void compileIgnoreMask() {
-        String mask = (getIgnoreMask().trim() + "\n(.*\\/)?\\.svn\\/.*\n(.*\\/)?\\.git\\/.*").trim(); // ignore git and svn repos files
+        String mask = getIgnoreMask().trim();
         ignoreMaskCompiled = mask.equals("") ? null : Pattern.compile("(" + mask.replaceAll("\n", ")|(") + ")");
     }
 
