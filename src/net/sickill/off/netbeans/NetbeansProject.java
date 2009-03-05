@@ -17,6 +17,7 @@ import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
 import org.netbeans.api.project.ui.OpenProjects;
+import org.netbeans.api.queries.VisibilityQuery;
 import org.openide.filesystems.FileAttributeEvent;
 import org.openide.filesystems.FileChangeListener;
 import org.openide.filesystems.FileEvent;
@@ -77,11 +78,11 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
             Enumeration<? extends FileObject> children = folder.getChildren(true);
             while (children.hasMoreElements()) {
                 FileObject fo = children.nextElement();
-                if (fo.isValid() && group.contains(fo)) { // && VisibilityQuery.getDefault().isVisible(child)
+                if (fo.isValid() && group.contains(fo) && VisibilityQuery.getDefault().isVisible(fo)) {
                     if (fo.isFolder()) {
                         fo.removeFileChangeListener(this);
                         fo.addFileChangeListener(this);
-                    } else {
+                    } else if (fo.isData()) {
                         model.addFile(new NetbeansProjectFile(this, fo));
                     }
                 }
