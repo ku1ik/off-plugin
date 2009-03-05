@@ -119,19 +119,16 @@ public class OffListModelTest {
     public void testIgnoreMask() {
         model.setFilter("***");
         assertTrue(findFileInResults("zone.cfg") != null);
+
         settings.setIgnoreMask(".*\\.cfg");
         project.init(model);
         model.refresh();
         assertTrue(findFileInResults("zone.cfg") == null);
-    }
 
-    @Test
-    public void testSvnGitIgnoring() {
-        model.setFilter("***");
-        assertTrue(findFileInResults(".git/config") == null);
-        assertTrue(findFileInResults("myapp/.git/config") == null);
-        assertTrue(findFileInResults(".svn/file") == null);
-        assertTrue(findFileInResults("myapp/.svn/file") == null);
+        settings.setIgnoreMask("^gems\\/");
+        project.init(model);
+        model.refresh();
+        assertTrue(findFileInResults("gems/gems/jola.pl") == null);
     }
 
     @Test

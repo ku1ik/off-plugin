@@ -10,7 +10,6 @@ import java.beans.PropertyChangeListener;
 import javax.swing.event.ChangeEvent;
 import net.sickill.off.*;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
@@ -18,7 +17,6 @@ import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
 import org.netbeans.api.project.ui.OpenProjects;
-import org.netbeans.spi.project.support.ProjectOperations;
 import org.openide.filesystems.FileAttributeEvent;
 import org.openide.filesystems.FileChangeListener;
 import org.openide.filesystems.FileEvent;
@@ -64,7 +62,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
             return;
         }
 
-        projectRoot = OpenProjects.getDefault().getMainProject().getProjectDirectory().getPath() + "/";
+        projectRoot = p.getProjectDirectory().getPath() + "/";
         logger.info("[OFF] fetching files from project " + projectRoot);
 
         Sources s = ProjectUtils.getSources(p);
@@ -72,14 +70,14 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
         SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
 
         for (SourceGroup group : groups) {
-            logger.info("[OFF] found source group: " + group.getName() + " (" + group.getRootFolder().getPath() + ")");
             FileObject folder = group.getRootFolder();
+            logger.info("[OFF] found source group: " + group.getName() + " (" + folder.getPath() + ")");
             folder.removeFileChangeListener(this);
             folder.addFileChangeListener(this);
             Enumeration<? extends FileObject> children = folder.getChildren(true);
             while (children.hasMoreElements()) {
                 FileObject fo = children.nextElement();
-                if (fo.isValid() && group.contains(fo)) {
+                if (fo.isValid() && group.contains(fo)) { // && VisibilityQuery.getDefault().isVisible(child)
                     if (fo.isFolder()) {
                         fo.removeFileChangeListener(this);
                         fo.addFileChangeListener(this);
@@ -112,8 +110,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
     }
 
     public void fileChanged(FileEvent fe) {
-        logger.info("fileChanged");
-        fetchProjectFiles();
+        logger.info("fileChanged: ignoring internal file changes");
     }
 
     public void fileDeleted(FileEvent fe) {
@@ -127,8 +124,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
     }
 
     public void fileAttributeChanged(FileAttributeEvent fe) {
-        logger.info("fileAttributeChanged");
-        fetchProjectFiles();
+        logger.info("fileAttributeChanged: ignoring");
     }
 
     public void propertyChange(PropertyChangeEvent evt) {

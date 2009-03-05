@@ -5,27 +5,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.AbstractListModel;
-import javax.swing.JList;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 
 /**
  *
  * @author kill
  */
-public class OffListModel extends AbstractListModel { // implements ListDataListener {
+public class OffListModel extends AbstractListModel {
 	private static final long serialVersionUID = 7121724322112004624L;
 	private HashMap<String, ProjectFile> allFiles;
 	private List<OffListElement> matchingFiles;
 	private Filter filter;
     private Settings settings;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
-//    private OffPanel off;
 
 	protected OffListModel(Settings s) {
         settings = s;
@@ -45,7 +40,12 @@ public class OffListModel extends AbstractListModel { // implements ListDataList
     public void addFile(ProjectFile pf) {
         Pattern mask = settings.getIgnoreMaskCompiled();
         String fullPath = pf.getFullPath();
-        if ((mask == null || !mask.matcher(pf.getPathInProject().toLowerCase()).matches()) && !allFiles.containsKey(fullPath)) {
+        String pathInProject = pf.getPathInProject().toLowerCase();
+        Logger logger = Logger.getLogger(this.getClass().getName());
+//        logger.info("[OFF] mask: "+ mask); 
+//        logger.info("[OFF] addFile("+ pathInProject +")");
+        if ((mask == null || !mask.matcher(pathInProject).matches()) && !allFiles.containsKey(fullPath)) {
+//            logger.info("[OFF] no match, adding");
             allFiles.put(fullPath, pf);
         }
     }
@@ -153,18 +153,6 @@ public class OffListModel extends AbstractListModel { // implements ListDataList
 		return matchingFiles.size();
 	}
 
-/*	public void contentsChanged(ListDataEvent e) {
-		setFilter(filter);
-	}
-
-	public void intervalAdded(ListDataEvent e) {
-		setFilter(filter);
-	}
-
-	public void intervalRemoved(ListDataEvent e) {
-		setFilter(filter);
-	}
-*/
     void incrementAccessCounter(ProjectFile pf) {
         String path = pf.getFullPath();
         if (accessFrequency.containsKey(path)) {
