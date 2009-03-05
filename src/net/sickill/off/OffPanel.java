@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+import org.netbeans.api.project.ui.OpenProjects;
 
 /**
  *
@@ -64,6 +65,7 @@ public class OffPanel extends JPanel {
 
 		listModel = new OffListModel(settings);//, projectFiles);
 //        project.setModel(this.listModel);
+
         project.init(listModel);
 		resultsList = new OffList(this, listModel);
 

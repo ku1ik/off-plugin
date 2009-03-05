@@ -33,6 +33,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
     private Logger logger;
     private OffListModel model;
     private String projectRoot;
+    private ImportWorker worker;
 
     static NetbeansProject getInstance() {
         if (instance == null) {
@@ -42,53 +43,104 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
     }
 
     public NetbeansProject() {
+        worker = new ImportWorker(this);
         logger = Logger.getLogger(this.getClass().getName());
     }
 
     public void init(OffListModel m) {
         model = m;
+        OpenProjects.getDefault().addPropertyChangeListener(this);
         fetchProjectFiles();
     }
 
-    public void fetchProjectFiles() {
-        model.clear();
+    public synchronized void fetchProjectFiles() {
+        if (worker.isRunning()) {
+            worker.restart();
+        } else {
+            worker.start();
+        }
+    }
 
-        // ensure we have listener registered
-        OpenProjects.getDefault().removePropertyChangeListener(this);
-        OpenProjects.getDefault().addPropertyChangeListener(this);
+    class ImportWorker implements Runnable {
+        private NetbeansProject project;
+        private boolean running = false;
+        private boolean shouldRestart = false;
 
-        Project p = OpenProjects.getDefault().getMainProject();
-        if (p == null) {
-            logger.info("[OFF] no main project selected");
-            return;
+        public ImportWorker(NetbeansProject project) {
+            this.project = project;
         }
 
-        projectRoot = p.getProjectDirectory().getPath() + "/";
-        logger.info("[OFF] fetching files from project " + projectRoot);
+        public void start() {
+            setRunning(true);
+            Thread t = new Thread(this);
+            t.start();
+        }
 
-        Sources s = ProjectUtils.getSources(p);
-        //s.addChangeListener(this);
-        SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
+        public synchronized boolean isRunning() {
+            return running;
+        }
 
-        for (SourceGroup group : groups) {
-            FileObject folder = group.getRootFolder();
-            logger.info("[OFF] found source group: " + group.getName() + " (" + folder.getPath() + ")");
-            folder.removeFileChangeListener(this);
-            folder.addFileChangeListener(this);
-            Enumeration<? extends FileObject> children = folder.getChildren(true);
-            while (children.hasMoreElements()) {
-                FileObject fo = children.nextElement();
-                if (fo.isValid() && group.contains(fo) && VisibilityQuery.getDefault().isVisible(fo)) {
-                    if (fo.isFolder()) {
-                        fo.removeFileChangeListener(this);
-                        fo.addFileChangeListener(this);
-                    } else if (fo.isData()) {
-                        model.addFile(new NetbeansProjectFile(this, fo));
-                    }
+        public synchronized void setRunning(boolean value) {
+            running = value;
+        }
+
+        public synchronized void restart() {
+            shouldRestart = true;
+        }
+
+
+        @Override
+        public void run() {
+            boolean firstRun = true;
+            do {
+                shouldRestart = false;
+                model.clear();
+
+                if (firstRun) {
+                    logger.info("[OFF] ImportWorker started...");
+                    firstRun = false;
+                } else {
+                    logger.info("[OFF] ImportWorker restarted...");
                 }
-            }
+
+                Project p = OpenProjects.getDefault().getMainProject();
+                if (p == null) {
+                    logger.info("[OFF] no main project selected");
+                } else {
+                    projectRoot = p.getProjectDirectory().getPath() + "/";
+                    logger.info("[OFF] fetching files from project " + projectRoot);
+
+                    Sources s = ProjectUtils.getSources(p);
+                    //s.addChangeListener(this);
+                    SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
+
+                    for (SourceGroup group : groups) {
+                        FileObject folder = group.getRootFolder();
+                        logger.info("[OFF] found source group: " + group.getName() + " (" + folder.getPath() + ")");
+                        folder.removeFileChangeListener(project);
+                        folder.addFileChangeListener(project);
+                        Enumeration<? extends FileObject> children = folder.getChildren(true);
+                        while (children.hasMoreElements()) {
+                            FileObject fo = children.nextElement();
+                            if (fo.isValid() && group.contains(fo) && VisibilityQuery.getDefault().isVisible(fo)) {
+                                if (fo.isFolder()) {
+                                    fo.removeFileChangeListener(project);
+                                    fo.addFileChangeListener(project);
+                                } else if (fo.isData()) {
+                                    model.addFile(new NetbeansProjectFile(project, fo));
+                                }
+                            }
+                        }
+                    }
+
+                } 
+                model.refresh();
+            } while (shouldRestart);
+
+            logger.info("[OFF] ImportWorker finished.");
+            setRunning(false);
         }
-        model.refresh();
+
     }
 
     public String getProjectRootPath() {
