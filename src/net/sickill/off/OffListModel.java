@@ -21,15 +21,20 @@ public class OffListModel extends AbstractListModel {
 	private Filter filter;
     private Settings settings;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
+    Logger logger;
+    Object mutex = new Object();
 
 	protected OffListModel(Settings s) {
         settings = s;
         filter = null;
+        logger = Logger.getLogger(this.getClass().getName());
         clear();
 	}
 
     public void clear() {
-        allFiles = new HashMap<String, ProjectFile>();
+        synchronized(mutex) {
+            allFiles = new HashMap<String, ProjectFile>();
+        }
         reset();
     }
 
@@ -41,12 +46,13 @@ public class OffListModel extends AbstractListModel {
         Pattern mask = settings.getIgnoreMaskCompiled();
         String fullPath = pf.getFullPath();
         String pathInProject = pf.getPathInProject().toLowerCase();
-        Logger logger = Logger.getLogger(this.getClass().getName());
 //        logger.info("[OFF] mask: "+ mask); 
 //        logger.info("[OFF] addFile("+ pathInProject +")");
-        if ((mask == null || !mask.matcher(pathInProject).matches()) && !allFiles.containsKey(fullPath)) {
-//            logger.info("[OFF] no match, adding");
-            allFiles.put(fullPath, pf);
+        synchronized(mutex) {
+            if ((mask == null || !mask.matcher(pathInProject).matches()) && !allFiles.containsKey(fullPath)) {
+    //            logger.info("[OFF] no match, adding");
+                allFiles.put(fullPath, pf);
+            }
         }
     }
 
@@ -61,17 +67,21 @@ public class OffListModel extends AbstractListModel {
             return true;
         }
         filter = (f == null ? null : new Filter(f, settings));
-        refresh();
+        refilter();
         return getSize() > 0;
     }
 
-	public void refresh() {
+	public void refilter() {
         reset();
         if (filter != null) {
+
+            logger.info("[OFF] refiltering model");
             boolean withPath = filter.toString().indexOf("/") != -1;
-            for (ProjectFile file : allFiles.values()) {
-                String name = withPath ? file.getPathInProject().toLowerCase() : file.getName().toLowerCase();
-                passFilter(name, file);
+            synchronized(mutex) {
+                for (ProjectFile file : allFiles.values()) {
+                    String name = withPath ? file.getPathInProject().toLowerCase() : file.getName().toLowerCase();
+                    passFilter(name, file);
+                }
             }
 
             // sort by filename

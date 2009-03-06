@@ -69,7 +69,7 @@ public class OffListModelTest {
         model.setFilter("***");
         assertFalse(elementNameMatches(0, "Rakefile"));
         model.incrementAccessCounter(findFileInProject("Rakefile"));
-        model.refresh();
+        model.refilter();
         assertTrue(elementNameMatches(0, "Rakefile"));
     }
     
@@ -122,12 +122,12 @@ public class OffListModelTest {
 
         settings.setIgnoreMask(".*\\.cfg");
         project.init(model);
-        model.refresh();
+        model.refilter();
         assertTrue(findFileInResults("zone.cfg") == null);
 
         settings.setIgnoreMask("^gems\\/");
         project.init(model);
-        model.refresh();
+        model.refilter();
         assertTrue(findFileInResults("gems/gems/jola.pl") == null);
     }
 

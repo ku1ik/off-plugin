@@ -76,18 +76,17 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
             t.start();
         }
 
-        public synchronized boolean isRunning() {
+        public boolean isRunning() {
             return running;
         }
 
-        public synchronized void setRunning(boolean value) {
+        public void setRunning(boolean value) {
             running = value;
         }
 
-        public synchronized void restart() {
+        public void restart() {
             shouldRestart = true;
         }
-
 
         @Override
         public void run() {
@@ -134,7 +133,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
                     }
 
                 } 
-                model.refresh();
+                model.refilter();
             } while (shouldRestart);
 
             logger.info("[OFF] ImportWorker finished.");
