@@ -116,20 +116,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
                     for (SourceGroup group : groups) {
                         FileObject folder = group.getRootFolder();
                         logger.info("[OFF] found source group: " + group.getName() + " (" + folder.getPath() + ")");
-                        folder.removeFileChangeListener(project);
-                        folder.addFileChangeListener(project);
-                        Enumeration<? extends FileObject> children = folder.getChildren(true);
-                        while (children.hasMoreElements()) {
-                            FileObject fo = children.nextElement();
-                            if (fo.isValid() && group.contains(fo) && VisibilityQuery.getDefault().isVisible(fo)) {
-                                if (fo.isFolder()) {
-                                    fo.removeFileChangeListener(project);
-                                    fo.addFileChangeListener(project);
-                                } else if (fo.isData()) {
-                                    model.addFile(new NetbeansProjectFile(project, fo));
-                                }
-                            }
-                        }
+                        collectFiles(group, folder);
                     }
 
                 } 
@@ -140,6 +127,20 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
             setRunning(false);
         }
 
+        private void collectFiles(SourceGroup group, FileObject dir) {
+            dir.removeFileChangeListener(project);
+            dir.addFileChangeListener(project);
+            FileObject[] children = dir.getChildren();
+            for (FileObject child : children) {
+                if (child.isValid() && group.contains(child) && VisibilityQuery.getDefault().isVisible(child)) {
+                    if (child.isFolder()) {
+                        collectFiles(group, child);
+                    } else if (child.isData()) {
+                        model.addFile(new NetbeansProjectFile(project, child));
+                    }
+                }
+            }
+        }
     }
 
     public String getProjectRootPath() {
