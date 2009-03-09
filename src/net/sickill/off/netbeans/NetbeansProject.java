@@ -35,7 +35,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
     private String projectRoot;
     private ImportWorker worker;
 
-    static NetbeansProject getInstance() {
+    public static NetbeansProject getInstance() {
         if (instance == null) {
             instance = new NetbeansProject();
         }

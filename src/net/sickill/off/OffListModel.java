@@ -46,11 +46,8 @@ public class OffListModel extends AbstractListModel {
         Pattern mask = settings.getIgnoreMaskCompiled();
         String fullPath = pf.getFullPath();
         String pathInProject = pf.getPathInProject().toLowerCase();
-//        logger.info("[OFF] mask: "+ mask); 
-//        logger.info("[OFF] addFile("+ pathInProject +")");
         synchronized(mutex) {
             if ((mask == null || !mask.matcher(pathInProject).matches()) && !allFiles.containsKey(fullPath)) {
-    //            logger.info("[OFF] no match, adding");
                 allFiles.put(fullPath, pf);
             }
         }

@@ -5,6 +5,7 @@
 package net.sickill.off.netbeans.options;
 
 import net.sickill.off.Settings;
+import net.sickill.off.netbeans.NetbeansProject;
 import net.sickill.off.netbeans.NetbeansSettings;
 
 final class OffOptionsPanel extends javax.swing.JPanel {
@@ -192,6 +193,7 @@ final class OffOptionsPanel extends javax.swing.JPanel {
         s.setMatchFromStart(matchFromStart.isSelected());
         s.setClearOnOpen(clearOnOpen.isSelected());
         s.setLessPriorityMask(lessPriorityMask.getText());
+        NetbeansProject.getInstance().fetchProjectFiles();
     }
 
     boolean valid() {

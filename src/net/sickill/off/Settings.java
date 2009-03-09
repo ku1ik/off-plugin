@@ -19,7 +19,7 @@ public abstract class Settings {
     public static boolean DEFAULT_NAME_SORTING = true;
     public static boolean DEFAULT_EXTENSION_SORTING = false;
     public static boolean DEFAULT_SMART_MATCH = true;
-    public static String DEFAULT_IGNORE_MASK = "^gems\\/";
+    public static String DEFAULT_IGNORE_MASK = "^gems\\/.+";
     public static boolean DEFAULT_SHOW_EXTENSION = true;
     public static boolean DEFAULT_SHOW_PATH = true;
     public static boolean DEFAULT_SHOW_SIZE = false;
@@ -62,7 +62,7 @@ public abstract class Settings {
     public abstract void setNameSorting(boolean b);
 
     protected void compileLessPriorityMask() {
-        String mask = getLessPriorityMask();
+        String mask = getLessPriorityMask().trim();
         lessPriorityMaskCompiled = mask.equals("") ? null : Pattern.compile("(" + mask.replaceAll("\n", ")|(") + ")");
     }
 
