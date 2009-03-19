@@ -22,7 +22,15 @@ import org.openide.windows.WindowManager;
 public class NetbeansDialog extends JDialog implements ComponentListener {
     static OffPanel taz;
     static Settings settings;
+    static NetbeansDialog instance;
     ActionsProvider actions;
+
+    public static NetbeansDialog getInstance() {
+        if (instance == null) {
+            instance = new NetbeansDialog();
+        }
+        return instance;
+    }
 
     public NetbeansDialog() {
         super(WindowManager.getDefault().getMainWindow(), "Open File Fast");
@@ -39,6 +47,15 @@ public class NetbeansDialog extends JDialog implements ComponentListener {
         setLocationRelativeTo(null);
         getContentPane().add(taz, BorderLayout.CENTER);
         taz.focusOnDefaultComponent();
+    }
+
+    public void showDialog() {
+        this.setVisible(true);
+    }
+
+    public void closeDialog() {
+        dispose();
+        instance = null;
     }
 
     public void componentResized(ComponentEvent e) {

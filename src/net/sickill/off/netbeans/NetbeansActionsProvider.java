@@ -23,9 +23,9 @@ import org.openide.text.NbDocument;
  * @author kill
  */
 public class NetbeansActionsProvider implements ActionsProvider {
-    private JDialog dialog;
+    private NetbeansDialog dialog;
 
-    public NetbeansActionsProvider(JDialog dialog) {
+    public NetbeansActionsProvider(NetbeansDialog dialog) {
         this.dialog = dialog;
     }
 
@@ -52,7 +52,7 @@ public class NetbeansActionsProvider implements ActionsProvider {
     }
 
     public void closeWindow() {
-        dialog.dispose();
+        dialog.closeDialog();
     }
 
 }
