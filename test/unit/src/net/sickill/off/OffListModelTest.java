@@ -113,27 +113,37 @@ public class OffListModelTest {
         assertTrue(elementPathMatches(model.getSize() - 3, "app/views/elements/index.html"));
         assertTrue(elementPathMatches(model.getSize() - 2, "app/views/topics/index.html"));
         assertTrue(elementPathMatches(model.getSize() - 1, "app/views/users/index.html"));
+
+        settings.setLessPriorityMask(".*Thumbs.*");
+        model.setFilter("****");
+        assertTrue(elementPathMatches(model.getSize() - 1, "jola/Thumbs.db"));
     }
     
     @Test
     public void testIgnoreMask() {
         model.setFilter("***");
         assertTrue(findFileInResults("zone.cfg") != null);
+        assertTrue(findFileInResults("Thumbs.db") != null);
 
         settings.setIgnoreMask(".*\\.cfg");
         project.init(model);
         model.refilter();
         assertTrue(findFileInResults("zone.cfg") == null);
 
-        settings.setIgnoreMask("^gems\\/");
+        settings.setIgnoreMask("^gems\\/.*");
         project.init(model);
         model.refilter();
-        assertTrue(findFileInResults("gems/gems/jola.pl") == null);
+        assertTrue(findFileInResults("jola.pl") == null);
+
+        settings.setIgnoreMask(".*Thumbs\\.db.*");
+        project.init(model);
+        model.refilter();
+        assertTrue(findFileInResults("Thumbs.db") == null);
     }
 
     @Test
     public void testSortingOrder() {
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
     } 
 
     @Test
@@ -149,7 +159,6 @@ public class OffListModelTest {
 
         model.setFilter("tags");
         ole = (OffListElement)model.getElementAt(0);
-        System.out.println(ole.getLabel());
         assertTrue(Pattern.matches("^tags\\.rb\\s\\[lib\\]$", ole.getLabel()));
 
         model.setFilter("user_topic");

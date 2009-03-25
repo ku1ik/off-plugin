@@ -84,4 +84,8 @@ public abstract class Settings {
         }
         return ignoreMaskCompiled;
     }
+
+    public void lessPriorityMaskChanged() {
+        lessPriorityMaskCompiled = null;
+    }
 }

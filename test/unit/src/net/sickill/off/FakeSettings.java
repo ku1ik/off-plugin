@@ -5,8 +5,6 @@
 
 package net.sickill.off;
 
-import net.sickill.off.Settings;
-
 /**
  *
  * @author kill
@@ -155,6 +153,7 @@ class FakeSettings extends Settings {
     @Override
     public void setLessPriorityMask(String mask) {
         lessPriorityMask = mask;
+        lessPriorityMaskChanged();
     }
 
     @Override

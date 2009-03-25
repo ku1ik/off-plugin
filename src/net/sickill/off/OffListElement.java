@@ -56,4 +56,8 @@ public class OffListElement {
     int getPriority() {
         return this.priority;
     }
+
+    public String toString() {
+        return getLabel();
+    }
 }

@@ -45,9 +45,8 @@ public class OffListModel extends AbstractListModel {
     public void addFile(ProjectFile pf) {
         Pattern mask = settings.getIgnoreMaskCompiled();
         String fullPath = pf.getFullPath();
-        String pathInProject = pf.getPathInProject().toLowerCase();
         synchronized(mutex) {
-            if ((mask == null || !mask.matcher(pathInProject).matches()) && !allFiles.containsKey(fullPath)) {
+            if ((mask == null || !mask.matcher(pf.getPathInProject()).matches()) && !allFiles.containsKey(fullPath)) {
                 allFiles.put(fullPath, pf);
             }
         }
@@ -134,7 +133,7 @@ public class OffListModel extends AbstractListModel {
 
             // lower priority
             if (!settings.getLessPriorityMask().equals("")) {
-                if (settings.getLessPriorityMaskCompiled().matcher(file.getPathInProject().toLowerCase()).matches()) {
+                if (settings.getLessPriorityMaskCompiled().matcher(file.getPathInProject()).matches()) {
                     e.setPriority(-1);
                 }
             }

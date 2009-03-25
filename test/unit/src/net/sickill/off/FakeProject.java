@@ -7,9 +7,6 @@ package net.sickill.off;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import net.sickill.off.OffListModel;
-import net.sickill.off.ProjectFile;
-import net.sickill.off.AbstractProject;
 
 /**
  *
@@ -36,6 +33,7 @@ class FakeProject implements AbstractProject {
                                       "spec/zone.cfg",
                         "app/views/elements/index.html",
                                 "app/models/user_topic.rb",
+                                      "jola/Thumbs.db",
                                  "gems/gems/jola.pl"
         };
 
