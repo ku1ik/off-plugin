@@ -19,6 +19,8 @@ public abstract class ProjectFile {
     public abstract String getName();
     public abstract String getFullPath();
     public abstract long getSize();
+    public abstract void rename(String newName);
+    public abstract Object getId();
 
     public ProjectFile(AbstractProject pp) {
         this.projectProvider = pp;

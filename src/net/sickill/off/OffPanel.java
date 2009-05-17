@@ -43,6 +43,16 @@ public class OffPanel extends JPanel {
         build();
     }
 
+    void setIndexing(boolean indexing) {
+        if (indexing) {
+            patternInput.setEnabled(false);
+            statusBar.setText("Indexing project files, please wait...");
+        } else {
+            patternInput.setEnabled(true);
+            statusBar.setText("Indexing finished");
+        }
+    }
+
     private void build() {
 		setLayout(new BorderLayout());
         setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,20 +73,19 @@ public class OffPanel extends JPanel {
 
 		add(pnlNorth, BorderLayout.NORTH);
 
-		listModel = new OffListModel(settings);//, projectFiles);
-//        project.setModel(this.listModel);
+		// status bar
+		JPanel pnlSouth = new JPanel(new BorderLayout());
+		statusBar = new JLabel(" ");
+		pnlSouth.add(statusBar, BorderLayout.EAST);
+		add(pnlSouth, BorderLayout.SOUTH);
+
+		listModel = new OffListModel(settings, this);
 
         project.init(listModel);
 		resultsList = new OffList(this, listModel);
 
 		JScrollPane scroller = new JScrollPane(resultsList);
 		add(scroller, BorderLayout.CENTER);
-
-		// status bar
-		JPanel pnlSouth = new JPanel(new BorderLayout());
-		statusBar = new JLabel(" ");
-		pnlSouth.add(statusBar, BorderLayout.EAST);
-		add(pnlSouth, BorderLayout.SOUTH);
 
 		// Add escape-key event handling to widgets
 		KeyHandler keyHandler = new KeyHandler();

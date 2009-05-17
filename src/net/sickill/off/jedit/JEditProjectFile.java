@@ -44,4 +44,14 @@ public class JEditProjectFile extends ProjectFile {
         //getFile().getLength());
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public void rename(String newName) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object getId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -93,6 +93,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
             boolean firstRun = true;
             do {
                 shouldRestart = false;
+                model.setIndexing(true);
                 model.clear();
 
                 if (firstRun) {
@@ -120,6 +121,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
                     }
 
                 } 
+                model.setIndexing(false);
                 model.refilter();
             } while (shouldRestart);
 
@@ -153,13 +155,12 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
     }
 
     public void fileFolderCreated(FileEvent fe) {
-        logger.info("fileFolderCreated");
-        fetchProjectFiles();
+        logger.info("fileFolderCreated, ignoring");
     }
 
     public void fileDataCreated(FileEvent fe) {
         logger.info("fileDataCreated");
-        fetchProjectFiles();
+        model.addFile(new NetbeansProjectFile(this, fe.getFile()));
     }
 
     public void fileChanged(FileEvent fe) {
@@ -168,16 +169,16 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
 
     public void fileDeleted(FileEvent fe) {
         logger.info("fileDeleted");
-        fetchProjectFiles();
+        model.removeFile(fe.getFile());
     }
 
     public void fileRenamed(FileRenameEvent fe) {
         logger.info("fileRenamed");
-        fetchProjectFiles();
+        model.renameFile(fe.getFile(), fe.getName() + "." + fe.getExt());
     }
 
     public void fileAttributeChanged(FileAttributeEvent fe) {
-        logger.info("fileAttributeChanged: ignoring");
+        logger.info("fileAttributeChanged, ignoring");
     }
 
     public void propertyChange(PropertyChangeEvent evt) {

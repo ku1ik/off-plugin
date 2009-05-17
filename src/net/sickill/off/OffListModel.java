@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.AbstractListModel;
+import org.openide.filesystems.FileObject;
 
 /**
  *
@@ -16,26 +17,34 @@ import javax.swing.AbstractListModel;
  */
 public class OffListModel extends AbstractListModel {
 	private static final long serialVersionUID = 7121724322112004624L;
-	private HashMap<String, ProjectFile> allFiles;
+//	private HashMap<String, ProjectFile> allFiles;
+    private ArrayList<ProjectFile> allFiles;
 	private List<OffListElement> matchingFiles;
 	private Filter filter;
     private Settings settings;
+    private OffPanel offPanel;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
     Logger logger;
     Object mutex = new Object();
 
-	protected OffListModel(Settings s) {
+	protected OffListModel(Settings s, OffPanel offPanel) {
         settings = s;
         filter = null;
         logger = Logger.getLogger(this.getClass().getName());
+        this.offPanel = offPanel;
         clear();
 	}
 
     public void clear() {
         synchronized(mutex) {
-            allFiles = new HashMap<String, ProjectFile>();
+//            allFiles = new HashMap<String, ProjectFile>();
+            allFiles = new ArrayList<ProjectFile>();
         }
         reset();
+    }
+
+    public void setIndexing(boolean indexing) {
+        offPanel.setIndexing(indexing);
     }
 
     private void reset() {
@@ -46,8 +55,32 @@ public class OffListModel extends AbstractListModel {
         Pattern mask = settings.getIgnoreMaskCompiled();
         String fullPath = pf.getFullPath();
         synchronized(mutex) {
-            if ((mask == null || !mask.matcher(pf.getPathInProject()).matches()) && !allFiles.containsKey(fullPath)) {
-                allFiles.put(fullPath, pf);
+            if ((mask == null || !mask.matcher(pf.getPathInProject()).matches()) && !allFiles.contains(pf)) {
+//                allFiles.put(fullPath, pf);
+                allFiles.add(pf);
+            }
+        }
+    }
+
+    public void renameFile(Object id, String newName) {
+        synchronized(mutex) {
+            for (ProjectFile f : allFiles) {
+                if (f.getId() == id) {
+                    f.rename(newName);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void removeFile(Object id) {
+        synchronized(mutex) {
+            for (ProjectFile f : allFiles) {
+                if (f.getId() == id) {
+                    allFiles.remove(f);
+                    refilter();
+                    break;
+                }
             }
         }
     }
@@ -74,7 +107,7 @@ public class OffListModel extends AbstractListModel {
             logger.info("[OFF] refiltering model");
             boolean withPath = filter.toString().indexOf("/") != -1;
             synchronized(mutex) {
-                for (ProjectFile file : allFiles.values()) {
+                for (ProjectFile file : allFiles) {
                     String name = withPath ? file.getPathInProject().toLowerCase() : file.getName().toLowerCase();
                     passFilter(name, file);
                 }

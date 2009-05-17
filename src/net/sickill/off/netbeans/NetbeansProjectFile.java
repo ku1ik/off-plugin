@@ -31,8 +31,8 @@ class NetbeansProjectFile extends ProjectFile {
         super(pp);
         fileObject = fo;
         fullPath = fileObject.getPath();
-        name = fileObject.getNameExt();
         size = fileObject.getSize();
+        updateName();
 
         try {
             DataObject dataObj = DataObject.find(fileObject);
@@ -42,6 +42,10 @@ class NetbeansProjectFile extends ProjectFile {
             icon = null;
             Exceptions.printStackTrace(ex);
         }
+    }
+
+    public void updateName() {
+        name = fileObject.getNameExt();
     }
 
     public FileObject getFileObject() {
@@ -66,5 +70,14 @@ class NetbeansProjectFile extends ProjectFile {
 
     public long getSize() {
         return size;
+    }
+
+    @Override
+    public void rename(String newName) {
+        updateName();
+    }
+
+    public Object getId() {
+        return fileObject;
     }
 }
