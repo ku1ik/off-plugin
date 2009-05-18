@@ -83,7 +83,7 @@ public class OffPanel extends JPanel implements ItemListener {
 		// status bar
 		JPanel pnlSouth = new JPanel(new BorderLayout());
 		statusBar = new JLabel(" ");
-		pnlSouth.add(statusBar, BorderLayout.EAST);
+		pnlSouth.add(statusBar, BorderLayout.SOUTH);
 		add(pnlSouth, BorderLayout.SOUTH);
 
 		listModel = new OffListModel(settings, this);
@@ -94,9 +94,10 @@ public class OffPanel extends JPanel implements ItemListener {
 		JScrollPane scroller = new JScrollPane(resultsList);
 		add(scroller, BorderLayout.CENTER);
 
+        pnlSouth.add(new JLabel("Project "), BorderLayout.WEST);
         // projects combo
         projectChooser = new JComboBox();
-        add(projectChooser, BorderLayout.SOUTH);
+        pnlSouth.add(projectChooser, BorderLayout.CENTER);
         projectChooser.addItemListener(this);
 
 		// Add escape-key event handling to widgets
