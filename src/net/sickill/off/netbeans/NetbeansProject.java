@@ -5,6 +5,8 @@
 
 package net.sickill.off.netbeans;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -34,6 +36,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
     private OffListModel model;
     private String projectRoot;
     private ImportWorker worker;
+    private Project selectedProject;
 
     public static NetbeansProject getInstance() {
         if (instance == null) {
@@ -59,6 +62,18 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
         } else {
             worker.start();
         }
+    }
+
+    public void setSelectedProject(Project selected) {
+        selectedProject = selected;
+        fetchProjectFiles();
+    }
+
+    public Project getSelectedProject() {
+        if (selectedProject == null) {
+            setSelectedProject(OpenProjects.getDefault().getMainProject());
+        }
+        return selectedProject;
     }
 
     class ImportWorker implements Runnable {
@@ -103,14 +118,13 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
                     logger.info("[OFF] ImportWorker restarted...");
                 }
 
-                Project p = OpenProjects.getDefault().getMainProject();
-                if (p == null) {
+                if (selectedProject == null) {
                     logger.info("[OFF] no main project selected");
                 } else {
-                    projectRoot = p.getProjectDirectory().getPath() + "/";
+                    projectRoot = selectedProject.getProjectDirectory().getPath() + "/";
                     logger.info("[OFF] fetching files from project " + projectRoot);
 
-                    Sources s = ProjectUtils.getSources(p);
+                    Sources s = ProjectUtils.getSources(selectedProject);
                     //s.addChangeListener(this);
                     SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
 
@@ -184,7 +198,9 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(OpenProjects.PROPERTY_MAIN_PROJECT)) {
             logger.info("main project changed");
-            fetchProjectFiles();
+            selectedProject = null;
+            getSelectedProject();
+//            fetchProjectFiles();
         }
     }
 

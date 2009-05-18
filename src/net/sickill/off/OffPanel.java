@@ -5,30 +5,37 @@
 
 package net.sickill.off;
 
+import net.sickill.off.netbeans.ProjectItem;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+import net.sickill.off.netbeans.NetbeansProject;
+import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ui.OpenProjects;
 
 /**
  *
  * @author kill
  */
-public class OffPanel extends JPanel {
+public class OffPanel extends JPanel implements ItemListener {
     // UI
 	private OffTextField patternInput;
 	private OffList resultsList;
 	private OffListModel listModel;
 	private JLabel statusBar;
+    private JComboBox projectChooser;
 
     // providers
     private ActionsProvider actionsProvider;
@@ -87,6 +94,11 @@ public class OffPanel extends JPanel {
 		JScrollPane scroller = new JScrollPane(resultsList);
 		add(scroller, BorderLayout.CENTER);
 
+        // projects combo
+        projectChooser = new JComboBox();
+        add(projectChooser, BorderLayout.SOUTH);
+        projectChooser.addItemListener(this);
+
 		// Add escape-key event handling to widgets
 		KeyHandler keyHandler = new KeyHandler();
 		addKeyListener(keyHandler);
@@ -127,7 +139,25 @@ public class OffPanel extends JPanel {
 		}
 	}
 
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            NetbeansProject.getInstance().setSelectedProject(((ProjectItem)e.getItem()).getProject());
+            patternInput.requestFocus();
+        }
+    }
+
     public void focusOnDefaultComponent() {
+        Project selected = NetbeansProject.getInstance().getSelectedProject();
+        projectChooser.removeAllItems();
+        projectChooser.removeItemListener(this);
+        for (Project p : OpenProjects.getDefault().getOpenProjects()) {
+            ProjectItem item = new ProjectItem(p);
+            projectChooser.addItem(item);
+            if (selected == p) {
+                projectChooser.setSelectedItem(item);
+            }
+        }
+        projectChooser.addItemListener(this);
         if (settings.isClearOnOpen()) {
             patternInput.setText("");
         } else {

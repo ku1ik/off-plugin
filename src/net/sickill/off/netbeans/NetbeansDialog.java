@@ -46,11 +46,11 @@ public class NetbeansDialog extends JDialog implements ComponentListener {
         setSize(settings.getDialogWidth(), settings.getDialogHeight());
         setLocationRelativeTo(null);
         getContentPane().add(taz, BorderLayout.CENTER);
-        taz.focusOnDefaultComponent();
     }
 
     public void showDialog() {
         this.setVisible(true);
+        taz.focusOnDefaultComponent();
     }
 
     public void closeDialog() {
