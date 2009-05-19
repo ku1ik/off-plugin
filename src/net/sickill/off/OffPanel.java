@@ -53,9 +53,11 @@ public class OffPanel extends JPanel implements ItemListener {
     void setIndexing(boolean indexing) {
         if (indexing) {
             patternInput.setEnabled(false);
+            projectChooser.setEnabled(false);
             statusBar.setText("Indexing project files, please wait...");
         } else {
             patternInput.setEnabled(true);
+            projectChooser.setEnabled(true);
             statusBar.setText(" ");
         }
     }
@@ -86,7 +88,11 @@ public class OffPanel extends JPanel implements ItemListener {
 		statusBar = new JLabel(" ");
 		pnlStatus.add(statusBar, BorderLayout.EAST);
         pnlSouth.add(pnlStatus, BorderLayout.SOUTH);
-		add(pnlSouth, BorderLayout.SOUTH);
+        projectChooser = new JComboBox();
+        pnlSouth.add(projectChooser, BorderLayout.CENTER);
+        projectChooser.addItemListener(this);
+
+        add(pnlSouth, BorderLayout.SOUTH);
 
 		listModel = new OffListModel(settings, this);
 
@@ -98,9 +104,6 @@ public class OffPanel extends JPanel implements ItemListener {
 
         pnlSouth.add(new JLabel("Project "), BorderLayout.WEST);
         // projects combo
-        projectChooser = new JComboBox();
-        pnlSouth.add(projectChooser, BorderLayout.CENTER);
-        projectChooser.addItemListener(this);
 
 		// Add escape-key event handling to widgets
 		KeyHandler keyHandler = new KeyHandler();
