@@ -56,7 +56,7 @@ public class OffPanel extends JPanel implements ItemListener {
             statusBar.setText("Indexing project files, please wait...");
         } else {
             patternInput.setEnabled(true);
-            statusBar.setText("Indexing finished");
+            statusBar.setText(" ");
         }
     }
 
@@ -82,8 +82,10 @@ public class OffPanel extends JPanel implements ItemListener {
 
 		// status bar
 		JPanel pnlSouth = new JPanel(new BorderLayout(5, 5));
+        JPanel pnlStatus = new JPanel(new BorderLayout());
 		statusBar = new JLabel(" ");
-		pnlSouth.add(statusBar, BorderLayout.SOUTH);
+		pnlStatus.add(statusBar, BorderLayout.EAST);
+        pnlSouth.add(pnlStatus, BorderLayout.SOUTH);
 		add(pnlSouth, BorderLayout.SOUTH);
 
 		listModel = new OffListModel(settings, this);

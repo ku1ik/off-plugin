@@ -71,7 +71,13 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
 
     public Project getSelectedProject() {
         if (selectedProject == null) {
-            setSelectedProject(OpenProjects.getDefault().getMainProject());
+            Project p = OpenProjects.getDefault().getMainProject();
+            if (p == null) {
+                Project[] projects = OpenProjects.getDefault().getOpenProjects();
+                if (projects.length > 0)
+                    p = projects[0];
+            }
+            setSelectedProject(p);
         }
         return selectedProject;
     }
