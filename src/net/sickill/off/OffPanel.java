@@ -61,7 +61,7 @@ public class OffPanel extends JPanel implements ItemListener {
     }
 
     private void build() {
-		setLayout(new BorderLayout());
+		setLayout(new BorderLayout(0, 5));
         setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		patternInput = new OffTextField(this);
@@ -81,7 +81,7 @@ public class OffPanel extends JPanel implements ItemListener {
 		add(pnlNorth, BorderLayout.NORTH);
 
 		// status bar
-		JPanel pnlSouth = new JPanel(new BorderLayout());
+		JPanel pnlSouth = new JPanel(new BorderLayout(5, 5));
 		statusBar = new JLabel(" ");
 		pnlSouth.add(statusBar, BorderLayout.SOUTH);
 		add(pnlSouth, BorderLayout.SOUTH);
