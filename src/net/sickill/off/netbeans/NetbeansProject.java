@@ -139,7 +139,6 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
                         logger.info("[OFF] found source group: " + group.getName() + " (" + folder.getPath() + ")");
                         collectFiles(group, folder);
                     }
-
                 } 
                 model.setIndexing(false);
                 model.refilter();
@@ -150,8 +149,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
         }
 
         private void collectFiles(SourceGroup group, FileObject dir) {
-            dir.removeFileChangeListener(project);
-            dir.addFileChangeListener(project);
+            watchDirectory(dir);
             FileObject[] children = dir.getChildren();
             for (FileObject child : children) {
                 if (child.isValid() && group.contains(child) && VisibilityQuery.getDefault().isVisible(child)) {
@@ -165,6 +163,12 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
         }
     }
 
+    private void watchDirectory(FileObject dir) {
+        dir.removeFileChangeListener(this);
+        dir.addFileChangeListener(this);
+
+    }
+
     public String getProjectRootPath() {
         return projectRoot;
     }
@@ -175,7 +179,8 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
     }
 
     public void fileFolderCreated(FileEvent fe) {
-        logger.info("fileFolderCreated, ignoring");
+        logger.info("fileFolderCreated");
+        watchDirectory(fe.getFile());
     }
 
     public void fileDataCreated(FileEvent fe) {
