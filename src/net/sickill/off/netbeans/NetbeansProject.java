@@ -5,15 +5,10 @@
 
 package net.sickill.off.netbeans;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.event.ChangeEvent;
 import net.sickill.off.*;
-import java.util.Enumeration;
 import java.util.logging.Logger;
-import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
@@ -30,7 +25,7 @@ import org.openide.filesystems.FileRenameEvent;
  *
  * @author kill
  */
-public class NetbeansProject implements AbstractProject, ChangeListener, FileChangeListener, PropertyChangeListener {
+public class NetbeansProject implements AbstractProject, FileChangeListener, PropertyChangeListener {
     private static NetbeansProject instance;
     private Logger logger;
     private OffListModel model;
@@ -131,7 +126,7 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
                     logger.info("[OFF] fetching files from project " + projectRoot);
 
                     Sources s = ProjectUtils.getSources(selectedProject);
-                    //s.addChangeListener(this);
+//                    s.addChangeListener(this);
                     SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
 
                     for (SourceGroup group : groups) {
@@ -173,10 +168,10 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
         return projectRoot;
     }
 
-    public void stateChanged(ChangeEvent e) {
-        logger.info("source groups changed");
-        fetchProjectFiles();
-    }
+//    public void stateChanged(ChangeEvent e) {
+//        logger.info("source groups changed");
+//        fetchProjectFiles();
+//    }
 
     public void fileFolderCreated(FileEvent fe) {
         logger.info("fileFolderCreated");
@@ -211,7 +206,6 @@ public class NetbeansProject implements AbstractProject, ChangeListener, FileCha
             logger.info("main project changed");
             selectedProject = null;
             getSelectedProject();
-//            fetchProjectFiles();
         }
     }
 
