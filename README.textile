@@ -13,7 +13,7 @@ h2. Key features of Open File Fast
 ** _smart_ (like in Textmate, matching filenames must contain all typed characters, they can be separated by other characters)
 ** _exact_ (like Netbeans' Go-To-File, matching filenames must contain exact phrase)
 * matching from start of filename or anywhere in filename
-* support for ==*== wildcard in _exact_ mode
+* support for == * == wildcard in _exact_ mode
 * changing minimum entered pattern length needed for searching (default: 3)
 * changing delay (time from last keystroke) after which searching starts (default: 300ms)
 * optional cleaning of search input field when O-F-F window opens
