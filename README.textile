@@ -28,7 +28,7 @@ h2. Usage
 
 Open File Fast plugin installs itself in Netbeans' __Navigate__ menu as __Open File Fast__. I recommend creating a keyboard shortcut for it in _Tools/Options/Keymap/Project_.
 
-When invoked it opens search dialog. Type _some_ characters from filename you want to find. _Some_ as you may skip any characters you want. Use _*_ as a placeholder for any text. You can narrow down the search to files in specified directory by typing directory prefix followed by slash and then filename pattern (see example below).
+When invoked it opens search dialog. Type _some_ characters from filename you want to find. _Some_ as you may skip any characters you want. Use _= * =_ as a placeholder for any text. You can narrow down the search to files in specified directory by typing directory prefix followed by slash and then filename pattern (see example below).
 
 For example type:
 * _user_ when looking for _user.rb_ or _UberServer.java_
