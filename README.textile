@@ -33,7 +33,7 @@ When invoked it opens search dialog. Type _some_ characters from filename you wa
 For example type:
 * _user_ when looking for _user.rb_ or _UberServer.java_
 * _ush_ when looking for <em>users_helper.rb</em>
-* _*.js_ when you want to list all javascript files (_*_ is not needed here if "Matching from start of filename" is turned off in preferences)
+* _&#42;.js_ when you want to list all javascript files (_&#42;_ is not needed here if "Matching from start of filename" is turned off in preferences)
 * _a/m/_ when you want to list all files in _app/models_ directory
 * _a/v/s_ when you are looking for _show.html_ in _app/views_ directory
 
