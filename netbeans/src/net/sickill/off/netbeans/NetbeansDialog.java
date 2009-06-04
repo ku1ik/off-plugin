@@ -10,7 +10,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
-import net.sickill.off.common.ActionsProvider;
+import net.sickill.off.common.IDE;
 import net.sickill.off.common.Settings;
 import net.sickill.off.common.OffPanel;
 import org.openide.windows.WindowManager;
@@ -21,9 +21,9 @@ import org.openide.windows.WindowManager;
  */
 public class NetbeansDialog extends JDialog implements ComponentListener {
     static OffPanel taz;
+    static IDE ide;
     static Settings settings;
     static NetbeansDialog instance;
-    ActionsProvider actions;
 
     public static NetbeansDialog getInstance() {
         if (instance == null) {
@@ -39,10 +39,10 @@ public class NetbeansDialog extends JDialog implements ComponentListener {
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         if (taz == null) {
             settings = NetbeansSettings.getInstance();
-            taz = new OffPanel(settings, NetbeansProject.getInstance());
+            ide = new NetbeansIDE();
+            taz = new OffPanel(ide, settings, NetbeansProject.getInstance());
         }
-        actions = new NetbeansActionsProvider(this);
-        taz.setActionsProvider(actions);
+        ide.setDialog(this);
         setSize(settings.getDialogWidth(), settings.getDialogHeight());
         setLocationRelativeTo(null);
         getContentPane().add(taz, BorderLayout.CENTER);

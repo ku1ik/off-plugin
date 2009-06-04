@@ -5,64 +5,62 @@
 
 package net.sickill.off.common;
 
-import net.sickill.off.netbeans.ProjectItem;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-import net.sickill.off.netbeans.NetbeansProject;
-import org.netbeans.api.project.Project;
-import org.netbeans.api.project.ui.OpenProjects;
 
 /**
  *
  * @author kill
  */
-public class OffPanel extends JPanel implements ItemListener {
+public class OffPanel extends JPanel {
     // UI
 	private OffTextField patternInput;
 	private OffList resultsList;
 	private OffListModel listModel;
 	private JLabel statusBar;
-    private JComboBox projectChooser;
 
     // providers
-    private ActionsProvider actionsProvider;
     private Settings settings;
     private AbstractProject project;
+    private IDE ide;
 
     private Timer timer;
 
-    public OffPanel(Settings s, AbstractProject p) {
+    public OffPanel(IDE i, Settings s, AbstractProject p) {
+        this.ide = i;
         this.settings = s;
         this.project = p;
+        this.ide.setPanel(this);
         build();
+    }
+
+    public OffTextField getPatternInput() {
+        return patternInput;
     }
 
     void setIndexing(boolean indexing) {
         if (indexing) {
             patternInput.setEnabled(false);
-            projectChooser.setEnabled(false);
+            ide.onIndexing(true);
             statusBar.setText("Indexing project files, please wait...");
         } else {
             patternInput.setEnabled(true);
-            projectChooser.setEnabled(true);
+            ide.onIndexing(false);
             statusBar.setText(" ");
         }
     }
 
-    private void build() {
+    private void build() {        
 		setLayout(new BorderLayout(0, 5));
         setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -88,9 +86,7 @@ public class OffPanel extends JPanel implements ItemListener {
 		statusBar = new JLabel(" ");
 		pnlStatus.add(statusBar, BorderLayout.EAST);
         pnlSouth.add(pnlStatus, BorderLayout.SOUTH);
-        projectChooser = new JComboBox();
-        pnlSouth.add(projectChooser, BorderLayout.CENTER);
-        projectChooser.addItemListener(this);
+        ide.addCustomControls(pnlSouth);
 
         add(pnlSouth, BorderLayout.SOUTH);
 
@@ -112,12 +108,12 @@ public class OffPanel extends JPanel implements ItemListener {
 		resultsList.addKeyListener(keyHandler);
     }
 
-    public void setActionsProvider(ActionsProvider ap) {
-        this.actionsProvider = ap;
-    }
+//    public void setActionsProvider(ActionsProvider ap) {
+//        this.actionsProvider = ap;
+//    }
 
     private void closeMainWindow() {
-        actionsProvider.closeWindow();
+        ide.closeWindow();
     }
 
     public OffList getResultsList() {
@@ -131,7 +127,7 @@ public class OffPanel extends JPanel implements ItemListener {
 //			int lineNo = getLineNumber();
             ProjectFile pf = ((OffListElement)o).getFile();
             listModel.incrementAccessCounter(pf);
-            actionsProvider.openFile(pf);
+            ide.openFile(pf);
 		}
 	}
 
@@ -145,25 +141,8 @@ public class OffPanel extends JPanel implements ItemListener {
 		}
 	}
 
-    public void itemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-            NetbeansProject.getInstance().setSelectedProject(((ProjectItem)e.getItem()).getProject());
-            patternInput.requestFocus();
-        }
-    }
-
     public void focusOnDefaultComponent() {
-        Project selected = NetbeansProject.getInstance().getSelectedProject();
-        projectChooser.removeAllItems();
-        projectChooser.removeItemListener(this);
-        for (Project p : OpenProjects.getDefault().getOpenProjects()) {
-            ProjectItem item = new ProjectItem(p);
-            projectChooser.addItem(item);
-            if (selected == p) {
-                projectChooser.setSelectedItem(item);
-            }
-        }
-        projectChooser.addItemListener(this);
+        ide.onFocus();
         if (settings.isClearOnOpen()) {
             patternInput.setText("");
         } else {

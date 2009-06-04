@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 
+import net.sickill.off.common.OffPanel;
 import org.gjt.sp.jedit.EditPlugin;
 import org.gjt.sp.jedit.View;
 import org.gjt.sp.jedit.jEdit;
@@ -37,7 +38,7 @@ public class OffPlugin extends EditPlugin {
 	
 	public static HashMap<String, Object> settings = new HashMap<String, Object>();
 	
-	static Hashtable<View, Taz> viewsWithTaz = new Hashtable<View, Taz>();
+	static Hashtable<View, OffPanel> viewsWithOff = new Hashtable<View, OffPanel>();
 	static WindowAdapter windowAdapter;
 
 	public void start() {
@@ -47,12 +48,12 @@ public class OffPlugin extends EditPlugin {
 	}
 
 	public void stop() {
-		Enumeration<View> iter = viewsWithTaz.keys();
+		Enumeration<View> iter = viewsWithOff.keys();
 		while (iter.hasMoreElements()) {
 			View v = (View) iter.nextElement();
 			v.removeWindowListener(windowAdapter);
 		}
-		viewsWithTaz.clear();
+		viewsWithOff.clear();
 		super.stop();
 	}
 	
@@ -75,11 +76,11 @@ public class OffPlugin extends EditPlugin {
 	 * @return A lightweight JPanel wrapper around the Taz instance for this
 	 *         View.
 	 */
-	public static Taz getTazInstance(View view) {
-		Taz taz = (Taz) viewsWithTaz.get(view);
+	public static OffPanel getOffInstance(View view) {
+		OffPanel taz = (OffPanel) viewsWithOff.get(view);
 		if (taz == null) {
-			taz = new Taz(view);
-			viewsWithTaz.put(view, taz);
+			taz = new OffPanel(view);
+			viewsWithOff.put(view, taz);
 			view.addWindowListener(windowAdapter);
 		}
 		return taz;
@@ -90,7 +91,7 @@ public class OffPlugin extends EditPlugin {
 	class TazWindowAdapter extends WindowAdapter {
 		public void windowClosed(WindowEvent evt) {
 			//viewsWithTaz.remove(evt.getWindow()
-			Taz taz = (Taz) viewsWithTaz.remove(evt.getWindow());
+			OffPanel taz = (OffPanel) viewsWithOff.remove(evt.getWindow());
 			if (taz != null) {
 				taz.disposeDialog();
 				taz = null;
