@@ -99,7 +99,6 @@ public class OffPanel extends JPanel implements KeyListener {
 		JScrollPane scroller = new JScrollPane(resultsList);
 		add(scroller, BorderLayout.CENTER);
 
-        pnlSouth.add(new JLabel("Project "), BorderLayout.WEST);
         // projects combo
 
 		// Add escape-key event handling to widgets
@@ -165,6 +164,7 @@ public class OffPanel extends JPanel implements KeyListener {
 	}
 
 	private void search() {
+	try {
         if (listModel.setFilter(getFilePattern())) {
             patternInput.setSearchSuccess(true);
             resultsList.setSelectedIndex(0);
@@ -173,6 +173,9 @@ public class OffPanel extends JPanel implements KeyListener {
         }
 
 		statusBar.setText("Found " + listModel.getSize() + " files");
+		} catch (Exception e) {
+		  e.printStackTrace();
+		}
 	}
 
 

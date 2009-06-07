@@ -63,6 +63,7 @@ public class NetbeansIDE extends IDE implements ItemListener {
         projectChooser = new JComboBox();
         panel.add(projectChooser, BorderLayout.CENTER);
         projectChooser.addItemListener(this);
+	panel.add(new JLabel("Project "), BorderLayout.WEST);
     }
 
     public void openFile(ProjectFile pf, int lineNo) {

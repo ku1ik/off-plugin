@@ -20,22 +20,22 @@ public class JEditSettings extends Settings {
 
     @Override
     public boolean isDistanceSorting() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	return true;
     }
 
     @Override
     public boolean isExtensionSorting() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	return true;
     }
 
     @Override
     public boolean isMatchFromStart() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	return true;
     }
 
     @Override
     public boolean isPopularitySorting() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	return true;
     }
 
     @Override
@@ -55,12 +55,12 @@ public class JEditSettings extends Settings {
 
     @Override
     public boolean isSmartMatch() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	return true;
     }
 
     @Override
     public boolean isNameSorting() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	return true;
     }
 
     @Override
@@ -90,12 +90,12 @@ public class JEditSettings extends Settings {
 
     @Override
     public float getSearchDelay() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	return 0.2f;
     }
 
     @Override
     public int getMinPatternLength() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	return 3;
     }
 
     @Override
