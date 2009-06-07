@@ -9,8 +9,12 @@ package net.sickill.off.common;
  *
  * @author kill
  */
-public interface AbstractProject {
+public abstract class AbstractProject {
+    protected OffListModel model;
+    
+    public abstract String getProjectRootPath(); // return path WITH trailing slash
 
-    public void init(OffListModel model);
-    public String getProjectRootPath(); // return path WITH trailing slash
+    public void init(OffListModel model) {
+        this.model = model;
+    }
 }

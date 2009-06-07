@@ -25,10 +25,9 @@ import org.openide.filesystems.FileRenameEvent;
  *
  * @author kill
  */
-public class NetbeansProject implements AbstractProject, FileChangeListener, PropertyChangeListener {
+public class NetbeansProject extends AbstractProject implements FileChangeListener, PropertyChangeListener {
     private static NetbeansProject instance;
     private Logger logger;
-    private OffListModel model;
     private String projectRoot;
     private ImportWorker worker;
     private Project selectedProject;
@@ -45,8 +44,8 @@ public class NetbeansProject implements AbstractProject, FileChangeListener, Pro
         logger = Logger.getLogger(this.getClass().getName());
     }
 
-    public void init(OffListModel m) {
-        model = m;
+    public void init(OffListModel model) {
+        super.init(model);
         OpenProjects.getDefault().addPropertyChangeListener(this);
         fetchProjectFiles();
     }

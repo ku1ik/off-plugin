@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -22,7 +23,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author kill
  */
-public class OffPanel extends JPanel {
+public class OffPanel extends JPanel implements KeyListener {
     // UI
 	private OffTextField patternInput;
 	private OffList resultsList;
@@ -102,15 +103,11 @@ public class OffPanel extends JPanel {
         // projects combo
 
 		// Add escape-key event handling to widgets
-		KeyHandler keyHandler = new KeyHandler();
-		addKeyListener(keyHandler);
-		patternInput.addKeyListener(keyHandler);
-		resultsList.addKeyListener(keyHandler);
+//		KeyHandler keyHandler = new KeyHandler();
+		addKeyListener(this);
+		patternInput.addKeyListener(this);
+		resultsList.addKeyListener(this);
     }
-
-//    public void setActionsProvider(ActionsProvider ap) {
-//        this.actionsProvider = ap;
-//    }
 
     private void closeMainWindow() {
         ide.closeWindow();
@@ -178,6 +175,17 @@ public class OffPanel extends JPanel {
 		statusBar.setText("Found " + listModel.getSize() + " files");
 	}
 
+
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            closeMainWindow();
+            e.consume();
+        }
+    }
+
+    public void keyTyped(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {}
+
     class SearchAction implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             search();
@@ -185,13 +193,4 @@ public class OffPanel extends JPanel {
         }
     }
 
-
-	class KeyHandler extends KeyAdapter {
-		public void keyPressed(KeyEvent evt) {
-			if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				closeMainWindow();
-				evt.consume();
-			}
-		}
-	}
 }
