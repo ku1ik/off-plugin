@@ -71,6 +71,8 @@
 				<include name="**/*.props"/>
 				<include name="**/*.html"/>
 				<include name="**/*.gif"/>
+			</fileset>
+			<fileset dir="${src.dir}/src">
 				<include name="**/*.png"/>
 			</fileset>
 		</jar>
