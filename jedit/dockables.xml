@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE DOCKABLES SYSTEM "dockables.dtd">
+
+<!-- Off dockable window / .showPanel() -->
+
+<DOCKABLES>
+	<DOCKABLE NAME="off">
+		net.sickill.off.jedit.OffPlugin.getOffInstance(view);
+	</DOCKABLE>
+</DOCKABLES>

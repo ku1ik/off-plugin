@@ -1,74 +1,105 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- You may freely edit this file. See commented blocks below for -->
-<!-- some examples of how to customize the build. -->
-<!-- (If you delete it and reopen the project it will be recreated.) -->
-<!-- By default, only the Clean and Build commands use this build script. -->
-<!-- Commands such as Run, Debug, and Test only use this build script if -->
-<!-- the Compile on Save feature is turned off for the project. -->
-<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
-<!-- in the project's Project Properties dialog box.-->
-<project name="Off4Jedit" default="default" basedir=".">
-    <description>Builds, tests, and runs the project Off4Jedit.</description>
-    <import file="nbproject/build-impl.xml"/>
-    <!--
+<?xml version="1.0"?>
 
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. They are: 
+<!--
+     This is a build.xml file for building the FastOpen plugin.
 
-      -pre-init:                 called before initialization of project properties
-      -post-init:                called after initialization of project properties
-      -pre-compile:              called before javac compilation
-      -post-compile:             called after javac compilation
-      -pre-compile-single:       called before javac compilation of single file
-      -post-compile-single:      called after javac compilation of single file
-      -pre-compile-test:         called before javac compilation of JUnit tests
-      -post-compile-test:        called after javac compilation of JUnit tests
-      -pre-compile-test-single:  called before javac compilation of single JUnit test
-      -post-compile-test-single: called after javac compilation of single JUunit test
-      -pre-jar:                  called before JAR building
-      -post-jar:                 called after JAR building
-      -post-clean:               called after cleaning build products
+     The 'dist' target compiles the plugin and creates the JAR file.
+     Before running the 'dist' target, you will need to generate the
+     documentation using one of these two targets:
 
-    (Targets beginning with '-' are not intended to be called on their own.)
+     - 'docs-xalan': Creates documentation using the Xalan XSLT processor
+     - 'docs-xsltproc': Creates documentation using the xsltproc tool
 
-    Example of inserting an obfuscator after compilation could look like this:
+     To use it for building your own plugin, make these changes:
 
-        <target name="-post-compile">
-            <obfuscate>
-                <fileset dir="${build.classes.dir}"/>
-            </obfuscate>
-        </target>
+     - Change definition of 'jar.name' to the name of your plugin's JAR file
+     - If necessary, add any dependencies to the 'project.class.path'
+       definition
+     - If necessary, change the list of files in the 'dist' targtet
+     - If necessary, change the 'docs-xalan' and 'docs-xsltproc' targets
+       accordingly.
+-->
 
-    For list of available properties check the imported 
-    nbproject/build-impl.xml file. 
+<project name="OffPlugin" default="dist" basedir=".">
+	<property file="build.properties"/>
+	<property file="../build.properties"/>
+
+	<property name="jar.name"  value="${ant.project.name}.jar"/>
+	<property name="version"  value="2.1"/>
+	<property name="srcfile"  value="${ant.project.name}_src_${version}.zip"/>
+
+	<property name="src.dir" value="."/>
+	<property name="build.dir" value="build"/>
+
+	<property name="jedit.install.dir"  value=".."/>
+	<property name="jedit.jars.dir"  value="${jedit.install.dir}/jars"/>
+
+	<path id="project.class.path">
+		<pathelement location="${install.dir}/ProjectViewer.jar"/> 
+		<pathelement location="${jedit.install.dir}/jedit.jar"/> 
+	</path>
 
 
-    Another way to customize the build is by overriding existing main targets.
-    The targets of interest are: 
+	<target name="init">
+		<mkdir dir="${build.dir}"/>
+	</target>
 
-      -init-macrodef-javac:     defines macro for javac compilation
-      -init-macrodef-junit:     defines macro for junit execution
-      -init-macrodef-debug:     defines macro for class debugging
-      -init-macrodef-java:      defines macro for class execution
-      -do-jar-with-manifest:    JAR building (if you are using a manifest)
-      -do-jar-without-manifest: JAR building (if you are not using a manifest)
-      run:                      execution of project 
-      -javadoc-build:           Javadoc generation
-      test-report:              JUnit report generation
 
-    An example of overriding the target for project execution could look like this:
+	<target name="compile" depends="init">
+		<javac
+			srcdir="${src.dir}"
+			destdir="${build.dir}"
+			deprecation="on"
+			debug="on"
+			source="5"
+			target="5"
+			includejavaruntime="no"
+			nowarn="true"
+		>
+			<classpath refid="project.class.path"/>
+		</javac>
+	</target>
 
-        <target name="run" depends="Off4Jedit-impl.jar">
-            <exec dir="bin" executable="launcher.exe">
-                <arg file="${dist.jar}"/>
-            </exec>
-        </target>
 
-    Notice that the overridden target depends on the jar target and not only on 
-    the compile target as the regular run target does. Again, for a list of available 
-    properties which you can use, check the target you are overriding in the
-    nbproject/build-impl.xml file. 
+	<target name="dist" depends="compile">
+		<!-- <mkdir dir="${install.dir}"/> -->
+		<jar jarfile="/home/kill/.jedit/jars/${jar.name}">
+			<fileset dir="${build.dir}"/>
+			<fileset dir="${src.dir}">
+				<include name="actions.xml"/>
+				<include name="dockables.xml"/>
+				<include name="**/*.props"/>
+				<include name="**/*.html"/>
+				<include name="**/*.gif"/>
+				<include name="**/*.png"/>
+			</fileset>
+		</jar>
+	</target>
 
-    -->
+	<target name="src_dist" depends="init">
+		<zip zipfile="${srcfile}">
+			<fileset dir="${src.dir}">
+				<exclude name="build/**"/>
+				<exclude name="${srcfile}"/>
+				<exclude name="build.properties"/>
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+		<delete file="${srcfile}"/>
+		<delete>
+			<fileset dir="." includes="**/*~" defaultexcludes="no"/>
+			<!--fileset dir="." includes="**/*.html" defaultexcludes="no"/-->
+		</delete>
+	</target>
+
+	<!-- Generate tags using 'ctags' program from ctags.sourceforge.net -->
+	<target name="tags">
+		<exec executable="ctags">
+			<arg value="-R" />
+			<arg path="." />
+		</exec>
+	</target>
 </project>

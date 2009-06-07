@@ -1,0 +1,39 @@
+# general
+plugin.net.sickill.off.jedit.OffPlugin.activate=defer
+plugin.net.sickill.off.jedit.OffPlugin.name=Open File Fast
+plugin.net.sickill.off.jedit.OffPlugin.author=Marcin Kulik
+plugin.net.sickill.off.jedit.OffPlugin.version=0.9
+plugin.net.sickill.off.jedit.OffPlugin.docs=docs/index.html
+plugin.net.sickill.off.jedit.OffPlugin.description=Open File Fast is a plugin designed to quickly open any file in the currect project by just typing in the first few characters of the filename you want to open.
+plugin.net.sickill.off.jedit.OffPlugin.longdescription=description.html
+
+# dependencies
+plugin.net.sickill.off.jedit.OffPlugin.depend.0=jdk 1.5
+plugin.net.sickill.off.jedit.OffPlugin.depend.1=jedit 04.03.06.00
+plugin.net.sickill.off.jedit.OffPlugin.depend.2=plugin projectviewer.ProjectPlugin 2.1.3.4
+
+taz.label=Taz
+taz.title=Taz
+taz.longtitle=Taz
+
+#Menu Items Settings
+plugin.net.sickill.off.jedit.OffPlugin.menu=off
+
+# option pane settings
+plugin.net.sickill.taz.TazPlugin.option-pane=taz
+options.taz.label=Taz
+options.taz.code=new net.sickill.taz.TazOptionsPane();
+
+# defaults
+taz.smart-match=true
+taz.min-pattern-length=3
+taz.sort-results=true
+taz.group-results=true
+taz.clear-on-open=false
+taz.show-icon=true
+taz.show-path=true
+taz.show-ext=true
+taz.show-size=false
+taz.search-delay=300
+
+offwindow.show.label=Open OFF Search Dialog

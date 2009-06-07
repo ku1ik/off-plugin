@@ -7,14 +7,18 @@ package net.sickill.off.jedit;
 
 import net.sickill.off.common.*;
 import javax.swing.Icon;
+import projectviewer.vpt.VPTNode;
 
 /**
  *
  * @author kill
  */
 public class JEditProjectViewerFile extends ProjectFile {
-    public JEditProjectViewerFile(AbstractProject pp) {
+    VPTNode file;
+    
+    public JEditProjectViewerFile(AbstractProject pp, VPTNode node) {
         super(pp);
+        file = node;
     }
 
     public int getGroupPriority() {
