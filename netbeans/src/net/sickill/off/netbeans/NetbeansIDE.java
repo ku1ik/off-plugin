@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
@@ -63,7 +64,7 @@ public class NetbeansIDE extends IDE implements ItemListener {
         projectChooser = new JComboBox();
         panel.add(projectChooser, BorderLayout.CENTER);
         projectChooser.addItemListener(this);
-	panel.add(new JLabel("Project "), BorderLayout.WEST);
+        panel.add(new JLabel("Project "), BorderLayout.WEST);
     }
 
     public void openFile(ProjectFile pf, int lineNo) {
