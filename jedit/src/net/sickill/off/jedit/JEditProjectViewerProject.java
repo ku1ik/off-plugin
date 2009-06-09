@@ -5,26 +5,28 @@
 
 package net.sickill.off.jedit;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sickill.off.common.AbstractProject;
 import net.sickill.off.common.OffListModel;
 import net.sickill.off.common.ProjectFile;
-import org.gjt.sp.jedit.EBComponent;
-import org.gjt.sp.jedit.EBMessage;
 import org.gjt.sp.jedit.View;
-import org.gjt.sp.jedit.msg.ViewUpdate;
 import projectviewer.ProjectViewer;
+import projectviewer.event.ProjectEvent;
+import projectviewer.event.ProjectListener;
 import projectviewer.event.ProjectViewerEvent;
 import projectviewer.event.ProjectViewerListener;
-import projectviewer.vpt.VPTNode;
+import projectviewer.vpt.VPTFile;
 import projectviewer.vpt.VPTProject;
 
 /**
  *
  * @author kill
  */
-public class JEditProjectViewerProject extends AbstractProject implements ProjectViewerListener {
+public class JEditProjectViewerProject extends AbstractProject implements ProjectViewerListener, ProjectListener {
     View view;
     VPTProject project;
+    Logger logger = Logger.getLogger(this.getClass().getName());
 
     JEditProjectViewerProject(View view) {
         this.view = view;
@@ -33,61 +35,69 @@ public class JEditProjectViewerProject extends AbstractProject implements Projec
 
     public void init(OffListModel model) {
         super.init(model);
-//        throw new UnsupportedOperationException("Not supported yet.");
+        fetchProjectFiles(ProjectViewer.getActiveProject(view));
     }
 
     public String getProjectRootPath() {
         if (project != null) {
-            return project.getRootPath();
+            return project.getRootPath() + "/";
         }
-        return null; //ProjectViewer.getActiveProject(view).getRootPath();
+        return null;
     }
-
-//	public void handleMessage(EBMessage msg) {
-//		if (msg instanceof ViewUpdate) {
-//			ViewUpdate update = (ViewUpdate) msg;
-//			if (update.getType() == ViewUpdate.Type.PROJECT_LOADED) {
-//				VPTProject p = ProjectViewer.getActiveProject(update.getView());
-//				if (p != null) {
-//					listModel.setProject(p);
-//					Log.log(Log.DEBUG, this.getClass(),
-//							"ViewerUpdate: activeProject = " + p.getName());
-//					Log.log(Log.DEBUG, this.getClass(), "ViewerUpdate: "
-//							+ listModel.getSize() + " files in project "
-//							+ p.getName());
-//				} else {
-//					listModel.setProject(null);
-//					Log.log(Log.DEBUG, this.getClass(),
-//							"ViewerUpdate: activeProject = null");
-//				}
-//			} else {
-//				Log.log(Log.DEBUG, this.getClass(), "ViewerUpdate: type="
-//						+ update.getType());
-//			}
-//			patternInput.setText("");
-//			startSearching();
-//		}
-//	}
 
     public void nodeSelected(ProjectViewerEvent evt) {
     }
 
     public void projectLoaded(ProjectViewerEvent evt) {
-        project = evt.getProject();
-        model.clear();
-        if (project != null) {
-            for (Object node : project.getOpenableNodes()) {
-                ProjectFile pf = new JEditProjectViewerFile(this, (VPTNode)node);
-                model.addFile(pf);
+        fetchProjectFiles(evt.getProject());
+    }
+
+    private synchronized void fetchProjectFiles(VPTProject p) {
+        if (project != null && project.equals(p)) {
+            logger.info("reindexProject: selected project is the same as already indexed project, leaving");
+            return;
+        }
+        project = p;
+        new Thread(new ImportWorker(this)).start();
+    }
+
+    class ImportWorker implements Runnable {
+        private JEditProjectViewerProject parent;
+
+        public ImportWorker(JEditProjectViewerProject project) {
+            this.parent = project;
+        }
+
+        public void run() {
+            model.clear();
+            if (project != null) {
+                project.addProjectListener(parent);
+                logger.info("reindexProject: indexing files from project " + project.getName());
+                model.setIndexing(true);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JEditProjectViewerProject.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                for (Object node : project.getOpenableNodes()) {
+                    ProjectFile pf = new JEditProjectViewerFile(parent, (VPTFile)node);
+                    model.addFile(pf);
+                }
+                model.setIndexing(false);
+                model.refilter();
+            } else {
+                logger.info("reindexProject: no project selected");
             }
         }
+
     }
 
     public void projectAdded(ProjectViewerEvent evt) {
     }
 
     public void projectRemoved(ProjectViewerEvent evt) {
-        model.clear();
+        evt.getProject().removeProjectListener(this);
+        fetchProjectFiles(null);
     }
 
     public void groupAdded(ProjectViewerEvent evt) {
@@ -97,9 +107,33 @@ public class JEditProjectViewerProject extends AbstractProject implements Projec
     }
 
     public void groupActivated(ProjectViewerEvent evt) {
-        model.clear();
+        evt.getProject().removeProjectListener(this);
+        fetchProjectFiles(null);
     }
 
     public void nodeMoved(ProjectViewerEvent evt) {
+    }
+
+    public void fileAdded(ProjectEvent evt) {
+        model.addFile(new JEditProjectViewerFile(this, evt.getAddedFile()));
+    }
+
+    public void filesAdded(ProjectEvent evt) {
+        for (Object file : evt.getAddedFiles()) {
+            model.addFile(new JEditProjectViewerFile(this, (VPTFile)file));
+        }
+    }
+
+    public void fileRemoved(ProjectEvent evt) {
+        model.removeFile(evt.getAddedFile());
+    }
+
+    public void filesRemoved(ProjectEvent evt) {
+        for (Object file : evt.getRemovedFiles()) {
+            model.removeFile(file);
+        }
+    }
+
+    public void propertiesChanged(ProjectEvent evt) {
     }
 }

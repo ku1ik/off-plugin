@@ -27,12 +27,12 @@ import javax.swing.event.DocumentListener;
 public class OffTextField extends JTextField implements DocumentListener, ActionListener {
 
 	private static final long serialVersionUID = 5284529373291656641L;
-	private OffPanel taz;
+	private OffPanel off;
 	private Color origColor;
 
-	public OffTextField(OffPanel taz) {
+	public OffTextField(OffPanel off) {
 		super();
-		this.taz = taz;
+		this.off = off;
 		setup();
 	}
 
@@ -43,25 +43,25 @@ public class OffTextField extends JTextField implements DocumentListener, Action
 
 		Action down_Action = new AbstractAction("DownArrow") {
 			public void actionPerformed(ActionEvent e) {
-				taz.getResultsList().moveListDown();
+				off.getResultsList().moveListDown();
 			}
 		};
 
 		Action up_Action = new AbstractAction("UpArrow") {
 			public void actionPerformed(ActionEvent e) {
-				taz.getResultsList().moveListUp();
+				off.getResultsList().moveListUp();
 			}
 		};
 
 		Action page_up_Action = new AbstractAction("PageUp") {
 			public void actionPerformed(ActionEvent e) {
-				taz.getResultsList().moveToStartOfList();
+				off.getResultsList().moveToStartOfList();
 			}
 		};
 
 		Action page_down_Action = new AbstractAction("PageDown") {
 			public void actionPerformed(ActionEvent e) {
-				taz.getResultsList().moveToEndOfList();
+				off.getResultsList().moveToEndOfList();
 			}
 		};
 
@@ -132,7 +132,7 @@ public class OffTextField extends JTextField implements DocumentListener, Action
 	public void changedUpdate(DocumentEvent e) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				taz.startSearching();
+				off.startSearching();
 			}
 		});
 	}
@@ -146,7 +146,7 @@ public class OffTextField extends JTextField implements DocumentListener, Action
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		taz.openSelected();
+		off.openSelected();
 	}
 
 	public void setSearchSuccess(boolean success) {

@@ -16,8 +16,13 @@ off.label=Off
 off.title=Open File Fast
 off.longtitle=Open File Fast
 
+openfilefastdockable.label=Open File Fast Dockable
+openfilefastdockable.title=Open File Fast
+
+offwindow.show.label=Open File Fast Dialog
+
 #Menu Items Settings
-plugin.net.sickill.off.jedit.OffPlugin.menu=off
+plugin.net.sickill.off.jedit.OffPlugin.menu=openfilefastdockable offwindow.show
 
 # option pane settings
 plugin.net.sickill.taz.TazPlugin.option-pane=taz
@@ -35,5 +40,3 @@ taz.show-path=true
 taz.show-ext=true
 taz.show-size=false
 taz.search-delay=300
-
-offwindow.show.label=Open OFF Search Dialog

@@ -12,9 +12,9 @@ import javax.swing.Icon;
  * @author kill
  */
 public abstract class ProjectFile {
-    private AbstractProject projectProvider;
+    protected AbstractProject project;
 
-    public abstract int getGroupPriority();
+//    public abstract int getGroupPriority();
     public abstract Icon getIcon();
     public abstract String getName();
     public abstract String getFullPath();
@@ -23,12 +23,12 @@ public abstract class ProjectFile {
     public abstract Object getId();
 
     public ProjectFile(AbstractProject pp) {
-        this.projectProvider = pp;
+        this.project = pp;
     }
 
     public String getDirectory() {
         String fullPath = getFullPath();
-        int start = projectProvider.getProjectRootPath().length();
+        int start = project.getProjectRootPath().length();
         int end = fullPath.length() - getName().length();
         return fullPath.substring(start, end);
     }

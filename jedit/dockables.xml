@@ -4,7 +4,7 @@
 <!-- Off dockable window / .showPanel() -->
 
 <DOCKABLES>
-	<DOCKABLE NAME="off">
+	<DOCKABLE NAME="openfilefastdockable">
 		net.sickill.off.jedit.OffPlugin.getOffInstance(view);
 	</DOCKABLE>
 </DOCKABLES>
