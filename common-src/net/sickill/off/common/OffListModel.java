@@ -77,7 +77,6 @@ public class OffListModel extends AbstractListModel {
             for (ProjectFile f : allFiles) {
                 if (f.getId() == id) {
                     allFiles.remove(f);
-                    refilter();
                     break;
                 }
             }

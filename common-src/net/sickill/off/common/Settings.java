@@ -52,7 +52,6 @@ public abstract class Settings {
     public abstract String getIgnoreMask();
     public abstract void setIgnoreMask(String mask);
     public abstract void setMatchFromStart(boolean selected);
-    public abstract boolean getMatchFromStart();
     public abstract void setMinPatternLength(int value);
     public abstract void setSearchDelay(float value);
     public abstract void setSmartMatch(boolean selected);

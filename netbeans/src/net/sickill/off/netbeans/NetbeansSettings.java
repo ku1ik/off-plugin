@@ -82,10 +82,6 @@ public class NetbeansSettings extends Settings {
         compileIgnoreMask();
     }
 
-    public boolean getMatchFromStart() {
-        return NbPreferences.forModule(OffPanel.class).getBoolean("match-from-start", Settings.DEFAULT_MATCH_FROM_START);
-    }
-
     public void setMatchFromStart(boolean selected) {
         NbPreferences.forModule(OffPanel.class).putBoolean("match-from-start", selected);
     }

@@ -8,7 +8,6 @@ package net.sickill.off.common;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
@@ -108,17 +107,13 @@ public class OffPanel extends JPanel implements KeyListener {
 		resultsList.addKeyListener(this);
     }
 
-    private void closeMainWindow() {
-        ide.closeWindow();
-    }
-
     public OffList getResultsList() {
 		return resultsList;
 	}
 
     public void openSelected() {
 		// For enter keys pressed inside txtfilename
-        closeMainWindow();
+        ide.closeWindow();
         for (Object o : resultsList.getSelectedValues()) {
 //			int lineNo = getLineNumber();
             ProjectFile pf = ((OffListElement)o).getFile();
@@ -181,7 +176,7 @@ public class OffPanel extends JPanel implements KeyListener {
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            closeMainWindow();
+            ide.closeWindow();
             e.consume();
         }
     }

@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.jedit;
 
 import javax.swing.JPanel;
@@ -17,17 +12,17 @@ public class JEditIDE extends IDE {
 
     @Override
     public void openFile(ProjectFile pf) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ((JEditProjectViewerFile)pf).getFile().open();
     }
 
     @Override
     public void openFile(ProjectFile pf, int lineNo) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        openFile(pf);
     }
 
     @Override
     public void closeWindow() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        OffPlugin.closeDialogsAndPanels();
     }
 
     @Override
@@ -36,7 +31,6 @@ public class JEditIDE extends IDE {
 
     @Override
     public void onIndexing(boolean indexing) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

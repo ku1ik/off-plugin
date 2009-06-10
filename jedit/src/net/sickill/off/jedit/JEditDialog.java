@@ -55,7 +55,6 @@ public class JEditDialog extends JDialog implements ComponentListener, KeyListen
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-//            closeMainWindow();
             dispose();
             e.consume();
         }
@@ -67,6 +66,5 @@ public class JEditDialog extends JDialog implements ComponentListener, KeyListen
     void showDialog() {
 		setVisible(true);
 		off.focusOnDefaultComponent();
-		//dialog.addFocusListener(new TazFocusListener());
     }
 }

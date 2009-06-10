@@ -52,9 +52,9 @@ class NetbeansProjectFile extends ProjectFile {
         return fileObject;
     }
 
-    public int getGroupPriority() {
-        return 0;
-    }
+//    public int getGroupPriority() {
+//        return 0;
+//    }
 
     public Icon getIcon() {
         return icon;
