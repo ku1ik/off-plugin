@@ -86,6 +86,7 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
         }
 
         public void start() {
+            if (model == null) { return; }
             setRunning(true);
             Thread t = new Thread(this);
             t.start();

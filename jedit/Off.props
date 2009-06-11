@@ -25,18 +25,7 @@ offwindow.show.label=Open File Fast Dialog
 plugin.net.sickill.off.jedit.OffPlugin.menu=openfilefastdockable offwindow.show
 
 # option pane settings
-plugin.net.sickill.taz.TazPlugin.option-pane=taz
-options.taz.label=Taz
-options.taz.code=new net.sickill.taz.TazOptionsPane();
+plugin.net.sickill.off.jedit.OffPlugin.option-pane=off
+options.off.label=Open File Fast
+options.off.code=new net.sickill.off.jedit.options.OffOptionsPane();
 
-# defaults
-taz.smart-match=true
-taz.min-pattern-length=3
-taz.sort-results=true
-taz.group-results=true
-taz.clear-on-open=false
-taz.show-icon=true
-taz.show-path=true
-taz.show-ext=true
-taz.show-size=false
-taz.search-delay=300

@@ -6,48 +6,25 @@
 package net.sickill.off.jedit;
 
 import java.awt.BorderLayout;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.JDialog;
-import javax.swing.WindowConstants;
+import net.sickill.off.common.OffDialog;
 import net.sickill.off.common.OffPanel;
-import org.gjt.sp.jedit.GUIUtilities;
+import net.sickill.off.common.Settings;
 import org.gjt.sp.jedit.View;
 
 /**
  *
  * @author kill
  */
-public class JEditDialog extends JDialog implements ComponentListener, KeyListener {
+public class JEditDialog extends OffDialog implements KeyListener {
     OffPanel off;
 
     public JEditDialog(View view, OffPanel off) {
         super(view, "Open File Fast");
         this.off = off;
-        addComponentListener(this);
-        addNotify();
-        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        
         addKeyListener(this);
-        setSize(554, 182);
-        setLocationRelativeTo(null);
-//		GUIUtilities.loadGeometry(this, "OffPlugin.window");
 		getContentPane().add(off, BorderLayout.CENTER);
-    }
-
-    public void componentResized(ComponentEvent e) {
-        GUIUtilities.saveGeometry(this, "OffPlugin.window");
-    }
-
-    public void componentMoved(ComponentEvent e) {
-    }
-
-    public void componentShown(ComponentEvent e) {
-    }
-
-    public void componentHidden(ComponentEvent e) {
     }
 
     public void keyTyped(KeyEvent e) {
@@ -66,5 +43,10 @@ public class JEditDialog extends JDialog implements ComponentListener, KeyListen
     void showDialog() {
 		setVisible(true);
 		off.focusOnDefaultComponent();
+    }
+
+    @Override
+    protected Settings getSettings() {
+        return JEditSettings.getInstance();
     }
 }

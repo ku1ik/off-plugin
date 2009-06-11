@@ -98,10 +98,7 @@ public class OffPanel extends JPanel implements KeyListener {
 		JScrollPane scroller = new JScrollPane(resultsList);
 		add(scroller, BorderLayout.CENTER);
 
-        // projects combo
-
 		// Add escape-key event handling to widgets
-//		KeyHandler keyHandler = new KeyHandler();
 		addKeyListener(this);
 		patternInput.addKeyListener(this);
 		resultsList.addKeyListener(this);
