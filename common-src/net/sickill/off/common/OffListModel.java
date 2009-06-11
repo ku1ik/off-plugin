@@ -21,17 +21,21 @@ public class OffListModel extends AbstractListModel {
 	private List<OffListElement> matchingFiles;
 	private Filter filter;
     private Settings settings;
-    private OffPanel offPanel;
+    private IndexingListener indexingListener;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
     Logger logger;
     Object mutex = new Object();
 
-	protected OffListModel(Settings s, OffPanel offPanel) {
+	public OffListModel(Settings s) {
         settings = s;
         filter = null;
         logger = Logger.getLogger(this.getClass().getName());
-        this.offPanel = offPanel;
         clear();
+	}
+
+	public OffListModel(Settings s, IndexingListener indexingListener) {
+        this(s);
+        this.indexingListener = indexingListener;
 	}
 
     public void clear() {
@@ -43,7 +47,8 @@ public class OffListModel extends AbstractListModel {
     }
 
     public void setIndexing(boolean indexing) {
-        offPanel.setIndexing(indexing);
+        if (indexingListener != null)
+            indexingListener.setIndexing(indexing);
     }
 
     private void reset() {

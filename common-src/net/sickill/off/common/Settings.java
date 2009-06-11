@@ -122,8 +122,8 @@ public abstract class Settings {
     }
 
     public void setIgnoreMask(String mask) {
+        ignoreMaskCompiled = null;
         setString("ignore-mask", mask);
-        compileIgnoreMask();
     }
 
     public void setMatchFromStart(boolean selected) {
@@ -179,6 +179,7 @@ public abstract class Settings {
     }
 
     public void setLessPriorityMask(String mask) {
+        lessPriorityMaskCompiled = null;
         setString("less-priority-mask", mask);
     }
 

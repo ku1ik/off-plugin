@@ -16,7 +16,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openide.util.NotImplementedException;
 import static org.junit.Assert.*;
 
 /**
@@ -120,7 +119,7 @@ public class OffListModelTest {
         assertTrue(elementPathMatches(model.getSize() - 1, "app/views/users/index.html"));
 
         settings.setLessPriorityMask(".*Thumbs.*");
-        model.setFilter("****");
+        model.refilter();
         assertTrue(elementPathMatches(model.getSize() - 1, "jola/Thumbs.db"));
     }
     

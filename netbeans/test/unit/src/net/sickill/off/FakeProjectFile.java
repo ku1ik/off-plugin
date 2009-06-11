@@ -24,11 +24,6 @@ class FakeProjectFile extends ProjectFile {
     }
 
     @Override
-    public int getGroupPriority() {
-        return 0;
-    }
-
-    @Override
     public Icon getIcon() {
         return null;
     }
@@ -46,6 +41,16 @@ class FakeProjectFile extends ProjectFile {
     @Override
     public long getSize() {
         return 123456;
+    }
+
+    @Override
+    public void rename(String newName) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object getId() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

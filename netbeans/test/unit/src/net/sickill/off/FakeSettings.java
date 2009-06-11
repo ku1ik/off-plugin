@@ -5,6 +5,7 @@
 
 package net.sickill.off;
 
+import java.util.HashMap;
 import net.sickill.off.common.Settings;
 
 /**
@@ -12,160 +13,49 @@ import net.sickill.off.common.Settings;
  * @author kill
  */
 class FakeSettings extends Settings {
-    private boolean matchFromStart = true;
-    private boolean smartMatch = true;
-    private boolean nameSorting = true;
-    private boolean distanceSorting = true;
-    private boolean popularitySorting = true;
-    private boolean isShowExt = Settings.DEFAULT_SHOW_EXTENSION;
-    private boolean isShowPath = Settings.DEFAULT_SHOW_PATH;
-    private boolean isShowSize = Settings.DEFAULT_SHOW_SIZE;
-    private String lessPriorityMask = Settings.DEFAULT_LESS_PRIORITY_MASK;
-    private String ignoreMask = "";
+    HashMap<String, String> stringValues = new HashMap<String, String>();
+    HashMap<String, Boolean> boolValues = new HashMap<String, Boolean>();
+    HashMap<String, Integer> intValues = new HashMap<String, Integer>();
+    HashMap<String, Float> floatValues = new HashMap<String, Float>();
 
-    public FakeSettings() {
+    @Override
+    public void setBoolean(String prop, boolean b) {
+        boolValues.put(prop, b);
     }
 
     @Override
-    public boolean isCustomSorting() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean getBoolean(String prop, boolean def) {
+        return boolValues.containsKey(prop) ? boolValues.get(prop) : def;
     }
 
     @Override
-    public boolean isDistanceSorting() {
-        return distanceSorting;
+    public void setString(String prop, String s) {
+        stringValues.put(prop, s);
     }
 
     @Override
-    public boolean isExtensionSorting() {
-        return false;
+    public String getString(String prop, String def) {
+        return stringValues.containsKey(prop) ? stringValues.get(prop) : def;
     }
 
     @Override
-    public boolean isMatchFromStart() {
-        return matchFromStart;
+    public void setInt(String prop, int i) {
+        intValues.put(prop, i);
     }
 
     @Override
-    public boolean isPopularitySorting() {
-        return popularitySorting;
+    public int getInt(String prop, int def) {
+        return intValues.containsKey(prop) ? intValues.get(prop) : def;
     }
 
     @Override
-    public boolean isShowExt() {
-        return isShowExt;
+    public void setFloat(String prop, float f) {
+        floatValues.put(prop, f);
     }
 
     @Override
-    public boolean isShowPath() {
-        return isShowPath;
-    }
-
-    @Override
-    public boolean isShowSize() {
-        return isShowSize;
-    }
-
-    @Override
-    public boolean isSmartMatch() {
-        return smartMatch;
-    }
-
-    @Override
-    public boolean isNameSorting() {
-        return nameSorting;
-    }
-
-    @Override
-    public boolean isClearOnOpen() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setDialogWidth(int w) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getDialogWidth() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setDialogHeight(int h) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getDialogHeight() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public float getSearchDelay() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getMinPatternLength() {
-        return 3;
-    }
-
-    @Override
-    public String getIgnoreMask() {
-        return ignoreMask;
-    }
-
-    @Override
-    public void setIgnoreMask(String mask) {
-        ignoreMask = mask;
-        compileIgnoreMask();
-    }
-
-    @Override
-    public void setMatchFromStart(boolean selected) {
-        matchFromStart = selected;
-    }
-
-    @Override
-    public boolean getMatchFromStart() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setMinPatternLength(int value) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setSearchDelay(float value) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setSmartMatch(boolean selected) {
-        smartMatch = selected;
-    }
-
-    @Override
-    public void setClearOnOpen(boolean selected) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setLessPriorityMask(String mask) {
-        lessPriorityMask = mask;
-        lessPriorityMaskChanged();
-    }
-
-    @Override
-    public String getLessPriorityMask() {
-        return lessPriorityMask;
-    }
-
-    @Override
-    public void setNameSorting(boolean b) {
-        nameSorting = b;
+    public float getFloat(String prop, float def) {
+        return floatValues.containsKey(prop) ? floatValues.get(prop) : def;
     }
 
 }

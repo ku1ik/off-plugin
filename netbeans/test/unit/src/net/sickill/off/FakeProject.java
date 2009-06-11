@@ -15,10 +15,9 @@ import java.util.Collection;
  *
  * @author kill
  */
-class FakeProject implements AbstractProject {
-    static String PROJECT_ROOT = "/home/kill/workspace/project-x/";
+class FakeProject extends AbstractProject {
+    static String PROJECT_ROOT = "/tmp/project-x/";
     private Collection<ProjectFile> col;
-    private OffListModel model;
 
     public FakeProject() {
         col = new ArrayList<ProjectFile>();

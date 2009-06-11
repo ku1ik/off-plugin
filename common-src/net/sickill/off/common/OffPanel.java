@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author kill
  */
-public class OffPanel extends JPanel implements KeyListener {
+public class OffPanel extends JPanel implements KeyListener, IndexingListener {
     // UI
 	private OffTextField patternInput;
 	private OffList resultsList;
@@ -48,7 +48,7 @@ public class OffPanel extends JPanel implements KeyListener {
         return patternInput;
     }
 
-    void setIndexing(boolean indexing) {
+    public void setIndexing(boolean indexing) {
         if (indexing) {
             patternInput.setEnabled(false);
             ide.onIndexing(true);
