@@ -24,10 +24,10 @@ public class Filter {
         }
 		filter = filter.toLowerCase().replaceAll("\\*{2,}", "*");
 
-        String regex;
+        String regex = "(?:[_])?";
+
 		if (settings.isSmartMatch()) {
 			String[] chars = filter.split("");
-			regex = "";
 			for (String c : chars) {
 				if (c.equals(""))
                     continue;
@@ -38,7 +38,7 @@ public class Filter {
                 }
 			}
 		} else {
-			regex = (filter + "*").replaceAll("([^\\*]+)", "\\\\Q$1\\\\E").replaceAll("\\*", "[^\\/]*?");
+			regex += (filter + "*").replaceAll("([^\\*]+)", "\\\\Q$1\\\\E").replaceAll("\\*", "[^\\/]*?");
 		}
 
         pattern = Pattern.compile(regex);

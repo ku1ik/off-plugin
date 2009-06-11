@@ -22,9 +22,7 @@ public class OffCellRenderer extends DefaultListCellRenderer {
 		Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 		OffListElement e = (OffListElement) value;
 		((JLabel) comp).setText(e.getLabel());
-		//if (TazPlugin.isShowIcon()) {
-			((JLabel)comp).setIcon(e.getIcon());
-		//}
+        ((JLabel)comp).setIcon(e.getIcon());
 		return comp;
 	}
 }
