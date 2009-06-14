@@ -20,7 +20,7 @@
        accordingly.
 -->
 
-<project name="OffPlugin" default="dist" basedir=".">
+<project name="OpenFileFast" default="dist" basedir=".">
 	<property file="build.properties"/>
 	<property file="../build.properties"/>
 

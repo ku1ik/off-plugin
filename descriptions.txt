@@ -1,0 +1,7 @@
+Short description:
+
+Open File Fast is a plugin for Netbeans and JEdit for quick finding and opening files by entering only few characters (like Textmate's Go To File)
+
+Long description:
+
+Open File Fast is inspired by Textmate?s quick open file dialog however it has a lot more features. Basically it works like this: you type only several characters of filename you are searching for and you get list of all files matching your pattern. For example when you are looking for FooBar.java you can type fbj and you will find it. It really helps navigating through the project (especially bigger ones) as you don?t need to use a mouse nor locate filename visually in project tree but just use filename shortcuts.

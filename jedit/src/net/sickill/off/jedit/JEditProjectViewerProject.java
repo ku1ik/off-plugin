@@ -96,7 +96,9 @@ public class JEditProjectViewerProject extends AbstractProject implements Projec
     }
 
     public void projectRemoved(ProjectViewerEvent evt) {
-        evt.getProject().removeProjectListener(this);
+        VPTProject p = evt.getProject();
+        if (p != null)
+            p.removeProjectListener(this);
         fetchProjectFiles(null);
     }
 
@@ -107,7 +109,9 @@ public class JEditProjectViewerProject extends AbstractProject implements Projec
     }
 
     public void groupActivated(ProjectViewerEvent evt) {
-        evt.getProject().removeProjectListener(this);
+        VPTProject p = evt.getProject();
+        if (p != null)
+            p.removeProjectListener(this);
         fetchProjectFiles(null);
     }
 
