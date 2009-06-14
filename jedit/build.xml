@@ -20,7 +20,7 @@
        accordingly.
 -->
 
-<project name="OpenFileFast" default="dist" basedir=".">
+<project name="off-jedit" default="dist" basedir=".">
 	<property file="build.properties"/>
 	<property file="../build.properties"/>
 
