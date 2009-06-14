@@ -27,8 +27,8 @@ public abstract class Settings {
     public static boolean DEFAULT_CLEAR_ON_OPEN = false;
     public static String DEFAULT_LESS_PRIORITY_MASK = "";
 
-    private Wildcard lessPriorityWildcard;
-    private Wildcard ignoreWildcard;
+    protected Wildcard lessPriorityWildcard;
+    protected Wildcard ignoreWildcard;
 
     public abstract void setBoolean(String prop, boolean b);
     public abstract boolean getBoolean(String prop, boolean def);

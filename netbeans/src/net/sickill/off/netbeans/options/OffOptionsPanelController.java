@@ -4,6 +4,7 @@
  */
 package net.sickill.off.netbeans.options;
 
+import net.sickill.off.common.OffOptionsPanel;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import javax.swing.JComponent;
@@ -57,7 +58,7 @@ public final class OffOptionsPanelController extends OptionsPanelController {
 
     private OffOptionsPanel getPanel() {
         if (panel == null) {
-            panel = new OffOptionsPanel(this);
+            panel = new NetbeansOptionsPanel();//this);
         }
         return panel;
     }

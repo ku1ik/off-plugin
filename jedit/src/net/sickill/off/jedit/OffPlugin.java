@@ -4,7 +4,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Enumeration;
 import java.util.Hashtable;
-
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import net.sickill.off.common.IDE;
@@ -17,18 +16,6 @@ import org.gjt.sp.jedit.jEdit;
 
 
 public class OffPlugin extends EditPlugin {
-//	public final static String NAME = "Taz";
-
-//	public static final String SMART_MATCH = "taz.smart-match";
-//	public static final String MIN_PATTERN_LENGTH = "taz.min-pattern-length";
-//	public static final String SORT_RESULTS = "taz.sort-results";
-//	public static final String GROUP_RESULTS = "taz.group-results";
-//	public static final String CLEAR_ON_OPEN = "taz.clear-on-open";
-//	public static final String SHOW_ICON = "taz.show-icon";
-//	public static final String SHOW_PATH = "taz.show-path";
-//	public static final String SHOW_EXT = "taz.show-ext";
-//	public static final String SHOW_SIZE = "taz.show-size";
-//	public static final String SEARCH_DELAY = "taz.search-delay";
 	
     private static Settings settings = new JEditSettings();
 	
@@ -36,11 +23,13 @@ public class OffPlugin extends EditPlugin {
 	static Hashtable<View, JEditDialog> dialogs = new Hashtable<View, JEditDialog>();
 	static WindowAdapter windowAdapter;
 
+    @Override
 	public void start() {
 		windowAdapter = new TazWindowAdapter();
 		super.start();
 	}
 
+    @Override
 	public void stop() {
 		Enumeration<View> iter = viewsWithOff.keys();
 		while (iter.hasMoreElements()) {

@@ -10,7 +10,6 @@ import java.beans.BeanInfo;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.Node;

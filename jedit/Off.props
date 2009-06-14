@@ -27,5 +27,5 @@ plugin.net.sickill.off.jedit.OffPlugin.menu=openfilefastdockable offwindow.show
 # option pane settings
 plugin.net.sickill.off.jedit.OffPlugin.option-pane=off
 options.off.label=Open File Fast
-options.off.code=new net.sickill.off.jedit.options.OffOptionsPane();
+options.off.code=new net.sickill.off.jedit.options.JEditOptionsPanel();
 

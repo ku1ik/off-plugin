@@ -8,7 +8,6 @@ package net.sickill.off.jedit;
 import net.sickill.off.common.*;
 import javax.swing.Icon;
 import projectviewer.vpt.VPTFile;
-import projectviewer.vpt.VPTNode;
 
 /**
  *

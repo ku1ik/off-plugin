@@ -2,20 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.sickill.off.netbeans.options;
+package net.sickill.off.common;
 
-import net.sickill.off.common.Settings;
-import net.sickill.off.netbeans.NetbeansProject;
-import net.sickill.off.netbeans.NetbeansSettings;
+public class OffOptionsPanel extends javax.swing.JPanel {
+    protected Settings s;
 
-final class OffOptionsPanel extends javax.swing.JPanel {
-
-    private final OffOptionsPanelController controller;
-
-    OffOptionsPanel(OffOptionsPanelController controller) {
-        this.controller = controller;
+    public OffOptionsPanel() {
         initComponents();
-    // TODO listen to changes in form fields and call controller.changed()
     }
 
     /** This method is called from within the constructor to
@@ -45,33 +38,33 @@ final class OffOptionsPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         ignoreMask = new javax.swing.JTextArea();
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "Matching mode:");
+        jLabel1.setText("Matching mode:");
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, "Minimum pattern length:");
+        jLabel2.setText("Minimum pattern length:");
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, "Start searching");
+        jLabel4.setText("Start searching");
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, "Hide files matching following regexps:");
+        jLabel5.setText("Hide files matching following globs (use * as substitute for any number of chars):");
 
         buttonGroup1.add(smartMatch);
-        org.openide.awt.Mnemonics.setLocalizedText(smartMatch, "smart");
+        smartMatch.setText("smart");
 
         buttonGroup1.add(normalMatch);
-        org.openide.awt.Mnemonics.setLocalizedText(normalMatch, "normal");
+        normalMatch.setText("normal");
 
         minPatternLength.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 
-        org.openide.awt.Mnemonics.setLocalizedText(matchFromStart, "Match patterns from start of filename");
+        matchFromStart.setText("Match patterns from start of filename");
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, "characters");
+        jLabel3.setText("characters");
 
         searchDelay.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.1f)));
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, "second after last keystroke");
+        jLabel6.setText("second after last keystroke");
 
-        org.openide.awt.Mnemonics.setLocalizedText(clearOnOpen, "Clear search pattern on dialog open");
+        clearOnOpen.setText("Clear search pattern on dialog open");
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel7, "Give less priority to files matching regexps:");
+        jLabel7.setText("Move files matching following globs to the end of results list:");
 
         lessPriorityMask.setColumns(20);
         lessPriorityMask.setRows(5);
@@ -88,8 +81,9 @@ final class OffOptionsPanel extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 311, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 312, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(clearOnOpen)
-                    .add(matchFromStart)
                     .add(layout.createSequentialGroup()
                         .add(jLabel1)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -110,15 +104,10 @@ final class OffOptionsPanel extends javax.swing.JPanel {
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(jLabel3))
                             .add(jLabel6)))
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel7)
-                            .add(jLabel5))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(jScrollPane1)
-                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .add(jLabel5)
+                    .add(matchFromStart)
+                    .add(jLabel7))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -138,24 +127,23 @@ final class OffOptionsPanel extends javax.swing.JPanel {
                     .add(jLabel4)
                     .add(searchDelay, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel6))
+                .add(14, 14, 14)
+                .add(matchFromStart)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(clearOnOpen)
                 .add(18, 18, 18)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel5)
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                .add(jLabel5)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jLabel7)
-                        .add(116, 116, 116)
-                        .add(matchFromStart)
-                        .add(18, 18, 18)
-                        .add(clearOnOpen))
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(46, 46, 46))
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 87, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jLabel7)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 88, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    void load() {
+    public void load() {
         // TODO read settings and initialize GUI
         // Example:        
         // someCheckBox.setSelected(Preferences.userNodeForPackage(TazPanel.class).getBoolean("someFlag", false));
@@ -163,7 +151,6 @@ final class OffOptionsPanel extends javax.swing.JPanel {
         // someCheckBox.setSelected(NbPreferences.forModule(TazPanel.class).getBoolean("someFlag", false));
         // or:
         // someTextField.setText(SomeSystemOption.getDefault().getSomeStringProperty());
-        Settings s = NetbeansSettings.getInstance();
         if (s.isSmartMatch()) {
             smartMatch.setSelected(true);
         } else {
@@ -177,7 +164,7 @@ final class OffOptionsPanel extends javax.swing.JPanel {
         lessPriorityMask.setText(s.getLessPriorityMask());
     }
 
-    void store() {
+    public void store() {
         // TODO store modified settings
         // Example:
         // Preferences.userNodeForPackage(TazPanel.class).putBoolean("someFlag", someCheckBox.isSelected());
@@ -185,7 +172,6 @@ final class OffOptionsPanel extends javax.swing.JPanel {
         // NbPreferences.forModule(TazPanel.class).putBoolean("someFlag", someCheckBox.isSelected());
         // or:
         // SomeSystemOption.getDefault().setSomeStringProperty(someTextField.getText());
-        Settings s = NetbeansSettings.getInstance();
         s.setSmartMatch(smartMatch.isSelected());
         s.setMinPatternLength((Integer)minPatternLength.getValue());
         s.setSearchDelay((Float)searchDelay.getValue());
@@ -193,10 +179,9 @@ final class OffOptionsPanel extends javax.swing.JPanel {
         s.setMatchFromStart(matchFromStart.isSelected());
         s.setClearOnOpen(clearOnOpen.isSelected());
         s.setLessPriorityMask(lessPriorityMask.getText());
-        NetbeansProject.getInstance().fetchProjectFiles();
     }
 
-    boolean valid() {
+    public boolean valid() {
         // TODO check whether form is consistent and complete
         return true;
     }

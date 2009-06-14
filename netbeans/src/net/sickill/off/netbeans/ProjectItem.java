@@ -20,6 +20,7 @@ public class ProjectItem {
         project = p;
     }
 
+    @Override
     public String toString() {
         ProjectInformation pi = ProjectUtils.getInformation(project);
         return pi.getDisplayName() + " [" + project.getProjectDirectory().getPath() + "]";
