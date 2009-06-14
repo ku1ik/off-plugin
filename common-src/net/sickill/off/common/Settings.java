@@ -5,8 +5,6 @@
 
 package net.sickill.off.common;
 
-import java.util.regex.Pattern;
-
 /**
  *
  * @author kill
@@ -19,7 +17,7 @@ public abstract class Settings {
     public static boolean DEFAULT_NAME_SORTING = true;
     public static boolean DEFAULT_EXTENSION_SORTING = false;
     public static boolean DEFAULT_SMART_MATCH = true;
-    public static String DEFAULT_IGNORE_MASK = "^gems\\/.+";
+    public static String DEFAULT_IGNORE_MASK = "*gems/*";
     public static boolean DEFAULT_SHOW_EXTENSION = true;
     public static boolean DEFAULT_SHOW_PATH = true;
     public static boolean DEFAULT_SHOW_SIZE = false;
@@ -29,8 +27,8 @@ public abstract class Settings {
     public static boolean DEFAULT_CLEAR_ON_OPEN = false;
     public static String DEFAULT_LESS_PRIORITY_MASK = "";
 
-    private Pattern lessPriorityMaskCompiled;
-    private Pattern ignoreMaskCompiled;
+    private Wildcard lessPriorityWildcard;
+    private Wildcard ignoreWildcard;
 
     public abstract void setBoolean(String prop, boolean b);
     public abstract boolean getBoolean(String prop, boolean def);
@@ -41,36 +39,18 @@ public abstract class Settings {
     public abstract void setFloat(String prop, float f);
     public abstract float getFloat(String prop, float def);
 
-    protected static Pattern compileMask(String mask) {
-        return mask.equals("") ? null : Pattern.compile("(" + mask.replaceAll("\n", ")|(") + ")");
-    }
-
-    protected void compileLessPriorityMask() {
-        String mask = getLessPriorityMask().trim();
-        lessPriorityMaskCompiled = compileMask(mask);
-    }
-
-    protected void compileIgnoreMask() {
-        String mask = getIgnoreMask().trim();
-        ignoreMaskCompiled = compileMask(mask);
-    }
-
-    public Pattern getLessPriorityMaskCompiled() {
-        if (lessPriorityMaskCompiled == null) {
-            compileLessPriorityMask();
+    public Wildcard getLessPriorityWildcard() {
+        if (lessPriorityWildcard == null) {
+            lessPriorityWildcard = new Wildcard(getLessPriorityMask().trim());
         }
-        return lessPriorityMaskCompiled;
+        return lessPriorityWildcard;
     }
 
-    public Pattern getIgnoreMaskCompiled() {
-        if (ignoreMaskCompiled == null) {
-            compileIgnoreMask();
+    public Wildcard getIgnoreWildcard() {
+        if (ignoreWildcard == null) {
+            ignoreWildcard = new Wildcard(getIgnoreMask().trim());
         }
-        return ignoreMaskCompiled;
-    }
-
-    public void lessPriorityMaskChanged() {
-        lessPriorityMaskCompiled = null;
+        return ignoreWildcard;
     }
 
     // dialog
@@ -122,7 +102,7 @@ public abstract class Settings {
     }
 
     public void setIgnoreMask(String mask) {
-        ignoreMaskCompiled = null;
+        ignoreWildcard = null;
         setString("ignore-mask", mask);
     }
 
@@ -179,7 +159,7 @@ public abstract class Settings {
     }
 
     public void setLessPriorityMask(String mask) {
-        lessPriorityMaskCompiled = null;
+        lessPriorityWildcard = null;
         setString("less-priority-mask", mask);
     }
 

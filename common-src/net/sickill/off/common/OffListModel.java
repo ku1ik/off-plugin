@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.AbstractListModel;
 
 /**
@@ -56,11 +55,8 @@ public class OffListModel extends AbstractListModel {
     }
 
     public void addFile(ProjectFile pf) {
-        Pattern mask = settings.getIgnoreMaskCompiled();
-//        String fullPath = pf.getFullPath();
         synchronized(mutex) {
-            if ((mask == null || !mask.matcher(pf.getPathInProject()).matches()) && !allFiles.contains(pf)) {
-//                allFiles.put(fullPath, pf);
+            if ((!settings.getIgnoreWildcard().matches(pf.getPathInProject())) && !allFiles.contains(pf)) {
                 allFiles.add(pf);
             }
         }
@@ -169,7 +165,7 @@ public class OffListModel extends AbstractListModel {
 
             // lower priority
             if (!settings.getLessPriorityMask().equals("")) {
-                if (settings.getLessPriorityMaskCompiled().matcher(file.getPathInProject()).matches()) {
+                if (settings.getLessPriorityWildcard().matches(file.getPathInProject())) {
                     e.setPriority(-1);
                 }
             }

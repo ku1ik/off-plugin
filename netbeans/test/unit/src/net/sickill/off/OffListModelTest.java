@@ -112,13 +112,13 @@ public class OffListModelTest {
 
     @Test
     public void testPrioritySorting() {
-        settings.setLessPriorityMask(".*inde.*");
+        settings.setLessPriorityMask("*inde*");
         model.setFilter("***");
         assertTrue(elementPathMatches(model.getSize() - 3, "app/views/elements/index.html"));
         assertTrue(elementPathMatches(model.getSize() - 2, "app/views/topics/index.html"));
         assertTrue(elementPathMatches(model.getSize() - 1, "app/views/users/index.html"));
 
-        settings.setLessPriorityMask(".*Thumbs.*");
+        settings.setLessPriorityMask("*Thumbs*");
         model.refilter();
         assertTrue(elementPathMatches(model.getSize() - 1, "jola/Thumbs.db"));
     }
@@ -128,18 +128,14 @@ public class OffListModelTest {
         model.setFilter("***");
         assertTrue(findFileInResults("zone.cfg") != null);
         assertTrue(findFileInResults("Thumbs.db") != null);
+        assertTrue(findFileInResults("jola.pl") == null);
 
-        settings.setIgnoreMask(".*\\.cfg");
+        settings.setIgnoreMask("*.cfg");
         project.init(model);
         model.refilter();
         assertTrue(findFileInResults("zone.cfg") == null);
 
-        settings.setIgnoreMask("^gems\\/.*");
-        project.init(model);
-        model.refilter();
-        assertTrue(findFileInResults("jola.pl") == null);
-
-        settings.setIgnoreMask(".*Thumbs\\.db.*");
+        settings.setIgnoreMask("*Thumbs.db*");
         project.init(model);
         model.refilter();
         assertTrue(findFileInResults("Thumbs.db") == null);
