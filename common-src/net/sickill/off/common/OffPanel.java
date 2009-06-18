@@ -22,12 +22,13 @@ import javax.swing.border.EmptyBorder;
  *
  * @author kill
  */
-public class OffPanel extends JPanel implements KeyListener, IndexingListener {
+public class OffPanel extends JPanel implements KeyListener, IndexingListener, SearchStatusListener {
     // UI
 	private OffTextField patternInput;
 	private OffList resultsList;
 	private OffListModel listModel;
 	private JLabel statusBar;
+    private boolean indexing = false;
 
     // providers
     private Settings settings;
@@ -49,14 +50,17 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener {
     }
 
     public void setIndexing(boolean indexing) {
+        this.indexing = indexing;
         if (indexing) {
-            patternInput.setEnabled(false);
+//            patternInput.setEnabled(false);
             ide.onIndexing(true);
             statusBar.setText("Indexing project files, please wait...");
+            statusBar.setIcon(new ImageIcon(OffPanel.class.getResource("ajax-loader-small.gif")));
         } else {
-            patternInput.setEnabled(true);
+//            patternInput.setEnabled(true);
             ide.onIndexing(false);
             statusBar.setText(" ");
+            statusBar.setIcon(null);
         }
     }
 
@@ -90,7 +94,7 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener {
 
         add(pnlSouth, BorderLayout.SOUTH);
 
-		listModel = new OffListModel(settings, this);
+		listModel = new OffListModel(settings, this, this);
 
         project.init(listModel);
 		resultsList = new OffList(this, listModel);
@@ -156,19 +160,24 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener {
 	}
 
 	private void search() {
-	try {
-        if (listModel.setFilter(getFilePattern())) {
+        try {
+            listModel.setFilter(getFilePattern());
+            if (indexing) return;
+            listModel.refilter();
+            statusBar.setText("Found " + listModel.getSize() + " files");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+	}
+
+    public void setSearchSuccess(boolean success) {
+        if (success) {
             patternInput.setSearchSuccess(true);
             resultsList.setSelectedIndex(0);
         } else {
             patternInput.setSearchSuccess(false);
         }
-
-		statusBar.setText("Found " + listModel.getSize() + " files");
-		} catch (Exception e) {
-		  e.printStackTrace();
-		}
-	}
+    }
 
 
     public void keyPressed(KeyEvent e) {

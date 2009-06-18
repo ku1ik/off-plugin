@@ -21,6 +21,7 @@ public class OffListModel extends AbstractListModel {
 	private Filter filter;
     private Settings settings;
     private IndexingListener indexingListener;
+    private SearchStatusListener statusListener;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
     Logger logger;
     Object mutex = new Object();
@@ -32,9 +33,10 @@ public class OffListModel extends AbstractListModel {
         clear();
 	}
 
-	public OffListModel(Settings s, IndexingListener indexingListener) {
+	public OffListModel(Settings s, IndexingListener indexingListener, SearchStatusListener statusListener) {
         this(s);
         this.indexingListener = indexingListener;
+        this.statusListener = statusListener;
 	}
 
     public void clear() {
@@ -84,19 +86,17 @@ public class OffListModel extends AbstractListModel {
         }
     }
 
-    public boolean setFilter(final String f) {
-        if (filter != null &&  f.equals(filter.toString())) {
-            return true;
-        }
+    public void setFilter(final String f) {
+        if (filter != null &&  f.equals(filter.toString()))
+            return;
         if (f.length() < settings.getMinPatternLength()) {
             filter = null;
             reset();
             fireContentsChanged(this, 0, getSize());
-            return true;
+            return;
         }
         filter = (f == null ? null : new Filter(f, settings));
-        refilter();
-        return getSize() > 0;
+//        refilter();
     }
 
 	public void refilter() {
@@ -140,8 +140,8 @@ public class OffListModel extends AbstractListModel {
             // put files on less-priority-mask to the bottom of list
             Collections.sort(matchingFiles, new PriorityComparator());
         }
-
         fireContentsChanged(this, 0, getSize());
+        if (statusListener != null) statusListener.setSearchSuccess(getSize() > 0);
 	}
 
 	private void passFilter(String name, ProjectFile file) {

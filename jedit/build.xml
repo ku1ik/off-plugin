@@ -70,10 +70,10 @@
 				<include name="dockables.xml"/>
 				<include name="**/*.props"/>
 				<include name="**/*.html"/>
-				<include name="**/*.gif"/>
 			</fileset>
 			<fileset dir="${src.dir}/src">
 				<include name="**/*.png"/>
+				<include name="**/*.gif"/>
 			</fileset>
 		</jar>
 	</target>
