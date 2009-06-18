@@ -107,9 +107,9 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
         @Override
         public void run() {
             boolean firstRun = true;
+            model.setIndexing(true);
             do {
                 shouldRestart = false;
-                model.setIndexing(true);
                 model.clear();
 
                 if (firstRun) {
@@ -135,10 +135,9 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
                         collectFiles(group, folder);
                     }
                 } 
-                model.setIndexing(false);
-                model.refilter();
             } while (shouldRestart);
-
+            model.setIndexing(false);
+            model.refilter();
             logger.info("[OFF] ImportWorker finished.");
             setRunning(false);
         }

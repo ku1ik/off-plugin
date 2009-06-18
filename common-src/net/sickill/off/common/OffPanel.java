@@ -6,11 +6,13 @@
 package net.sickill.off.common;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,7 +29,7 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
 	private OffTextField patternInput;
 	private OffList resultsList;
 	private OffListModel listModel;
-	private JLabel statusBar;
+	private StatusLabel statusBar;
     private boolean indexing = false;
 
     // providers
@@ -52,15 +54,11 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
     public void setIndexing(boolean indexing) {
         this.indexing = indexing;
         if (indexing) {
-//            patternInput.setEnabled(false);
             ide.onIndexing(true);
-            statusBar.setText("Indexing project files, please wait...");
-            statusBar.setIcon(new ImageIcon(OffPanel.class.getResource("ajax-loader-small.gif")));
+            statusBar.setIndexing(true);
         } else {
-//            patternInput.setEnabled(true);
             ide.onIndexing(false);
-            statusBar.setText(" ");
-            statusBar.setIcon(null);
+            statusBar.setIndexing(false);
         }
     }
 
@@ -87,7 +85,7 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
 		// status bar
 		JPanel pnlSouth = new JPanel(new BorderLayout(5, 5));
         JPanel pnlStatus = new JPanel(new BorderLayout());
-		statusBar = new JLabel(" ");
+		statusBar = new StatusLabel();
 		pnlStatus.add(statusBar, BorderLayout.EAST);
         pnlSouth.add(pnlStatus, BorderLayout.SOUTH);
         ide.addCustomControls(pnlSouth);

@@ -12,7 +12,7 @@ package net.sickill.off.common;
 public abstract class Settings {
     public static int DEFAULT_DIALOG_WIDTH = 380;
     public static int DEFAULT_DIALOG_HEIGHT = 400;
-    public static float DEFAULT_SEARCH_DELAY = 0.3f;
+    public static float DEFAULT_SEARCH_DELAY = 0.2f;
     public static int DEFAULT_MIN_PATTERN_LENGTH = 3;
     public static boolean DEFAULT_NAME_SORTING = true;
     public static boolean DEFAULT_EXTENSION_SORTING = false;
