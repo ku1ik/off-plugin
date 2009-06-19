@@ -4,9 +4,9 @@
     <folder name="Actions">
         <folder name="Project">
             <file name="net-sickill-off-netbeans-OpenOffAction.instance">
-                <attr name="SystemFileSystem.localizingBundle" stringvalue="net.sickill.off.Bundle"/>
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="net.sickill.off.netbeans.Bundle"/>
                 <attr name="delegate" newvalue="net.sickill.off.netbeans.OpenOffAction"/>
-                <attr name="displayName" bundlevalue="net.sickill.off.Bundle#CTL_OpenOffAction"/>
+                <attr name="displayName" bundlevalue="net.sickill.off.netbeans.Bundle#CTL_OpenOffAction"/>
                 <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.alwaysEnabled"/>
                 <attr name="noIconInMenu" stringvalue="false"/>
             </file>

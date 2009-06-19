@@ -197,7 +197,7 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
     }
 
     public void fileAttributeChanged(FileAttributeEvent fe) {
-        logger.info("fileAttributeChanged, ignoring");
+//        logger.info("fileAttributeChanged, ignoring");
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
