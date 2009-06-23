@@ -4,7 +4,11 @@
  */
 package net.sickill.off.common;
 
-public class OffOptionsPanel extends javax.swing.JPanel {
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JTextArea;
+
+public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
     protected Settings s;
 
     public OffOptionsPanel() {
@@ -162,6 +166,9 @@ public class OffOptionsPanel extends javax.swing.JPanel {
         matchFromStart.setSelected(s.isMatchFromStart());
         clearOnOpen.setSelected(s.isClearOnOpen());
         lessPriorityMask.setText(s.getLessPriorityMask());
+
+        ignoreMask.addKeyListener(this);
+        lessPriorityMask.addKeyListener(this);
     }
 
     public void store() {
@@ -206,4 +213,19 @@ public class OffOptionsPanel extends javax.swing.JPanel {
     private javax.swing.JSpinner searchDelay;
     private javax.swing.JRadioButton smartMatch;
     // End of variables declaration//GEN-END:variables
+
+    public void keyTyped(KeyEvent e) {
+    }
+
+    // workaround for JEdit's option pane closing on ENTER
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            JTextArea a = (JTextArea)e.getSource();
+            a.insert("\n", a.getCaretPosition());
+            e.consume();
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+    }
 }
