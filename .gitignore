@@ -1,3 +1,4 @@
 build
 *.class
 nbproject
+jedit/build.properties

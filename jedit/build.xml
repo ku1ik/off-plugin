@@ -63,7 +63,7 @@
 
 	<target name="dist" depends="compile">
 		<!-- <mkdir dir="${install.dir}"/> -->
-		<jar jarfile="/home/kill/.jedit/jars/${jar.name}">
+		<jar jarfile="${install.dir}/${jar.name}">
 			<fileset dir="${build.dir}"/>
 			<fileset dir="${src.dir}">
 				<include name="actions.xml"/>

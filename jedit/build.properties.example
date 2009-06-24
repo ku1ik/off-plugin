@@ -1,0 +1,6 @@
+# The root of your jEdit install. Folder must contain jedit.jar in root.
+jedit.install.dir=/Applications/jEdit.app/Contents/Resources/Java
+
+# User installed jars directory
+# ProjectViewer.jar is required to be installed for build to succeed
+install.dir=HOME_DIR_REPLACE/.jedit/jars
