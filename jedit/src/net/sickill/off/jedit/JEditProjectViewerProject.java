@@ -5,32 +5,40 @@
 
 package net.sickill.off.jedit;
 
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import net.sickill.off.common.AbstractProject;
 import net.sickill.off.common.OffListModel;
 import net.sickill.off.common.ProjectFile;
+
+import org.gjt.sp.jedit.EBComponent;
+import org.gjt.sp.jedit.EBMessage;
+import org.gjt.sp.jedit.EditBus;
 import org.gjt.sp.jedit.View;
+
 import projectviewer.ProjectViewer;
-import projectviewer.event.ProjectEvent;
-import projectviewer.event.ProjectListener;
-import projectviewer.event.ProjectViewerEvent;
-import projectviewer.event.ProjectViewerListener;
+import projectviewer.event.NodeSelectionUpdate;
+import projectviewer.event.ProjectUpdate;
+import projectviewer.event.StructureUpdate;
 import projectviewer.vpt.VPTFile;
+import projectviewer.vpt.VPTGroup;
+import projectviewer.vpt.VPTNode;
 import projectviewer.vpt.VPTProject;
 
 /**
  *
  * @author kill
  */
-public class JEditProjectViewerProject extends AbstractProject implements ProjectViewerListener, ProjectListener {
+public class JEditProjectViewerProject extends AbstractProject implements EBComponent {
     View view;
     VPTProject project;
     Logger logger = Logger.getLogger(this.getClass().getName());
 
     JEditProjectViewerProject(View view) {
         this.view = view;
-        ProjectViewer.addProjectViewerListener(this, view);
+        EditBus.addToBus(this);
     }
 
     public void init(OffListModel model) {
@@ -45,11 +53,11 @@ public class JEditProjectViewerProject extends AbstractProject implements Projec
         return null;
     }
 
-    public void nodeSelected(ProjectViewerEvent evt) {
+    public void nodeSelected(VPTNode node) {
     }
 
-    public void projectLoaded(ProjectViewerEvent evt) {
-        fetchProjectFiles(evt.getProject());
+    public void projectAdded(VPTProject p) {
+        fetchProjectFiles(p);
     }
 
     private synchronized void fetchProjectFiles(VPTProject p) {
@@ -71,7 +79,6 @@ public class JEditProjectViewerProject extends AbstractProject implements Projec
         public void run() {
             model.clear();
             if (project != null) {
-                project.addProjectListener(parent);
                 logger.info("reindexProject: indexing files from project " + project.getName());
                 model.setIndexing(true);
                 try {
@@ -92,52 +99,82 @@ public class JEditProjectViewerProject extends AbstractProject implements Projec
 
     }
 
-    public void projectAdded(ProjectViewerEvent evt) {
-    }
-
-    public void projectRemoved(ProjectViewerEvent evt) {
-        VPTProject p = evt.getProject();
-        if (p != null)
-            p.removeProjectListener(this);
+    public void projectRemoved(VPTProject p) {
         fetchProjectFiles(null);
     }
 
-    public void groupAdded(ProjectViewerEvent evt) {
+    public void groupAdded(VPTGroup g) {
     }
 
-    public void groupRemoved(ProjectViewerEvent evt) {
+    public void groupRemoved(VPTGroup g) {
     }
 
-    public void groupActivated(ProjectViewerEvent evt) {
-        VPTProject p = evt.getProject();
-        if (p != null)
-            p.removeProjectListener(this);
+    public void groupActivated(VPTGroup g) {
         fetchProjectFiles(null);
     }
 
-    public void nodeMoved(ProjectViewerEvent evt) {
+    public void nodeMoved(VPTNode n) {
     }
 
-    public void fileAdded(ProjectEvent evt) {
-        model.addFile(new JEditProjectViewerFile(this, evt.getAddedFile()));
-    }
-
-    public void filesAdded(ProjectEvent evt) {
-        for (Object file : evt.getAddedFiles()) {
-            model.addFile(new JEditProjectViewerFile(this, (VPTFile)file));
+    public void filesAdded(VPTProject p, Collection<VPTFile> files) {
+        for (VPTFile file : files) {
+            model.addFile(new JEditProjectViewerFile(this, file));
         }
     }
 
-    public void fileRemoved(ProjectEvent evt) {
-        model.removeFile(evt.getAddedFile());
-    }
-
-    public void filesRemoved(ProjectEvent evt) {
-        for (Object file : evt.getRemovedFiles()) {
+    public void filesRemoved(VPTProject p, Collection<VPTFile> files) {
+        for (VPTFile file : files) {
             model.removeFile(file);
         }
     }
 
-    public void propertiesChanged(ProjectEvent evt) {
+    public void propertiesChanged(VPTProject p) {
     }
+
+	public void handleMessage(EBMessage message)
+	{
+		String className = message.getClass().getCanonicalName();
+		if (className.endsWith("NodeSelectionUpdate")) {
+			NodeSelectionUpdate msg = (NodeSelectionUpdate)message;
+			VPTNode node = msg.getNode();
+			if (node.isGroup())
+				groupActivated((VPTGroup)node);
+			else
+				nodeSelected(node);
+		}
+		else if (className.endsWith("StructureUpdate")) {
+			StructureUpdate msg = (StructureUpdate)message;
+			VPTNode node = msg.getNode();
+			switch(msg.getType()) {
+			case PROJECT_ADDED:
+				projectAdded((VPTProject)node);
+				break;
+			case PROJECT_REMOVED:
+				projectRemoved((VPTProject)node);
+				break;
+			case GROUP_ADDED:
+				groupAdded((VPTGroup)node);
+				break;
+			case GROUP_REMOVED:
+				groupRemoved((VPTGroup)node);
+				break;
+			case NODE_MOVED:
+				nodeMoved(node);
+				break;
+			}
+		}
+		else if (className.endsWith("ProjectUpdate")) {
+			ProjectUpdate msg = (ProjectUpdate)message;
+			VPTProject project = msg.getProject();
+			switch(msg.getType()) {
+			case FILES_CHANGED:
+				filesAdded(project, msg.getAddedFiles());
+				filesRemoved(project, msg.getRemovedFiles());
+				break;
+			case PROPERTIES_CHANGED:
+				propertiesChanged(project);
+				break;
+			}
+		}
+	}
 }
