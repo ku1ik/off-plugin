@@ -19,7 +19,7 @@ import org.gjt.sp.jedit.EditBus;
 import org.gjt.sp.jedit.View;
 
 import projectviewer.ProjectViewer;
-import projectviewer.event.NodeSelectionUpdate;
+import projectviewer.event.ViewerUpdate;
 import projectviewer.event.ProjectUpdate;
 import projectviewer.event.StructureUpdate;
 import projectviewer.vpt.VPTFile;
@@ -51,13 +51,6 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
             return project.getRootPath() + "/";
         }
         return null;
-    }
-
-    public void nodeSelected(VPTNode node) {
-    }
-
-    public void projectAdded(VPTProject p) {
-        fetchProjectFiles(p);
     }
 
     private synchronized void fetchProjectFiles(VPTProject p) {
@@ -99,82 +92,54 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
 
     }
 
-    public void projectRemoved(VPTProject p) {
-        fetchProjectFiles(null);
-    }
-
-    public void groupAdded(VPTGroup g) {
-    }
-
-    public void groupRemoved(VPTGroup g) {
-    }
-
     public void groupActivated(VPTGroup g) {
         fetchProjectFiles(null);
     }
 
-    public void nodeMoved(VPTNode n) {
+    public void projectLoaded(VPTProject project) {
+        fetchProjectFiles(project);
     }
 
     public void filesAdded(VPTProject p, Collection<VPTFile> files) {
-        for (VPTFile file : files) {
-            model.addFile(new JEditProjectViewerFile(this, file));
+        if (files != null) {
+            for (VPTFile file : files) {
+                model.addFile(new JEditProjectViewerFile(this, file));
+            }
         }
     }
 
     public void filesRemoved(VPTProject p, Collection<VPTFile> files) {
-        for (VPTFile file : files) {
-            model.removeFile(file);
+        if (files != null) {
+            for (VPTFile file : files) {
+                model.removeFile(file);
+            }
         }
     }
 
-    public void propertiesChanged(VPTProject p) {
+    public void handleMessage(EBMessage message) {
+        String className = message.getClass().getCanonicalName();
+        if (className.endsWith("ViewerUpdate")) {
+            ViewerUpdate msg = (ViewerUpdate)message;
+            switch(msg.getType()) {
+            case PROJECT_LOADED:
+                projectLoaded((VPTProject)msg.getNode());
+                break;
+            case GROUP_ACTIVATED:
+                groupActivated((VPTGroup)msg.getNode());
+                break;
+            }
+        } else if (className.endsWith("ProjectUpdate")) {
+            ProjectUpdate msg = (ProjectUpdate)message;
+            VPTProject project = msg.getProject();
+            switch(msg.getType()) {
+            case FILES_CHANGED:
+                filesAdded(project, msg.getAddedFiles());
+                filesRemoved(project, msg.getRemovedFiles());
+                break;
+            case PROPERTIES_CHANGED:
+                //propertiesChanged(project);
+                break;
+            }
+        }
     }
-
-	public void handleMessage(EBMessage message)
-	{
-		String className = message.getClass().getCanonicalName();
-		if (className.endsWith("NodeSelectionUpdate")) {
-			NodeSelectionUpdate msg = (NodeSelectionUpdate)message;
-			VPTNode node = msg.getNode();
-			if (node.isGroup())
-				groupActivated((VPTGroup)node);
-			else
-				nodeSelected(node);
-		}
-		else if (className.endsWith("StructureUpdate")) {
-			StructureUpdate msg = (StructureUpdate)message;
-			VPTNode node = msg.getNode();
-			switch(msg.getType()) {
-			case PROJECT_ADDED:
-				projectAdded((VPTProject)node);
-				break;
-			case PROJECT_REMOVED:
-				projectRemoved((VPTProject)node);
-				break;
-			case GROUP_ADDED:
-				groupAdded((VPTGroup)node);
-				break;
-			case GROUP_REMOVED:
-				groupRemoved((VPTGroup)node);
-				break;
-			case NODE_MOVED:
-				nodeMoved(node);
-				break;
-			}
-		}
-		else if (className.endsWith("ProjectUpdate")) {
-			ProjectUpdate msg = (ProjectUpdate)message;
-			VPTProject project = msg.getProject();
-			switch(msg.getType()) {
-			case FILES_CHANGED:
-				filesAdded(project, msg.getAddedFiles());
-				filesRemoved(project, msg.getRemovedFiles());
-				break;
-			case PROPERTIES_CHANGED:
-				propertiesChanged(project);
-				break;
-			}
-		}
-	}
 }
