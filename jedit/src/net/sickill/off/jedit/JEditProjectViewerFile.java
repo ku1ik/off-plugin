@@ -38,7 +38,7 @@ public class JEditProjectViewerFile extends ProjectFile {
     }
 
     public long getSize() {
-        return file.getFile().length();
+        return file.getFile().getLength();
     }
 
     @Override
