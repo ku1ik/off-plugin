@@ -23,6 +23,15 @@ public class OffListElement {
 		this.matcher = matcher;
 		this.file = file;
 		this.label = label;
+
+        String filename = file.getName();
+        highlightedText = "";
+        int lastStart = 0;
+        for (int i=1; i<=matcher.groupCount(); i++) {
+            highlightedText += filename.substring(lastStart, matcher.start(i)) + "<b>" + filename.charAt(matcher.start(i)) + "</b>";
+            lastStart = matcher.end(i);
+        }
+        highlightedText += filename.substring(lastStart);
 	}
 
 	public ProjectFile getFile() {

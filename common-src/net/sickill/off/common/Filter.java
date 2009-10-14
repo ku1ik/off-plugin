@@ -34,7 +34,7 @@ public class Filter {
                 if (c.equals("*")) {
                     regex += ".*?";
                 } else {
-                    regex += "\\Q" + c + "\\E([^\\/]*?)"; // \Q \E quoting
+                    regex += "(\\Q" + c + "\\E)[^\\/]*?"; // \Q \E quoting
                 }
 			}
 		} else {
