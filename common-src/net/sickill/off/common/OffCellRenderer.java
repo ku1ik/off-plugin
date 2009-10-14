@@ -20,9 +20,9 @@ public class OffCellRenderer extends DefaultListCellRenderer {
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
 		Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-		OffListElement e = (OffListElement) value;
-		((JLabel) comp).setText(e.getLabel());
-        ((JLabel)comp).setIcon(e.getIcon());
+		OffListElement e = (OffListElement)value;
+		((JLabel)comp).setText(e.getLabel());
+                ((JLabel)comp).setIcon(e.getIcon());
 		return comp;
 	}
 }
