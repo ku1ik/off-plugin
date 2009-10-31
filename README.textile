@@ -2,7 +2,7 @@ h1. Open File Fast
 
 h2. Introduction
 
-*Open File Fast* (tm) is a plugin for "Netbeans IDE":http://netbeans.org which allows you to find and open file in the project within a second.
+*Open File Fast* (tm) is a plugin for "Netbeans IDE":http://netbeans.org and "JEdit":http://jedit.org which allows you to find and open file in the project within a second.
 
 It is inspired by "Textmate's":http://macromates.com/ quick open file dialog however it has a lot more features. Basically it works like this: you type only several characters of filename you are searching for and you get list of all files matching your pattern. For example when you are looking for FooBar.java you can type _fbj_ and you will find it. It really helps navigating through the project (especially bigger ones) as you don't need to use a mouse nor locate filename visually in project tree but just use filename shortcuts.
 
@@ -45,5 +45,5 @@ Open File Fast can be set up to your own preferences and to match your own workf
 
 h2. Download
 
-Grab it here: "off-netbeans-0.9.3.nbm":http://counter.sickill.net/?f=http://sickill.net/assets/off-netbeans-0.9.3.nbm. If you want to help or just look into sources they're on "github":http://github.com/sickill/off-plugin/tree/master .
+Grab it here: "off-netbeans-0.9.4.nbm":http://counter.sickill.net/?f=http://sickill.net/assets/off-netbeans-0.9.3.nbm (Netbeans version) or "off-jedit-0.9.4.1.nbm":http://counter.sickill.net/?f=http://sickill.net/assets/off-jedit-0.9.4.1.nbm (JEdit version). If you want to help or just look into sources they're on "github":http://github.com/sickill/off-plugin/tree/master .
 
