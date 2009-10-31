@@ -13,9 +13,9 @@ import javax.swing.Icon;
  * @author kill
  */
 public class OffListElement {
+	String filename, path;
 	ProjectFile file;
 	Matcher matcher;
-	String label;
 	int priority = 0;
 	boolean withPath;
 
@@ -30,39 +30,49 @@ public class OffListElement {
 	}
 
 	private String generateHighlightedLabel() {
-		String filename = file.getName();
+		String fn = file.getName();
 		String label_ = "";
 		int lastStart = 0;
 		for (int i=1; i<=matcher.groupCount(); i++) {
-			label_ += filename.substring(lastStart, matcher.start(i)) + "<b>" + filename.charAt(matcher.start(i)) + "</b>";
+			label_ += fn.substring(lastStart, matcher.start(i)) + "<b>" + fn.charAt(matcher.start(i)) + "</b>";
 			lastStart = matcher.end(i);
 		}
-		label_ += filename.substring(lastStart);
+		label_ += fn.substring(lastStart);
 		return label_;
 	}
 
-	private void generateLabel() {
-		label = withPath ? file.getName() : generateHighlightedLabel();
+	private void buildFilename() {
+		filename = withPath ? file.getName() : generateHighlightedLabel();
 	//        label = file.getName();
 	//        if (!settings.isShowExt()) {
 	//            label = label.replaceFirst("\\.[^\\.]+$", "");
 	//        }
 	//        if (settings.isShowPath()) {
-			String pathInProject = file.getDirectory();
-			if (!pathInProject.equals("")) {
-				label += " [" + pathInProject.substring(0, pathInProject.length()-1) + "]";
-			}
 	//        }
 	//        if (settings.isShowSize()) {
 	//            label += " - " + formatSize(file.getSize());
 	//        }
 	}
 
-	public String getLabel() {
-		if (label == null) {
-			generateLabel();
+	public String getFilename() {
+		if (filename == null) {
+			buildFilename();
 		}
-		return "<html>" + label + "</html>";
+		return "<html>" + filename + "</html>";
+	}
+
+	private void buildPath() {
+		path = file.getDirectory();
+		if (!path.equals("")) {
+			path = path.substring(0, path.length()-1) + " ";
+		}
+	}
+
+	public String getPath() {
+		if (path == null) {
+			buildPath();
+		}
+		return path;
 	}
 
 	public Icon getIcon() {
@@ -86,6 +96,6 @@ public class OffListElement {
 	}
 
 	public String toString() {
-		return getLabel();
+		return getFilename();
 	}
 }

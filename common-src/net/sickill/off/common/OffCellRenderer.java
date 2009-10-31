@@ -21,7 +21,7 @@ public class OffCellRenderer extends DefaultListCellRenderer {
 		Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 		OffListElement e = (OffListElement)value;
 		((JLabel)comp).setIcon(e.getIcon());
-		((JLabel)comp).setText(e.getLabel());
+		((JLabel)comp).setText(e.getFilename());
 		return comp;
 	}
 }

@@ -22,7 +22,7 @@ public class OffList extends JList implements MouseListener, KeyListener {
 	public OffList(OffPanel off, OffListModel listModel) {
 		super(listModel);
 		this.off = off;
-		setCellRenderer(new OffCellRenderer());
+		setCellRenderer(new OffColumnCellRenderer());
 		addKeyListener(this);
         addMouseListener(this);
 	}

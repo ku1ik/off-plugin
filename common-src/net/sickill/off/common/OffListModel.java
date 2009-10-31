@@ -194,8 +194,8 @@ public class OffListModel extends AbstractListModel {
 
 	class FileNameComparator implements Comparator<OffListElement> {
 		public int compare(OffListElement o1, OffListElement o2) {
-			return o1.getLabel().toLowerCase().compareTo(
-					o2.getLabel().toLowerCase());
+			return o1.getFile().getName().toLowerCase().compareTo(
+					o2.getFile().getName().toLowerCase());
 		}
 	}
 
