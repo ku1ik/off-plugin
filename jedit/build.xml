@@ -25,7 +25,7 @@
 	<property file="../build.properties"/>
 
 	<property name="jar.name"  value="${ant.project.name}.jar"/>
-	<property name="version"  value="2.1"/>
+	<property name="version"  value="1.0"/>
 	<property name="srcfile"  value="${ant.project.name}_src_${version}.zip"/>
 
 	<property name="src.dir" value="."/>
