@@ -2,7 +2,7 @@
 plugin.net.sickill.off.jedit.OffPlugin.activate=defer
 plugin.net.sickill.off.jedit.OffPlugin.name=Open File Fast
 plugin.net.sickill.off.jedit.OffPlugin.author=Marcin Kulik
-plugin.net.sickill.off.jedit.OffPlugin.version=1.0
+plugin.net.sickill.off.jedit.OffPlugin.version=1.0.1
 plugin.net.sickill.off.jedit.OffPlugin.docs=docs/index.html
 plugin.net.sickill.off.jedit.OffPlugin.description=Open File Fast is a plugin for Netbeans and JEdit for quick finding and opening files by typing only few characters (like Textmate's Go To File)
 plugin.net.sickill.off.jedit.OffPlugin.longdescription=description.html
@@ -10,7 +10,7 @@ plugin.net.sickill.off.jedit.OffPlugin.longdescription=description.html
 # dependencies
 plugin.net.sickill.off.jedit.OffPlugin.depend.0=jdk 1.5
 plugin.net.sickill.off.jedit.OffPlugin.depend.1=jedit 04.03.18.00
-plugin.net.sickill.off.jedit.OffPlugin.depend.2=plugin projectviewer.ProjectPlugin 2.9.1
+plugin.net.sickill.off.jedit.OffPlugin.depend.2=plugin projectviewer.ProjectPlugin 3.0
 
 off.label=Off
 off.title=Open File Fast
