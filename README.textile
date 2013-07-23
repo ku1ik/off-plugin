@@ -1,5 +1,9 @@
 h1. Open File Fast
 
+h2. MAINTAINER NEEDED!
+
+This project needs a maintainer. Open the Github issue if you want to help. 
+
 h2. Introduction
 
 *Open File Fast* (tm) is a plugin for "Netbeans IDE":http://netbeans.org and "JEdit":http://jedit.org which allows you to find and open file in the project within a second.
