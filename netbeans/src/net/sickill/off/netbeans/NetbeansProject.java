@@ -150,7 +150,19 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
                 if (selectedProject == null) {
                     logger.info("[OFF] no main project selected");
                 } else {
-                    projectRoot = selectedProject.getProjectDirectory().getPath() + "/";
+                  SourceGroup[] srcs = ProjectUtils.getSources( selectedProject )
+                                                   .getSourceGroups( Sources.TYPE_GENERIC );
+                  projectRoot = srcs[0].getRootFolder().getPath() + "/";
+                  if ( srcs.length > 1 ) {
+                    // assume that >1 source groups means that project is in one
+                    // and code is in another, so we look through until we find one
+                    // that doesn't match
+                    logger.warning("[OFF] Found multiple source folders; only using one project root" );
+                    if ( srcs[0].getRootFolder().getPath().equals( selectedProject.getProjectDirectory().getPath() ))
+                      projectRoot = srcs[1].getRootFolder().getPath() + "/";
+                  }
+                  
+//                    projectRoot = selectedProject.getProjectDirectory().getPath() + "/";
                     logger.info("[OFF] fetching files from project " + projectRoot);
 
                     Sources s = ProjectUtils.getSources(selectedProject);
