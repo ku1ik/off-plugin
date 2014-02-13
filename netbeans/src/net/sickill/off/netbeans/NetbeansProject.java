@@ -9,6 +9,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import net.sickill.off.common.*;
 import java.util.logging.Logger;
+import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
@@ -20,6 +21,9 @@ import org.openide.filesystems.FileChangeListener;
 import org.openide.filesystems.FileEvent;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileRenameEvent;
+import org.openide.loaders.DataObject;
+import org.openide.util.Lookup;
+import org.openide.util.Utilities;
 
 /**
  *
@@ -65,15 +69,39 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
 
     public Project getSelectedProject() {
         if (selectedProject == null) {
-            Project p = OpenProjects.getDefault().getMainProject();
-            if (p == null) {
-                Project[] projects = OpenProjects.getDefault().getOpenProjects();
-                if (projects.length > 0)
-                    p = projects[0];
-            }
+            Project p = getCurrentProject();
             setSelectedProject(p);
         }
         return selectedProject;
+    }
+
+    // see http://netbeans-org.1045718.n5.nabble.com/Lookup-current-active-Project-td3036983.html
+    public Project getCurrentProject() {
+
+        Lookup lookup = Utilities.actionsGlobalContext();
+
+        for (Project p : lookup.lookupAll(Project.class)) {
+            return p;
+        }
+
+        for (DataObject dObj : lookup.lookupAll(DataObject.class)) {
+            FileObject fObj = dObj.getPrimaryFile();
+            Project p = FileOwnerQuery.getOwner(fObj);
+            if (p != null) {
+                return p;
+            }
+        }
+
+        Project p = OpenProjects.getDefault().getMainProject();
+        if (p == null) {
+            return p;
+        }
+
+        for(Project project : OpenProjects.getDefault().getOpenProjects()) {
+            return project;
+        }
+
+        return null;
     }
 
     class ImportWorker implements Runnable {
