@@ -26,8 +26,10 @@ public abstract class Settings {
     public static boolean DEFAULT_MATCH_FROM_START = true;
     public static boolean DEFAULT_CLEAR_ON_OPEN = false;
     public static String DEFAULT_LESS_PRIORITY_MASK = "";
+    public static String DEFAULT_MORE_PRIORITY_MASK = "";
 
     protected Wildcard lessPriorityWildcard;
+    protected Wildcard morePriorityWildcard;
     protected Wildcard ignoreWildcard;
 
     public abstract void setBoolean(String prop, boolean b);
@@ -44,6 +46,13 @@ public abstract class Settings {
             lessPriorityWildcard = new Wildcard(getLessPriorityMask().trim());
         }
         return lessPriorityWildcard;
+    }
+
+    public Wildcard getMorePriorityWildcard() {
+        if (morePriorityWildcard == null) {
+            morePriorityWildcard = new Wildcard(getMorePriorityMask().trim());
+        }
+        return morePriorityWildcard;
     }
 
     public Wildcard getIgnoreWildcard() {
@@ -163,8 +172,17 @@ public abstract class Settings {
         setString("less-priority-mask", mask);
     }
 
+    public void setMorePriorityMask(String mask) {
+        morePriorityWildcard = null;
+        setString("more-priority-mask", mask);
+    }
+
     public String getLessPriorityMask() {
         return getString("less-priority-mask", Settings.DEFAULT_LESS_PRIORITY_MASK);
+    }
+
+    public String getMorePriorityMask() {
+        return getString("more-priority-mask", Settings.DEFAULT_MORE_PRIORITY_MASK);
     }
 
 }
