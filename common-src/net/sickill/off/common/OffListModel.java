@@ -156,6 +156,13 @@ public class OffListModel extends AbstractListModel {
 					e.setPriority(-1);
 				}
 			}
+
+			// higher priority
+			if (!settings.getMorePriorityMask().equals("")) {
+				if (settings.getMorePriorityWildcard().matches(file.getPathInProject())) {
+					e.setPriority(1);
+				}
+			}
 			matchingFiles.add(e);
 		}
 	}

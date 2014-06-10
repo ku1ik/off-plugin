@@ -169,19 +169,19 @@ public class OffListModelTest {
         model.setFilter("readme");
         model.refilter();
         ole = (OffListElement)model.getElementAt(0);
-        ole.getLabel();
+        ole.getFilename();
 //        assertTrue(Pattern.matches("^README$", ole.getLabel()));
 
         model.setFilter("tags");
         model.refilter();
         ole = (OffListElement)model.getElementAt(0);
-        ole.getLabel();
+        ole.getFilename();
 //        assertTrue(Pattern.matches("^tags\\.rb\\s\\[lib\\]$", ole.getLabel()));
 
         model.setFilter("user_topic");
         model.refilter();
         ole = (OffListElement)model.getElementAt(0);
-        ole.getLabel();
+        ole.getFilename();
 //      assertTrue(Pattern.matches("^user_topic\\.rb\\s\\[app\\/models\\]$", ole.getLabel()));
 
         String[] filters = { "a/m/", "a/m/u" };
@@ -189,7 +189,7 @@ public class OffListModelTest {
             model.setFilter(f);
             model.refilter();
             ole = (OffListElement)model.getElementAt(0);
-            ole.getLabel();
+            ole.getFilename();
         }
 //      assertTrue(Pattern.matches("^user_topic\\.rb\\s\\[app\\/models\\]$", ole.getLabel()));
     }
