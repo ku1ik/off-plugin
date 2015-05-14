@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.common;
 
 import javax.swing.JDialog;
@@ -19,7 +14,7 @@ public abstract class IDE {
     public void setDialog(JDialog dialog) {
         this.dialog = dialog;
     }
-    
+
     public void setPanel(OffPanel off) {
         this.off = off;
     }

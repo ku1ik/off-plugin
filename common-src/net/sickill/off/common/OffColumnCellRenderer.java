@@ -1,10 +1,5 @@
 package net.sickill.off.common;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -19,7 +14,7 @@ import javax.swing.border.EmptyBorder;
  * @author kill
  */
 public class OffColumnCellRenderer extends JPanel implements ListCellRenderer {
-//	private static final long serialVersionUID = 4562757887321715315L;
+
 	JLabel[] labels = { new JLabel(), new JLabel(), new JLabel() };
 
 	public OffColumnCellRenderer() {

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.sickill.off.common;
 
 import java.awt.event.KeyEvent;
@@ -190,7 +186,7 @@ public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
 
     public void load() {
         // TODO read settings and initialize GUI
-        // Example:        
+        // Example:
         // someCheckBox.setSelected(Preferences.userNodeForPackage(TazPanel.class).getBoolean("someFlag", false));
         // or for org.openide.util with API spec. version >= 7.4:
         // someCheckBox.setSelected(NbPreferences.forModule(TazPanel.class).getBoolean("someFlag", false));
@@ -203,7 +199,7 @@ public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
         }
         minPatternLength.setValue(s.getMinPatternLength());
         searchDelay.setValue(s.getSearchDelay());
-        ignoreMask.setText(s.getIgnoreMask().toString());
+        ignoreMask.setText(s.getIgnoreMask());
         matchFromStart.setSelected(s.isMatchFromStart());
         clearOnOpen.setSelected(s.isClearOnOpen());
         lessPriorityMask.setText(s.getLessPriorityMask());

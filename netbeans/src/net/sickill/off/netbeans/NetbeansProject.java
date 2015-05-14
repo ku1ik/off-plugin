@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.netbeans;
 
 import java.beans.PropertyChangeEvent;
@@ -161,12 +156,10 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
                     if ( srcs[0].getRootFolder().getPath().equals( selectedProject.getProjectDirectory().getPath() ))
                       projectRoot = srcs[1].getRootFolder().getPath() + "/";
                   }
-                  
-//                    projectRoot = selectedProject.getProjectDirectory().getPath() + "/";
+
                     logger.info("[OFF] fetching files from project " + projectRoot);
 
                     Sources s = ProjectUtils.getSources(selectedProject);
-//                    s.addChangeListener(this);
                     SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
 
                     for (SourceGroup group : groups) {
@@ -174,7 +167,7 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
                         logger.info("[OFF] found source group: " + group.getName() + " (" + folder.getPath() + ")");
                         collectFiles(group, folder);
                     }
-                } 
+                }
             } while (shouldRestart);
             model.setIndexing(false);
             model.refilter();
@@ -207,11 +200,6 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
         return projectRoot;
     }
 
-//    public void stateChanged(ChangeEvent e) {
-//        logger.info("source groups changed");
-//        fetchProjectFiles();
-//    }
-
     public void fileFolderCreated(FileEvent fe) {
         logger.info("fileFolderCreated");
         watchDirectory(fe.getFile());
@@ -237,7 +225,7 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
     }
 
     public void fileAttributeChanged(FileAttributeEvent fe) {
-//        logger.info("fileAttributeChanged, ignoring");
+
     }
 
     public void propertyChange(PropertyChangeEvent evt) {

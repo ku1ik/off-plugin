@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.netbeans;
 
 import net.sickill.off.common.*;
@@ -50,10 +45,6 @@ class NetbeansProjectFile extends ProjectFile {
     public FileObject getFileObject() {
         return fileObject;
     }
-
-//    public int getGroupPriority() {
-//        return 0;
-//    }
 
     public Icon getIcon() {
         return icon;

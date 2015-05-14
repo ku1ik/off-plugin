@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off;
 
 import net.sickill.off.common.OffListModel;
@@ -16,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -153,9 +149,9 @@ public class OffListModelTest {
         assertTrue(findFileInResults("Thumbs.db") == null);
     }
 
-    @Test
+    @Test @Ignore
     public void testSortingOrder() {
-//        throw new NotImplementedException();
+        // TODO
     }
 
     @Test
@@ -169,19 +165,16 @@ public class OffListModelTest {
         model.refilter();
         ole = (OffListElement)model.getElementAt(0);
         ole.getFilename();
-//        assertTrue(Pattern.matches("^README$", ole.getLabel()));
 
         model.setFilter("tags");
         model.refilter();
         ole = (OffListElement)model.getElementAt(0);
         ole.getFilename();
-//        assertTrue(Pattern.matches("^tags\\.rb\\s\\[lib\\]$", ole.getLabel()));
 
         model.setFilter("user_topic");
         model.refilter();
         ole = (OffListElement)model.getElementAt(0);
         ole.getFilename();
-//      assertTrue(Pattern.matches("^user_topic\\.rb\\s\\[app\\/models\\]$", ole.getLabel()));
 
         String[] filters = { "a/m/", "a/m/u" };
         for (String f : filters) {
@@ -190,7 +183,6 @@ public class OffListModelTest {
             ole = (OffListElement)model.getElementAt(0);
             ole.getFilename();
         }
-//      assertTrue(Pattern.matches("^user_topic\\.rb\\s\\[app\\/models\\]$", ole.getLabel()));
     }
 
 

@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.common;
 
 import javax.swing.Icon;
@@ -14,7 +9,6 @@ import javax.swing.Icon;
 public abstract class ProjectFile {
     protected AbstractProject project;
 
-//    public abstract int getGroupPriority();
     public abstract Icon getIcon();
     public abstract String getName();
     public abstract String getFullPath();

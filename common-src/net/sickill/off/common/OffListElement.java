@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.common;
 
 import java.util.regex.Matcher;
@@ -43,15 +38,6 @@ public class OffListElement {
 
 	private void buildFilename() {
 		filename = withPath ? file.getName() : generateHighlightedLabel();
-	//        label = file.getName();
-	//        if (!settings.isShowExt()) {
-	//            label = label.replaceFirst("\\.[^\\.]+$", "");
-	//        }
-	//        if (settings.isShowPath()) {
-	//        }
-	//        if (settings.isShowSize()) {
-	//            label += " - " + formatSize(file.getSize());
-	//        }
 	}
 
 	public String getFilename() {

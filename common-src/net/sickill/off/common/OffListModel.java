@@ -16,7 +16,6 @@ import javax.swing.AbstractListModel;
 public class OffListModel extends AbstractListModel {
 	private static final long serialVersionUID = 7121724322112004624L;
 	public static int MAX_RESULTS = 50;
-	//	private HashMap<String, ProjectFile> allFiles;
 	private ArrayList<ProjectFile> allFiles;
 	private List<OffListElement> matchingFiles;
 	private Filter filter;
@@ -42,7 +41,6 @@ public class OffListModel extends AbstractListModel {
 
 	public void clear() {
 		synchronized(mutex) {
-	//            allFiles = new HashMap<String, ProjectFile>();
 			allFiles = new ArrayList<ProjectFile>();
 		}
 		reset();
@@ -97,7 +95,6 @@ public class OffListModel extends AbstractListModel {
 			return;
 		}
 		filter = (f == null ? null : new Filter(f, settings));
-	//        refilter();
 	}
 
 	public void refilter() {
@@ -121,11 +118,6 @@ public class OffListModel extends AbstractListModel {
 			if (settings.isExtensionSorting()) {
 				Collections.sort(matchingFiles, new FileExtensionComparator());
 			}
-
-			// custom sorting/grouping (ie. JEdit's project viewer groups)
-	//            if (settings.isCustomSorting()) {
-				///Collections.sort(matchedFiles, new FileGroupComparator());
-	//            }
 
 			// sort by match distance if smart matching
 			if (settings.isSmartMatch() && settings.isDistanceSorting()) {
@@ -164,16 +156,6 @@ public class OffListModel extends AbstractListModel {
 				}
 			}
 			matchingFiles.add(e);
-		}
-	}
-
-	private String formatSize(long size) {
-		if (size < 1024) { // in bytes
-			return ""+size+" B";
-		} else if (size < 1024*1024) { // in kilobytes
-			return ""+String.format("%.1f", size/1024.0)+" KB";
-		} else { // in megabytes
-			return ""+String.format("%.1f", size/(1024.0*1024.0))+" MB";
 		}
 	}
 

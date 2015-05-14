@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.common;
 
 import java.util.regex.Matcher;
@@ -38,7 +33,7 @@ public class Wildcard {
     public Matcher matcher(String subject) {
         return getPattern().matcher(subject);
     }
-    
+
     public boolean matches(String subject) {
         return matcher(subject).matches();
     }

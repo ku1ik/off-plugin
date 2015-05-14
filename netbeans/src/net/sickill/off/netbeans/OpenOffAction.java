@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.sickill.off.netbeans;
 
 import java.awt.event.ActionEvent;
