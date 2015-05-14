@@ -17,24 +17,24 @@ public class Filter {
         if (!settings.isMatchFromStart()) {
             filter = "*" + filter;
         }
-		filter = filter.toLowerCase().replaceAll("\\*{2,}", "*");
+        filter = filter.toLowerCase().replaceAll("\\*{2,}", "*");
 
         String regex = "(?:[_])?";
 
-		if (settings.isSmartMatch()) {
-			String[] chars = filter.split("");
-			for (String c : chars) {
-				if (c.equals(""))
+        if (settings.isSmartMatch()) {
+            String[] chars = filter.split("");
+            for (String c : chars) {
+                if (c.equals(""))
                     continue;
                 if (c.equals("*")) {
                     regex += ".*?";
                 } else {
                     regex += "(\\Q" + c + "\\E)[^\\/]*?"; // \Q \E quoting
                 }
-			}
-		} else {
-			regex += (filter + "*").replaceAll("([^\\*]+)", "\\\\Q$1\\\\E").replaceAll("\\*", "[^\\/]*?");
-		}
+            }
+        } else {
+            regex += (filter + "*").replaceAll("([^\\*]+)", "\\\\Q$1\\\\E").replaceAll("\\*", "[^\\/]*?");
+        }
 
         pattern = Pattern.compile(regex);
     }

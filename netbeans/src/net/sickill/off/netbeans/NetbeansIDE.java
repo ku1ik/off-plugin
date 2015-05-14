@@ -88,5 +88,4 @@ public class NetbeansIDE extends IDE implements ItemListener {
         ((NetbeansDialog)dialog).closeDialog();
     }
 
-
 }
