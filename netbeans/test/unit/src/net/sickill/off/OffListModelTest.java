@@ -10,7 +10,6 @@ import net.sickill.off.common.OffListElement;
 import net.sickill.off.common.ProjectFile;
 import net.sickill.off.common.AbstractProject;
 import net.sickill.off.common.Settings;
-import java.util.regex.Pattern;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -82,7 +81,7 @@ public class OffListModelTest {
         model.refilter();
         assertTrue(elementNameMatches(0, "Rakefile"));
     }
-    
+
     @Test
     public void testNameSorting() {
         settings.setSmartMatch(false);
@@ -91,7 +90,7 @@ public class OffListModelTest {
         assertTrue(elementNameMatches(0, "helper.rb"));
         assertTrue(elementNameMatches(model.getSize()-1, "zone.cfg"));
     }
-    
+
     @Test
     public void testDistanceSorting() {
         model.setFilter("rae");
@@ -116,9 +115,9 @@ public class OffListModelTest {
         model.setFilter("index");
         model.refilter();
         assertTrue(model.getSize() == 3);
-        assertTrue(elementPathMatches(0, "app/views/elements/index.html"));
+        assertTrue(elementPathMatches(0, "app/views/users/index.html"));
         assertTrue(elementPathMatches(1, "app/views/topics/index.html"));
-        assertTrue(elementPathMatches(2, "app/views/users/index.html"));
+        assertTrue(elementPathMatches(2, "app/views/elements/index.html"));
     }
 
     @Test
@@ -126,15 +125,15 @@ public class OffListModelTest {
         settings.setLessPriorityMask("*inde*");
         model.setFilter("***");
         model.refilter();
-        assertTrue(elementPathMatches(model.getSize() - 3, "app/views/elements/index.html"));
+        assertTrue(elementPathMatches(model.getSize() - 3, "app/views/users/index.html"));
         assertTrue(elementPathMatches(model.getSize() - 2, "app/views/topics/index.html"));
-        assertTrue(elementPathMatches(model.getSize() - 1, "app/views/users/index.html"));
+        assertTrue(elementPathMatches(model.getSize() - 1, "app/views/elements/index.html"));
 
         settings.setLessPriorityMask("*Thumbs*");
         model.refilter();
         assertTrue(elementPathMatches(model.getSize() - 1, "jola/Thumbs.db"));
     }
-    
+
     @Test
     public void testIgnoreMask() {
         model.setFilter("***");
@@ -157,7 +156,7 @@ public class OffListModelTest {
     @Test
     public void testSortingOrder() {
 //        throw new NotImplementedException();
-    } 
+    }
 
     @Test
     public void testLabel() {
@@ -193,10 +192,10 @@ public class OffListModelTest {
         }
 //      assertTrue(Pattern.matches("^user_topic\\.rb\\s\\[app\\/models\\]$", ole.getLabel()));
     }
-    
-    
+
+
     // -----------------------------------------------------------------------------------
-    
+
     // helpers
 
     private ProjectFile findFileInResults(String name) {
