@@ -88,7 +88,7 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
         }
 
         Project p = OpenProjects.getDefault().getMainProject();
-        if (p == null) {
+        if (p != null) {
             return p;
         }
 
