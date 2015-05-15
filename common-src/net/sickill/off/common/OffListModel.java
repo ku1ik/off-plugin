@@ -33,9 +33,11 @@ public class OffListModel extends AbstractListModel {
         clear();
     }
 
-    public OffListModel(Settings s, IndexingListener indexingListener, SearchStatusListener statusListener) {
-        this(s);
+    void setIndexingListener(IndexingListener indexingListener) {
         this.indexingListener = indexingListener;
+    }
+
+    void setStatusListener(SearchStatusListener statusListener) {
         this.statusListener = statusListener;
     }
 

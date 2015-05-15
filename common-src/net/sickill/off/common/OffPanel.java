@@ -85,9 +85,11 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
 
         add(pnlSouth, BorderLayout.SOUTH);
 
-        listModel = new OffListModel(settings, this, this);
+        listModel = project.getModel();
 
-        project.init(listModel);
+        listModel.setIndexingListener(this);
+        listModel.setStatusListener(this);
+
         resultsList = new OffList(this, listModel);
 
         JScrollPane scroller = new JScrollPane(resultsList);

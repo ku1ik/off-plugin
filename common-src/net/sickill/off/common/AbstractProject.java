@@ -12,4 +12,8 @@ public abstract class AbstractProject {
     public void init(OffListModel model) {
         this.model = model;
     }
+
+    public OffListModel getModel() {
+      return model;
+    }
 }

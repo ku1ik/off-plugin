@@ -46,7 +46,7 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
     public void init(OffListModel model) {
         super.init(model);
         OpenProjects.getDefault().addPropertyChangeListener(this);
-        fetchProjectFiles();
+        getSelectedProject();
     }
 
     public synchronized void fetchProjectFiles() {
@@ -145,22 +145,31 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
                 if (selectedProject == null) {
                     logger.info("[OFF] no main project selected");
                 } else {
-                  SourceGroup[] srcs = ProjectUtils.getSources( selectedProject )
-                                                   .getSourceGroups( Sources.TYPE_GENERIC );
-                  projectRoot = srcs[0].getRootFolder().getPath() + "/";
-                  if ( srcs.length > 1 ) {
-                    // assume that >1 source groups means that project is in one
-                    // and code is in another, so we look through until we find one
-                    // that doesn't match
-                    logger.warning("[OFF] Found multiple source folders; only using one project root" );
-                    if ( srcs[0].getRootFolder().getPath().equals( selectedProject.getProjectDirectory().getPath() ))
-                      projectRoot = srcs[1].getRootFolder().getPath() + "/";
-                  }
+                    // During initialization, selectedProject may be an instance of LazyProject.
+                    // This will break the group.contains(child) check in collectFiles() because
+                    // the owner of the files will be an instance of J2SEProject instead.
+                    // We try to detect this here and update the selectedProject reference.
+                    FileObject projectDir = selectedProject.getProjectDirectory();
+                    Project owner = FileOwnerQuery.getOwner(projectDir);
+
+                    if (owner != null && owner != selectedProject) {
+                      selectedProject = owner;
+                    }
+
+                    Sources sources = ProjectUtils.getSources(selectedProject);
+                    SourceGroup[] groups = sources.getSourceGroups(Sources.TYPE_GENERIC);
+
+                    projectRoot = groups[0].getRootFolder().getPath() + "/";
+                    if ( groups.length > 1 ) {
+                      // assume that >1 source groups means that project is in one
+                      // and code is in another, so we look through until we find one
+                      // that doesn't match
+                      logger.warning("[OFF] Found multiple source folders; only using one project root" );
+                      if ( groups[0].getRootFolder().getPath().equals( selectedProject.getProjectDirectory().getPath() ))
+                        projectRoot = groups[1].getRootFolder().getPath() + "/";
+                    }
 
                     logger.info("[OFF] fetching files from project " + projectRoot);
-
-                    Sources s = ProjectUtils.getSources(selectedProject);
-                    SourceGroup[] groups = s.getSourceGroups(Sources.TYPE_GENERIC);
 
                     for (SourceGroup group : groups) {
                         FileObject folder = group.getRootFolder();
