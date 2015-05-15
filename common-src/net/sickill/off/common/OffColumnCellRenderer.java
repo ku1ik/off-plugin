@@ -13,7 +13,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author kill
  */
-public class OffColumnCellRenderer extends JPanel implements ListCellRenderer {
+public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<OffListElement> {
 
     JLabel[] labels = { new JLabel(), new JLabel(), new JLabel() };
 
@@ -26,8 +26,8 @@ public class OffColumnCellRenderer extends JPanel implements ListCellRenderer {
         add(labels[2], BorderLayout.EAST);
     }
 
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        OffListElement e = (OffListElement)value;
+    public Component getListCellRendererComponent(JList<? extends OffListElement> list, OffListElement value, int index, boolean isSelected, boolean cellHasFocus) {
+        OffListElement e = value; // TODO
 
         labels[0].setIcon(e.getIcon());
         labels[1].setText(e.getFilename());

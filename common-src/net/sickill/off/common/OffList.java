@@ -10,7 +10,7 @@ import javax.swing.JList;
  *
  * @author kill
  */
-public class OffList extends JList implements MouseListener, KeyListener {
+public class OffList extends JList<OffListElement> implements MouseListener, KeyListener {
     private static final long serialVersionUID = -3358863446749199157L;
     private OffPanel off;
 

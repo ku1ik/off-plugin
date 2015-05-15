@@ -22,7 +22,7 @@ public abstract class OffDialog extends JDialog implements ComponentListener {
         addNotify();
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         settings = getSettings();
-        setMinimumSize(new Dimension(settings.DEFAULT_DIALOG_WIDTH / 2, settings.DEFAULT_DIALOG_HEIGHT / 2));
+        setMinimumSize(new Dimension(Settings.DEFAULT_DIALOG_WIDTH / 2, Settings.DEFAULT_DIALOG_HEIGHT / 2));
         setSize(settings.getDialogWidth(), settings.getDialogHeight());
         setLocationRelativeTo(null);
     }

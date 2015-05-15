@@ -108,9 +108,8 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
     public void openSelected() {
         // For enter keys pressed inside txtfilename
         ide.closeWindow();
-        for (Object o : resultsList.getSelectedValues()) {
-    //			int lineNo = getLineNumber();
-            ProjectFile pf = ((OffListElement)o).getFile();
+        for (OffListElement element : resultsList.getSelectedValuesList()) {
+            ProjectFile pf = element.getFile();
             listModel.incrementAccessCounter(pf);
             ide.openFile(pf);
         }

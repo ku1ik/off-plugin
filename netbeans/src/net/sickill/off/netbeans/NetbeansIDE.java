@@ -25,7 +25,7 @@ import org.openide.util.Exceptions;
  * @author kill
  */
 public class NetbeansIDE extends IDE implements ItemListener {
-    private JComboBox projectChooser;
+    private JComboBox<ProjectItem> projectChooser;
 
     @Override
     public void onFocus() {
@@ -56,7 +56,7 @@ public class NetbeansIDE extends IDE implements ItemListener {
 
     @Override
     public void addCustomControls(JPanel panel) {
-        projectChooser = new JComboBox();
+        projectChooser = new JComboBox<ProjectItem>();
         panel.add(projectChooser, BorderLayout.CENTER);
         projectChooser.addItemListener(this);
         panel.add(new JLabel("Project "), BorderLayout.WEST);

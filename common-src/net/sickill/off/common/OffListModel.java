@@ -13,7 +13,7 @@ import javax.swing.AbstractListModel;
  *
  * @author kill
  */
-public class OffListModel extends AbstractListModel {
+public class OffListModel extends AbstractListModel<OffListElement> {
     private static final long serialVersionUID = 7121724322112004624L;
     public static int MAX_RESULTS = 50;
     private ArrayList<ProjectFile> allFiles;
@@ -161,7 +161,7 @@ public class OffListModel extends AbstractListModel {
         }
     }
 
-    public Object getElementAt(int index) {
+    public OffListElement getElementAt(int index) {
         return matchingFiles.get(index);
     }
 
