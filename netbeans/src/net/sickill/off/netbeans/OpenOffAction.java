@@ -1,10 +1,17 @@
 package net.sickill.off.netbeans;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.AbstractAction;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 
-public final class OpenOffAction implements ActionListener {
+@ActionID(id = "net.sickill.off.netbeans.OpenOffAction", category = "Project")
+@ActionRegistration(displayName = "#CTL_OpenOffAction")
+@ActionReference(path = "Menu/GoTo", position = 0)
+public final class OpenOffAction extends AbstractAction {
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         NetbeansDialog dialog = NetbeansDialog.getInstance();
         dialog.showDialog();

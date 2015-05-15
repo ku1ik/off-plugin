@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
 OpenIDE-Module: net.sickill.off
 OpenIDE-Module-Install: net/sickill/off/netbeans/Installer.class
-OpenIDE-Module-Layer: net/sickill/off/netbeans/layer.xml
 OpenIDE-Module-Localizing-Bundle: net/sickill/off/netbeans/Bundle.properties
 OpenIDE-Module-Specification-Version: 1.1
 

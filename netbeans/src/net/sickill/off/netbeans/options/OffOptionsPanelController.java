@@ -8,6 +8,11 @@ import org.netbeans.spi.options.OptionsPanelController;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 
+@OptionsPanelController.SubRegistration(
+    displayName = "#AdvancedOption_DisplayName_Off",
+    keywords = "#AdvancedOption_Keywords_Off",
+    keywordsCategory = "Advanced/null"
+)
 public final class OffOptionsPanelController extends OptionsPanelController {
 
     private OffOptionsPanel panel;
