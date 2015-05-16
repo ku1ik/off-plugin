@@ -43,7 +43,7 @@ public abstract class ProjectFile {
 
     String getExtension() {
         String name = getName();
-        int index = name.lastIndexOf(".");
+        int index = name.lastIndexOf('.');
         return (index == -1) ? "" : name.substring(index + 1, name.length());
     }
 }
