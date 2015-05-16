@@ -2,6 +2,7 @@ package net.sickill.off.netbeans;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Level;
 import net.sickill.off.common.*;
 import java.util.logging.Logger;
 import org.netbeans.api.project.FileOwnerQuery;
@@ -26,9 +27,9 @@ import org.openide.util.Utilities;
  */
 public class NetbeansProject extends AbstractProject implements FileChangeListener, PropertyChangeListener {
     private static NetbeansProject instance;
-    private Logger logger;
-    private String projectRoot;
-    private ImportWorker worker;
+    private static final Logger logger = Logger.getLogger(NetbeansProject.class.getName());
+    private String projectRoot = null;
+    private ImportWorker worker = new ImportWorker();
     private Project selectedProject;
 
     public static NetbeansProject getInstance() {
@@ -38,11 +39,7 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
         return instance;
     }
 
-    public NetbeansProject() {
-        worker = new ImportWorker(this);
-        logger = Logger.getLogger(this.getClass().getName());
-    }
-
+    @Override
     public void init(OffListModel model) {
         super.init(model);
         OpenProjects.getDefault().addPropertyChangeListener(this);
@@ -100,13 +97,8 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
     }
 
     class ImportWorker implements Runnable {
-        private NetbeansProject project;
         private boolean running = false;
         private boolean shouldRestart = false;
-
-        public ImportWorker(NetbeansProject project) {
-            this.project = project;
-        }
 
         public void start() {
             if (model == null) { return; }
@@ -154,27 +146,36 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
 
                     if (owner != null && owner != selectedProject) {
                       selectedProject = owner;
+                      projectDir = selectedProject.getProjectDirectory();
                     }
 
                     Sources sources = ProjectUtils.getSources(selectedProject);
                     SourceGroup[] groups = sources.getSourceGroups(Sources.TYPE_GENERIC);
 
-                    projectRoot = groups[0].getRootFolder().getPath() + "/";
-                    if ( groups.length > 1 ) {
-                      // assume that >1 source groups means that project is in one
-                      // and code is in another, so we look through until we find one
-                      // that doesn't match
-                      logger.warning("[OFF] Found multiple source folders; only using one project root" );
-                      if ( groups[0].getRootFolder().getPath().equals( selectedProject.getProjectDirectory().getPath() ))
-                        projectRoot = groups[1].getRootFolder().getPath() + "/";
+                    for (SourceGroup group : groups) {
+                      String groupRoot = group.getRootFolder().getPath();
+                      final boolean matches = groupRoot.equals(projectDir.getPath());
+
+                      if (projectRoot == null || matches) {
+                        projectRoot = groupRoot + "/";
+                      }
+
+                      if (matches) {
+                        break;
+                      }
                     }
 
-                    logger.info("[OFF] fetching files from project " + projectRoot);
+                    logger.log(Level.INFO, "[OFF] fetching files from project {0}", projectRoot);
 
                     for (SourceGroup group : groups) {
-                        FileObject folder = group.getRootFolder();
-                        logger.info("[OFF] found source group: " + group.getName() + " (" + folder.getPath() + ")");
-                        collectFiles(group, folder);
+                      FileObject folder = group.getRootFolder();
+
+                      logger.log(Level.INFO,
+                        "[OFF] found source group: {0} ({1})",
+                        new Object[]{ group.getName(), folder.getPath() }
+                      );
+
+                      collectFiles(group, folder);
                     }
                 }
             } while (shouldRestart);
@@ -192,7 +193,7 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
                     if (child.isFolder()) {
                         collectFiles(group, child);
                     } else if (child.isData()) {
-                        model.addFile(new NetbeansProjectFile(project, child));
+                        model.addFile(new NetbeansProjectFile(NetbeansProject.this, child));
                     }
                 }
             }
@@ -205,38 +206,46 @@ public class NetbeansProject extends AbstractProject implements FileChangeListen
 
     }
 
+    @Override
     public String getProjectRootPath() {
         return projectRoot;
     }
 
+    @Override
     public void fileFolderCreated(FileEvent fe) {
         logger.info("fileFolderCreated");
         watchDirectory(fe.getFile());
     }
 
+    @Override
     public void fileDataCreated(FileEvent fe) {
         logger.info("fileDataCreated");
         model.addFile(new NetbeansProjectFile(this, fe.getFile()));
     }
 
+    @Override
     public void fileChanged(FileEvent fe) {
         logger.info("fileChanged: ignoring internal file changes");
     }
 
+    @Override
     public void fileDeleted(FileEvent fe) {
         logger.info("fileDeleted");
         model.removeFile(fe.getFile());
     }
 
+    @Override
     public void fileRenamed(FileRenameEvent fe) {
         logger.info("fileRenamed");
         model.renameFile(fe.getFile(), fe.getName() + "." + fe.getExt());
     }
 
+    @Override
     public void fileAttributeChanged(FileAttributeEvent fe) {
 
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(OpenProjects.PROPERTY_MAIN_PROJECT)) {
             logger.info("main project changed");
