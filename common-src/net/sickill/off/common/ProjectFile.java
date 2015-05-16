@@ -1,5 +1,8 @@
 package net.sickill.off.common;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.swing.Icon;
 
 /**
@@ -21,10 +24,17 @@ public abstract class ProjectFile {
     }
 
     public String getDirectory() {
-        String fullPath = getFullPath();
-        int start = project.getProjectRootPath().length();
-        int end = fullPath.length() - getName().length();
-        return fullPath.substring(start, end);
+        Path fullPath = Paths.get(getFullPath());
+        Path rootPath = Paths.get(project.getProjectRootPath());
+
+        Path relative = rootPath.relativize(fullPath);
+        Path parent = relative.getParent();
+
+        if (parent == null) {
+          return File.separator;
+        }
+
+        return parent.toString() + File.separator;
     }
 
     public String getPathInProject() {
