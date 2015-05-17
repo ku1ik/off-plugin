@@ -1,6 +1,7 @@
 build
 *.class
 jedit/build.properties
+jedit/nbproject/private
 netbeans/build.xml
 netbeans/nbproject/private
 netbeans/nbproject/build-impl.xml
