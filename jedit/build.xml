@@ -18,6 +18,30 @@
 
   <target name="init">
     <mkdir dir="${build.dir}"/>
+
+    <fail message="Please copy build.properties.example to build.properties and provide needed values">
+      <condition>
+        <not>
+          <available file="build.properties" />
+        </not>
+      </condition>
+    </fail>
+
+    <fail message="jedit.jar not found. Make sure the jedit.install.dir property is correctly configured">
+      <condition>
+        <not>
+          <available file="${jedit.jar}" />
+        </not>
+      </condition>
+    </fail>
+
+    <fail message="ProjectViewer.jar not found at ${project.viewer.jar}. Please download it from http://plugins.jedit.org/plugins/?ProjectViewer">
+      <condition>
+        <not>
+          <available file="${project.viewer.jar}" />
+        </not>
+      </condition>
+    </fail>
   </target>
 
 

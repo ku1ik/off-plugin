@@ -30,6 +30,9 @@
                     <target>clean</target>
                     <target>compile</target>
                 </action>
+                <action name="Package">
+                  <target>dist</target>
+                </action>
             </ide-actions>
             <export>
                 <type>folder</type>
@@ -54,6 +57,7 @@
                     <ide-action name="build"/>
                     <ide-action name="rebuild"/>
                     <ide-action name="clean"/>
+                    <ide-action name="Package"/>
                 </context-menu>
             </view>
         </general-data>
