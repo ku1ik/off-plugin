@@ -27,7 +27,7 @@ import projectviewer.vpt.VPTProject;
 public class JEditProjectViewerProject extends AbstractProject implements EBComponent {
     View view;
     VPTProject project;
-    Logger logger = Logger.getLogger(this.getClass().getName());
+    static final Logger logger = Logger.getLogger(JEditProjectViewerProject.class.getName());
 
     JEditProjectViewerProject(View view) {
         this.view = view;
@@ -59,7 +59,7 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
         public void run() {
             model.clear();
             if (project != null) {
-                logger.info("reindexProject: indexing files from project " + project.getName());
+                logger.log(Level.INFO, "reindexProject: indexing files from project {0}", project.getName());
                 model.setIndexing(true);
                 try {
                     Thread.sleep(3000);

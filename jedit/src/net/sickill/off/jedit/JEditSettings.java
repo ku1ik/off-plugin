@@ -21,50 +21,42 @@ public class JEditSettings extends Settings {
 
     @Override
     public void setBoolean(String prop, boolean b) {
-        prop = PREFIX + prop;
-        jEdit.setBooleanProperty(prop, b);
+        jEdit.setBooleanProperty(PREFIX + prop, b);
     }
 
     @Override
     public boolean getBoolean(String prop, boolean def) {
-        prop = PREFIX + prop;
-        return jEdit.getBooleanProperty(prop, def);
+        return jEdit.getBooleanProperty(PREFIX + prop, def);
     }
 
     @Override
     public void setString(String prop, String s) {
-        prop = PREFIX + prop;
-        jEdit.setProperty(prop, s);
+        jEdit.setProperty(PREFIX + prop, s);
     }
 
     @Override
     public String getString(String prop, String def) {
-        prop = PREFIX + prop;
-        return jEdit.getProperty(prop, def);
+        return jEdit.getProperty(PREFIX + prop, def);
     }
 
     @Override
     public void setInt(String prop, int i) {
-        prop = PREFIX + prop;
-        jEdit.setIntegerProperty(prop, i);
+        jEdit.setIntegerProperty(PREFIX + prop, i);
     }
 
     @Override
     public int getInt(String prop, int def) {
-        prop = PREFIX + prop;
-        return jEdit.getIntegerProperty(prop, def);
+        return jEdit.getIntegerProperty(PREFIX + prop, def);
     }
 
     @Override
     public void setFloat(String prop, float f) {
-        prop = PREFIX + prop;
-        jEdit.setDoubleProperty(prop, f);
+        jEdit.setDoubleProperty(PREFIX + prop, f);
     }
 
     @Override
     public float getFloat(String prop, float def) {
-        prop = PREFIX + prop;
-        return (float)jEdit.getDoubleProperty(prop, def);
+        return (float)jEdit.getDoubleProperty(PREFIX + prop, def);
     }
 
     @Override

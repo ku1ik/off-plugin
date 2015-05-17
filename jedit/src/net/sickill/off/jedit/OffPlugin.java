@@ -20,8 +20,8 @@ public class OffPlugin extends EditPlugin {
 
     private static Settings settings = new JEditSettings();
 
-    static Hashtable<View, OffPanel> viewsWithOff = new Hashtable<View, OffPanel>();
-    static Hashtable<View, JEditDialog> dialogs = new Hashtable<View, JEditDialog>();
+    static Hashtable<View, OffPanel> viewsWithOff = new Hashtable<>();
+    static Hashtable<View, JEditDialog> dialogs = new Hashtable<>();
     static WindowAdapter windowAdapter;
 
     @Override
