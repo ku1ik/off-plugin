@@ -2,8 +2,8 @@ package net.sickill.off.jedit;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import net.sickill.off.common.IDE;
@@ -15,13 +15,12 @@ import org.gjt.sp.jedit.View;
 import org.gjt.sp.jedit.gui.DockableWindowManager;
 import org.gjt.sp.jedit.jEdit;
 
-
 public class OffPlugin extends EditPlugin {
 
     private static Settings settings = new JEditSettings();
 
-    static Hashtable<View, OffPanel> viewsWithOff = new Hashtable<>();
-    static Hashtable<View, JEditDialog> dialogs = new Hashtable<>();
+    static Map<View, OffPanel> viewsWithOff = new HashMap<>();
+    static Map<View, JEditDialog> dialogs = new HashMap<>();
     static WindowAdapter windowAdapter;
 
     @Override
@@ -32,9 +31,7 @@ public class OffPlugin extends EditPlugin {
 
     @Override
     public void stop() {
-        Enumeration<View> iter = viewsWithOff.keys();
-        while (iter.hasMoreElements()) {
-            View v = iter.nextElement();
+        for (View v : viewsWithOff.keySet()) {
             v.removeWindowListener(windowAdapter);
         }
         viewsWithOff.clear();
