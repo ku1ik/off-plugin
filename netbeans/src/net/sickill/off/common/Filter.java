@@ -28,7 +28,7 @@ public class Filter {
         char c = filter.charAt(i);
 
         if (c == '*') {
-          regex.append(".*");
+          regex.append(".*?");
         }
         else {
           String charPattern = "\\Q" + c + "\\E";
