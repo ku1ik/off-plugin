@@ -59,16 +59,10 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
             return;
         }
         project = p;
-        new Thread(new ImportWorker(this)).start();
+        new Thread(new ImportWorker()).start();
     }
 
     class ImportWorker implements Runnable {
-        private JEditProjectViewerProject parent;
-
-        public ImportWorker(JEditProjectViewerProject project) {
-            this.parent = project;
-        }
-
         public void run() {
             model.clear();
             if (project != null) {
@@ -80,7 +74,7 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
                     Logger.getLogger(JEditProjectViewerProject.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 for (Object node : project.getOpenableNodes()) {
-                    ProjectFile pf = new JEditProjectViewerFile(parent, (VPTFile)node);
+                    ProjectFile pf = new JEditProjectViewerFile(JEditProjectViewerProject.this, (VPTFile)node);
                     model.addFile(pf);
                 }
                 model.setIndexing(false);
