@@ -27,8 +27,7 @@
                     <target>clean</target>
                 </action>
                 <action name="rebuild">
-                    <target>clean</target>
-                    <target>compile</target>
+                    <target>rebuild</target>
                 </action>
                 <action name="Package">
                   <target>dist</target>
@@ -48,6 +47,7 @@
                     <source-folder style="packages">
                         <label>common-src</label>
                         <location>${common.src.dir}</location>
+                        <includes>net/sickill/off/common/**</includes>
                     </source-folder>
                     <source-file>
                         <location>build.xml</location>

@@ -15,7 +15,6 @@
     <pathelement location="${project.viewer.jar}"/>
   </path>
 
-
   <target name="init">
     <mkdir dir="${build.dir}"/>
 
@@ -44,7 +43,6 @@
     </fail>
   </target>
 
-
   <target name="compile" depends="init">
     <javac
       srcdir="${src.dir}:${common.src.dir}"
@@ -56,11 +54,11 @@
       includeantruntime="no"
       includejavaruntime="no"
     >
-      <classpath refid="project.class.path"/>
       <compilerarg value="-Xlint:all,-serial"/>
+      <classpath refid="project.class.path"/>
+      <exclude name="net/sickill/off/netbeans/**" />
     </javac>
   </target>
-
 
   <target name="dist" depends="compile">
     <jar jarfile="${install.dir}/${jar.name}">
@@ -72,8 +70,8 @@
         <include name="**/*.html"/>
       </fileset>
       <fileset dir="${common.src.dir}">
-        <include name="**/*.png"/>
-        <include name="**/*.gif"/>
+        <include name="net/sickill/off/common/**/*.png"/>
+        <include name="net/sickill/off/common/**/*.gif"/>
       </fileset>
     </jar>
   </target>
@@ -95,6 +93,8 @@
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
   </target>
+
+  <target name="rebuild" depends="clean,compile" />
 
   <!-- Generate tags using 'ctags' program from ctags.sourceforge.net -->
   <target name="tags">

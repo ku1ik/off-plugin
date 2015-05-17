@@ -27,11 +27,9 @@ public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<Of
     }
 
     public Component getListCellRendererComponent(JList<? extends OffListElement> list, OffListElement value, int index, boolean isSelected, boolean cellHasFocus) {
-        OffListElement e = value; // TODO
-
-        labels[0].setIcon(e.getIcon());
-        labels[1].setText(e.getFilename());
-        labels[2].setText(e.getPath());
+        labels[0].setIcon(value.getIcon());
+        labels[1].setText(value.getFilename());
+        labels[2].setText(value.getPath());
 
         if (isSelected) {
             for (JLabel l : labels) {
@@ -39,7 +37,6 @@ public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<Of
                 l.setBackground(list.getSelectionBackground());
                 l.setForeground(list.getSelectionForeground());
             }
-            labels[2].setForeground(list.getForeground());
         } else {
             for (JLabel l : labels) {
                 setBackground(list.getBackground());
