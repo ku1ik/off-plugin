@@ -26,7 +26,7 @@ public class OffPlugin extends EditPlugin {
 
     @Override
     public void start() {
-        windowAdapter = new TazWindowAdapter();
+        windowAdapter = new OffWindowAdapter();
         super.start();
     }
 
@@ -43,8 +43,8 @@ public class OffPlugin extends EditPlugin {
 
     /**
      * @param view
-     *            The View we activated Taz from.
-     * @return A lightweight JPanel wrapper around the Taz instance for this
+     *            The View we activated OFF from.
+     * @return A lightweight JPanel wrapper around the OFF instance for this
      *         View.
      */
     public static OffPanel getOffInstance(View view) {
@@ -85,7 +85,7 @@ public class OffPlugin extends EditPlugin {
         dialogs.clear();
     }
 
-    class TazWindowAdapter extends WindowAdapter {
+    class OffWindowAdapter extends WindowAdapter {
         // fired when JEdit View is closed
         @Override
         public void windowClosed(WindowEvent evt) {
