@@ -34,11 +34,13 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
         EditBus.addToBus(this);
     }
 
+    @Override
     public void init(OffListModel model) {
         super.init(model);
         fetchProjectFiles(ProjectViewer.getActiveProject(view));
     }
 
+    @Override
     public String getProjectRootPath() {
         if (project != null) {
             return project.getRootPath() + "/";
@@ -56,6 +58,7 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
     }
 
     class ImportWorker implements Runnable {
+        @Override
         public void run() {
             model.clear();
             if (project != null) {
@@ -103,6 +106,7 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
         }
     }
 
+    @Override
     public void handleMessage(EBMessage message) {
         String className = message.getClass().getCanonicalName();
         if (className.endsWith("ViewerUpdate")) {

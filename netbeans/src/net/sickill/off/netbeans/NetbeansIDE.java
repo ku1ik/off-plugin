@@ -42,6 +42,7 @@ public class NetbeansIDE extends IDE implements ItemListener {
         projectChooser.addItemListener(this);
     }
 
+    @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
             NetbeansProject.getInstance().setSelectedProject(((ProjectItem)e.getItem()).getProject());
@@ -62,6 +63,7 @@ public class NetbeansIDE extends IDE implements ItemListener {
         panel.add(new JLabel("Project "), BorderLayout.WEST);
     }
 
+    @Override
     public void openFile(ProjectFile pf, int lineNo) {
         try {
             DataObject data = DataObject.find(((NetbeansProjectFile)pf).getFileObject());
@@ -73,6 +75,7 @@ public class NetbeansIDE extends IDE implements ItemListener {
         }
     }
 
+    @Override
     public void openFile(ProjectFile pf) {
         openFile(pf, -1);
     }
@@ -84,6 +87,7 @@ public class NetbeansIDE extends IDE implements ItemListener {
         return true;
     }
 
+    @Override
     public void closeWindow() {
         ((NetbeansDialog)dialog).closeDialog();
     }

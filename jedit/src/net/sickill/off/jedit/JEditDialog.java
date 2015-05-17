@@ -22,9 +22,11 @@ public class JEditDialog extends OffDialog implements KeyListener {
         getContentPane().add(off, BorderLayout.CENTER);
     }
 
+    @Override
     public void keyTyped(KeyEvent e) {
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             dispose();
@@ -32,6 +34,7 @@ public class JEditDialog extends OffDialog implements KeyListener {
         }
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
     }
 

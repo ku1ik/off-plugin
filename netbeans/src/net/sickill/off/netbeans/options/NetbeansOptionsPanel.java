@@ -15,6 +15,7 @@ public class NetbeansOptionsPanel extends OffOptionsPanel {
         s = NetbeansSettings.getInstance();
     }
 
+    @Override
     public void store() {
         super.store();
         NetbeansProject.getInstance().fetchProjectFiles();

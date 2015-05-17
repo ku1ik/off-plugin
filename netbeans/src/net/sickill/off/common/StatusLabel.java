@@ -12,6 +12,7 @@ class StatusLabel extends JLabel {
         super(" ");
     }
 
+    @Override
     public Dimension getPreferredSize() {
         return new Dimension(super.getPreferredSize().width, 16);
     }

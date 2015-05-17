@@ -73,6 +73,7 @@ public class OffPlugin extends EditPlugin {
 
     static void closeDialogsAndPanels() {
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 DockableWindowManager dwm = jEdit.getActiveView().getDockableWindowManager();
                 dwm.hideDockableWindow("openfilefastdockable");
@@ -86,6 +87,7 @@ public class OffPlugin extends EditPlugin {
 
     class TazWindowAdapter extends WindowAdapter {
         // fired when JEdit View is closed
+        @Override
         public void windowClosed(WindowEvent evt) {
             viewsWithOff.remove(evt.getWindow());
             JDialog dialog = (JDialog)dialogs.remove(evt.getWindow());

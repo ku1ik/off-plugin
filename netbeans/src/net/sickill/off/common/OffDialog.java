@@ -27,17 +27,21 @@ public abstract class OffDialog extends JDialog implements ComponentListener {
         setLocationRelativeTo(null);
     }
 
+    @Override
     public void componentResized(ComponentEvent e) {
         settings.setDialogWidth(this.getWidth());
         settings.setDialogHeight(this.getHeight());
     }
 
+    @Override
     public void componentMoved(ComponentEvent e) {
     }
 
+    @Override
     public void componentShown(ComponentEvent e) {
     }
 
+    @Override
     public void componentHidden(ComponentEvent e) {
     }
 

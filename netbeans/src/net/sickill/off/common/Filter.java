@@ -43,6 +43,7 @@ public class Filter {
         return matcher(s).matches();
     }
 
+    @Override
     public String toString() {
         return stringPattern;
     }

@@ -44,6 +44,7 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
         return patternInput;
     }
 
+    @Override
     public void setIndexing(boolean indexing) {
         this.indexing = indexing;
         if (indexing) {
@@ -167,6 +168,7 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
         }
     }
 
+    @Override
     public void setSearchSuccess(boolean success) {
         if (success) {
             patternInput.setSearchSuccess(true);
@@ -177,6 +179,7 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
     }
 
 
+    @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             ide.closeWindow();
@@ -184,10 +187,13 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
         }
     }
 
+    @Override
     public void keyTyped(KeyEvent e) {}
+    @Override
     public void keyReleased(KeyEvent e) {}
 
     class SearchAction implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             search();
             timer = null;

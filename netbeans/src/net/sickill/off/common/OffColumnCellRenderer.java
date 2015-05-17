@@ -26,6 +26,7 @@ public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<Of
         add(labels[2], BorderLayout.EAST);
     }
 
+    @Override
     public Component getListCellRendererComponent(JList<? extends OffListElement> list, OffListElement value, int index, boolean isSelected, boolean cellHasFocus) {
         labels[0].setIcon(value.getIcon());
         labels[1].setText(value.getFilename());

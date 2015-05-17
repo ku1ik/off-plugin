@@ -16,18 +16,22 @@ public class JEditProjectViewerFile extends ProjectFile {
         file = node;
     }
 
+    @Override
     public Icon getIcon() {
         return file.getIcon(false);
     }
 
+    @Override
     public String getName() {
         return file.getName();
     }
 
+    @Override
     public String getFullPath() {
         return file.getNodePath();
     }
 
+    @Override
     public long getSize() {
         return file.getFile().getLength();
     }

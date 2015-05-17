@@ -39,6 +39,7 @@ class FakeProject extends AbstractProject {
         }
     }
 
+    @Override
     public String getProjectRootPath() {
         return PROJECT_ROOT;
     }

@@ -46,18 +46,22 @@ class NetbeansProjectFile extends ProjectFile {
         return fileObject;
     }
 
+    @Override
     public Icon getIcon() {
         return icon;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public String getFullPath() {
         return fullPath;
     }
 
+    @Override
     public long getSize() {
         return size;
     }
@@ -67,6 +71,7 @@ class NetbeansProjectFile extends ProjectFile {
         updateName();
     }
 
+    @Override
     public Object getId() {
         return fileObject;
     }

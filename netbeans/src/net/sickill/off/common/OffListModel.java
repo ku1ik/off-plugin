@@ -168,10 +168,12 @@ public class OffListModel extends AbstractListModel<OffListElement> {
         }
     }
 
+    @Override
     public OffListElement getElementAt(int index) {
         return matchingFiles.get(index);
     }
 
+    @Override
     public int getSize() {
         return matchingFiles.size() < MAX_RESULTS ? matchingFiles.size() : MAX_RESULTS;
     }
@@ -191,6 +193,7 @@ public class OffListModel extends AbstractListModel<OffListElement> {
     }
 
     class FileNameComparator implements Comparator<OffListElement> {
+        @Override
         public int compare(OffListElement o1, OffListElement o2) {
             return o1.getFile().getName().toLowerCase().compareTo(
                     o2.getFile().getName().toLowerCase());
@@ -198,6 +201,7 @@ public class OffListModel extends AbstractListModel<OffListElement> {
     }
 
     class FileExtensionComparator implements Comparator<OffListElement> {
+        @Override
         public int compare(OffListElement o1, OffListElement o2) {
             return o1.getFile().getExtension().toLowerCase().compareTo(
                     o2.getFile().getExtension().toLowerCase());
@@ -205,6 +209,7 @@ public class OffListModel extends AbstractListModel<OffListElement> {
     }
 
     class PopularityComparator implements Comparator<OffListElement> {
+        @Override
         public int compare(OffListElement o1, OffListElement o2) {
             int a = getPopularity(o1.getFile().getFullPath());
             int b = getPopularity(o2.getFile().getFullPath());
@@ -213,6 +218,7 @@ public class OffListModel extends AbstractListModel<OffListElement> {
     }
 
     class DistanceComparator implements Comparator<OffListElement> {
+        @Override
         public int compare(OffListElement o1, OffListElement o2) {
             int a = o1.getFilterDistance();
             int b = o2.getFilterDistance();
@@ -221,6 +227,7 @@ public class OffListModel extends AbstractListModel<OffListElement> {
     }
 
     class PriorityComparator implements Comparator<OffListElement> {
+        @Override
         public int compare(OffListElement o1, OffListElement o2) {
             int a = o1.getPriority();
             int b = o2.getPriority();

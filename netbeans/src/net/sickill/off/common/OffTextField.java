@@ -37,24 +37,28 @@ public class OffTextField extends JTextField implements DocumentListener, Action
         addActionListener(this);
 
         Action down_Action = new AbstractAction("DownArrow") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 off.getResultsList().moveListDown();
             }
         };
 
         Action up_Action = new AbstractAction("UpArrow") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 off.getResultsList().moveListUp();
             }
         };
 
         Action page_up_Action = new AbstractAction("PageUp") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 off.getResultsList().moveToStartOfList();
             }
         };
 
         Action page_down_Action = new AbstractAction("PageDown") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 off.getResultsList().moveToEndOfList();
             }
@@ -83,6 +87,7 @@ public class OffTextField extends JTextField implements DocumentListener, Action
         actionMap.put(page_down_Action.getValue(Action.NAME), page_down_Action);
     }
 
+    @Override
     protected void processKeyEvent(KeyEvent evt) {
         if (isEnabled()) {
             if (evt.getID() == KeyEvent.KEY_PRESSED) {
@@ -120,22 +125,27 @@ public class OffTextField extends JTextField implements DocumentListener, Action
         }
     }// End of processKeyEvent
 
+    @Override
     public void changedUpdate(DocumentEvent e) {
         SwingUtilities.invokeLater(new Runnable() {
+        @Override
             public void run() {
                 off.startSearching();
             }
         });
     }
 
+    @Override
     public void insertUpdate(DocumentEvent e) {
         changedUpdate(e);
     }
 
+    @Override
     public void removeUpdate(DocumentEvent e) {
         changedUpdate(e);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         off.openSelected();
     }

@@ -258,10 +258,12 @@ public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
   private javax.swing.JRadioButton smartMatch;
   // End of variables declaration//GEN-END:variables
 
+    @Override
     public void keyTyped(KeyEvent e) {
     }
 
     // workaround for JEdit's option pane closing on ENTER
+    @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextArea a = (JTextArea)e.getSource();
@@ -270,6 +272,7 @@ public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
         }
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
     }
 }
