@@ -90,6 +90,10 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
         listModel.setIndexingListener(this);
         listModel.setStatusListener(this);
 
+        if (listModel.isIndexing()) {
+          setIndexing(true);
+        }
+
         resultsList = new OffList(this, listModel);
 
         JScrollPane scroller = new JScrollPane(resultsList);

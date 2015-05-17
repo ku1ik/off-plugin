@@ -23,6 +23,7 @@ public class OffListModel extends AbstractListModel<OffListElement> {
     private IndexingListener indexingListener;
     private SearchStatusListener statusListener;
     private HashMap<String, Integer> accessFrequency = new HashMap<String, Integer>();
+    private boolean isIndexing = false;
     Logger logger;
     Object mutex = new Object();
 
@@ -49,8 +50,14 @@ public class OffListModel extends AbstractListModel<OffListElement> {
     }
 
     public void setIndexing(boolean indexing) {
+        isIndexing = indexing;
+
         if (indexingListener != null)
             indexingListener.setIndexing(indexing);
+    }
+
+    public boolean isIndexing() {
+        return isIndexing;
     }
 
     private void reset() {
