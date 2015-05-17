@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import net.sickill.off.common.IDE;
+import net.sickill.off.common.OffListModel;
 import net.sickill.off.common.OffPanel;
 import net.sickill.off.common.Settings;
 import org.gjt.sp.jedit.EditPlugin;
@@ -16,9 +17,9 @@ import org.gjt.sp.jedit.jEdit;
 
 
 public class OffPlugin extends EditPlugin {
-	
+
     private static Settings settings = new JEditSettings();
-	
+
 	static Hashtable<View, OffPanel> viewsWithOff = new Hashtable<View, OffPanel>();
 	static Hashtable<View, JEditDialog> dialogs = new Hashtable<View, JEditDialog>();
 	static WindowAdapter windowAdapter;
@@ -39,7 +40,7 @@ public class OffPlugin extends EditPlugin {
 		viewsWithOff.clear();
 		super.stop();
 	}
-	
+
 	/**
 	 * @param view
 	 *            The View we activated Taz from.
@@ -49,8 +50,11 @@ public class OffPlugin extends EditPlugin {
 	public static OffPanel getOffInstance(View view) {
 		OffPanel off = (OffPanel)viewsWithOff.get(view);
 		if (off == null) {
-            IDE ide = new JEditIDE();
-			off = new JEditOffPanel(ide, settings, new JEditProjectViewerProject(view));
+			IDE ide = new JEditIDE();
+			JEditProjectViewerProject project = new JEditProjectViewerProject(view);
+			OffListModel model = new OffListModel(settings);
+			project.init(model);
+			off = new JEditOffPanel(ide, settings, project);
 			viewsWithOff.put(view, off);
 			view.addWindowListener(windowAdapter);
 		}
