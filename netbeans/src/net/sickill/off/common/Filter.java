@@ -11,12 +11,14 @@ public class Filter {
     private String stringPattern;
     private Pattern pattern;
 
-    public Filter(String filter, Settings settings) {
-        stringPattern = filter;
+    public Filter(String stringPattern, Settings settings) {
+        this.stringPattern = stringPattern;
+        String filter = stringPattern;
 
         if (!settings.isMatchFromStart()) {
             filter = "*" + filter;
         }
+
         filter = filter.toLowerCase().replaceAll("\\*{2,}", "*");
 
         String regex = "(?:[_])?";
@@ -24,15 +26,19 @@ public class Filter {
         if (settings.isSmartMatch()) {
             String[] chars = filter.split("");
             for (String c : chars) {
-                if (c.equals(""))
+                if (c.isEmpty()) {
                     continue;
+                }
+
                 if (c.equals("*")) {
                     regex += ".*?";
-                } else {
+                }
+                else {
                     regex += "(\\Q" + c + "\\E)[^\\/]*?"; // \Q \E quoting
                 }
             }
-        } else {
+        }
+        else {
             regex += (filter + "*").replaceAll("([^\\*]+)", "\\\\Q$1\\\\E").replaceAll("\\*", "[^\\/]*?");
         }
 

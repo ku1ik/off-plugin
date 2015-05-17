@@ -57,7 +57,7 @@ public class NetbeansIDE extends IDE implements ItemListener {
 
     @Override
     public void addCustomControls(JPanel panel) {
-        projectChooser = new JComboBox<ProjectItem>();
+        projectChooser = new JComboBox<>();
         panel.add(projectChooser, BorderLayout.CENTER);
         projectChooser.addItemListener(this);
         panel.add(new JLabel("Project "), BorderLayout.WEST);
