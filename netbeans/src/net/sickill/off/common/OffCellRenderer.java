@@ -6,18 +6,26 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 public class OffCellRenderer extends DefaultListCellRenderer {
-    private static final long serialVersionUID = 4562757887321715315L;
 
-    @Override
-    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        OffListElement e = (OffListElement)value;
-        ((JLabel)comp).setIcon(e.getIcon());
-        ((JLabel)comp).setText(e.getFilename());
-        return comp;
-    }
+  private static final long serialVersionUID = 4562757887321715315L;
+
+  @Override
+  public Component getListCellRendererComponent(
+    JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus
+  ) {
+    Component comp = super.getListCellRendererComponent(
+      list, value, index, isSelected, cellHasFocus
+    );
+
+    OffListElement e = (OffListElement) value;
+
+    final JLabel label = (JLabel) comp;
+    label.setIcon(e.getIcon());
+    label.setText(e.getFilename());
+    return label;
+  }
+
 }

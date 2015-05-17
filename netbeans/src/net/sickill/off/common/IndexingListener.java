@@ -1,9 +1,10 @@
 package net.sickill.off.common;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 interface IndexingListener {
-    public void setIndexing(boolean b);
+
+  public void setIndexing(boolean b);
+
 }

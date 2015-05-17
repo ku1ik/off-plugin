@@ -5,23 +5,24 @@ import org.netbeans.api.project.ProjectInformation;
 import org.netbeans.api.project.ProjectUtils;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 public class ProjectItem {
-    private Project project;
 
-    public ProjectItem(Project p) {
-        project = p;
-    }
+  private Project project;
 
-    @Override
-    public String toString() {
-        ProjectInformation pi = ProjectUtils.getInformation(project);
-        return pi.getDisplayName() + " [" + project.getProjectDirectory().getPath() + "]";
-    }
+  public ProjectItem(Project p) {
+    project = p;
+  }
 
-    public Project getProject() {
-        return project;
-    }
+  @Override
+  public String toString() {
+    ProjectInformation pi = ProjectUtils.getInformation(project);
+    return pi.getDisplayName() + " [" + project.getProjectDirectory().getPath() + "]";
+  }
+
+  public Project getProject() {
+    return project;
+  }
+
 }

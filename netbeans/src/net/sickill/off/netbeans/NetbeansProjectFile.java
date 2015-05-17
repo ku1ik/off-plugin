@@ -11,68 +11,70 @@ import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 class NetbeansProjectFile extends ProjectFile {
-    private FileObject fileObject;
-    private String fullPath;
-    private String name;
-    private long size;
-    private Icon icon;
 
-    public NetbeansProjectFile(AbstractProject pp, FileObject fo) {
-        super(pp);
-        fileObject = fo;
-        fullPath = fileObject.getPath();
-        size = fileObject.getSize();
-        updateName();
+  private FileObject fileObject;
+  private String fullPath;
+  private String name;
+  private long size;
+  private Icon icon;
 
-        try {
-            DataObject dataObj = DataObject.find(fileObject);
-            Node n = dataObj.getNodeDelegate();
-            icon = new ImageIcon(n.getIcon(BeanInfo.ICON_COLOR_16x16));
-        } catch (DataObjectNotFoundException ex) {
-            icon = null;
-            Exceptions.printStackTrace(ex);
-        }
+  public NetbeansProjectFile(AbstractProject pp, FileObject fo) {
+    super(pp);
+    fileObject = fo;
+    fullPath = fileObject.getPath();
+    size = fileObject.getSize();
+    updateName();
+
+    try {
+      DataObject dataObj = DataObject.find(fileObject);
+      Node n = dataObj.getNodeDelegate();
+      icon = new ImageIcon(n.getIcon(BeanInfo.ICON_COLOR_16x16));
     }
-
-    public void updateName() {
-        name = fileObject.getNameExt();
+    catch (DataObjectNotFoundException ex) {
+      icon = null;
+      Exceptions.printStackTrace(ex);
     }
+  }
 
-    public FileObject getFileObject() {
-        return fileObject;
-    }
+  public void updateName() {
+    name = fileObject.getNameExt();
+  }
 
-    @Override
-    public Icon getIcon() {
-        return icon;
-    }
+  public FileObject getFileObject() {
+    return fileObject;
+  }
 
-    @Override
-    public String getName() {
-        return name;
-    }
+  @Override
+  public Icon getIcon() {
+    return icon;
+  }
 
-    @Override
-    public String getFullPath() {
-        return fullPath;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public long getSize() {
-        return size;
-    }
+  @Override
+  public String getFullPath() {
+    return fullPath;
+  }
 
-    @Override
-    public void rename(String newName) {
-        updateName();
-    }
+  @Override
+  public long getSize() {
+    return size;
+  }
 
-    @Override
-    public Object getId() {
-        return fileObject;
-    }
+  @Override
+  public void rename(String newName) {
+    updateName();
+  }
+
+  @Override
+  public Object getId() {
+    return fileObject;
+  }
+
 }

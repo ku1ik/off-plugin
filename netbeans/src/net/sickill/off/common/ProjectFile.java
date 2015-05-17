@@ -6,44 +6,50 @@ import java.nio.file.Paths;
 import javax.swing.Icon;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 public abstract class ProjectFile {
-    protected AbstractProject project;
 
-    public abstract Icon getIcon();
-    public abstract String getName();
-    public abstract String getFullPath();
-    public abstract long getSize();
-    public abstract void rename(String newName);
-    public abstract Object getId();
+  protected AbstractProject project;
 
-    public ProjectFile(AbstractProject pp) {
-        this.project = pp;
+  public abstract Icon getIcon();
+
+  public abstract String getName();
+
+  public abstract String getFullPath();
+
+  public abstract long getSize();
+
+  public abstract void rename(String newName);
+
+  public abstract Object getId();
+
+  public ProjectFile(AbstractProject pp) {
+    this.project = pp;
+  }
+
+  public String getDirectory() {
+    Path fullPath = Paths.get(getFullPath());
+    Path rootPath = Paths.get(project.getProjectRootPath());
+
+    Path relative = rootPath.relativize(fullPath);
+    Path parent = relative.getParent();
+
+    if (parent == null) {
+      return File.separator;
     }
 
-    public String getDirectory() {
-        Path fullPath = Paths.get(getFullPath());
-        Path rootPath = Paths.get(project.getProjectRootPath());
+    return parent.toString() + File.separator;
+  }
 
-        Path relative = rootPath.relativize(fullPath);
-        Path parent = relative.getParent();
+  public String getPathInProject() {
+    return getDirectory() + getName();
+  }
 
-        if (parent == null) {
-          return File.separator;
-        }
+  String getExtension() {
+    String name = getName();
+    int index = name.lastIndexOf('.');
+    return index == -1 ? "" : name.substring(index + 1, name.length());
+  }
 
-        return parent.toString() + File.separator;
-    }
-
-    public String getPathInProject() {
-        return getDirectory() + getName();
-    }
-
-    String getExtension() {
-        String name = getName();
-        int index = name.lastIndexOf('.');
-        return (index == -1) ? "" : name.substring(index + 1, name.length());
-    }
 }

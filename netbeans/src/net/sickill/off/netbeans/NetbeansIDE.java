@@ -21,75 +21,81 @@ import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 public class NetbeansIDE extends IDE implements ItemListener {
-    private JComboBox<ProjectItem> projectChooser;
 
-    @Override
-    public void onFocus() {
-        Project selected = NetbeansProject.getInstance().getSelectedProject();
-        projectChooser.removeAllItems();
-        projectChooser.removeItemListener(this);
-        for (Project p : OpenProjects.getDefault().getOpenProjects()) {
-            ProjectItem item = new ProjectItem(p);
-            projectChooser.addItem(item);
-            if (selected == p) {
-                projectChooser.setSelectedItem(item);
-            }
-        }
-        projectChooser.addItemListener(this);
+  private JComboBox<ProjectItem> projectChooser;
+
+  @Override
+  public void onFocus() {
+    Project selected = NetbeansProject.getInstance().getSelectedProject();
+    projectChooser.removeAllItems();
+    projectChooser.removeItemListener(this);
+
+    for (Project p : OpenProjects.getDefault().getOpenProjects()) {
+      ProjectItem item = new ProjectItem(p);
+      projectChooser.addItem(item);
+
+      if (selected == p) {
+        projectChooser.setSelectedItem(item);
+      }
     }
 
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-            NetbeansProject.getInstance().setSelectedProject(((ProjectItem)e.getItem()).getProject());
-            off.getPatternInput().requestFocus();
-        }
-    }
+    projectChooser.addItemListener(this);
+  }
 
-    @Override
-    public void onIndexing(boolean indexing) {
-        projectChooser.setEnabled(!indexing);
+  @Override
+  public void itemStateChanged(ItemEvent e) {
+    if (e.getStateChange() == ItemEvent.SELECTED) {
+      NetbeansProject.getInstance().setSelectedProject(((ProjectItem) e.getItem()).getProject());
+      off.getPatternInput().requestFocus();
     }
+  }
 
-    @Override
-    public void addCustomControls(JPanel panel) {
-        projectChooser = new JComboBox<>();
-        panel.add(projectChooser, BorderLayout.CENTER);
-        projectChooser.addItemListener(this);
-        panel.add(new JLabel("Project "), BorderLayout.WEST);
-    }
+  @Override
+  public void onIndexing(boolean indexing) {
+    projectChooser.setEnabled(!indexing);
+  }
 
-    @Override
-    public void openFile(ProjectFile pf, int lineNo) {
-        try {
-            DataObject data = DataObject.find(((NetbeansProjectFile)pf).getFileObject());
-            data.getLookup().lookup(OpenCookie.class).open();
-            if (lineNo > -1)
-                performGoto(lineNo);
-        } catch (DataObjectNotFoundException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }
+  @Override
+  public void addCustomControls(JPanel panel) {
+    projectChooser = new JComboBox<>();
+    panel.add(projectChooser, BorderLayout.CENTER);
+    projectChooser.addItemListener(this);
+    panel.add(new JLabel("Project "), BorderLayout.WEST);
+  }
 
-    @Override
-    public void openFile(ProjectFile pf) {
-        openFile(pf, -1);
-    }
+  @Override
+  public void openFile(ProjectFile pf, int lineNo) {
+    try {
+      DataObject data = DataObject.find(((NetbeansProjectFile) pf).getFileObject());
+      data.getLookup().lookup(OpenCookie.class).open();
 
-    private boolean performGoto(int lineNo) {
-        JTextComponent editor = EditorRegistry.lastFocusedComponent();
-        Document doc = editor.getDocument();
-        editor.setCaretPosition(NbDocument.findLineOffset((StyledDocument)doc, lineNo-1));
-        return true;
+      if (lineNo > -1) {
+        performGoto(lineNo);
+      }
     }
+    catch (DataObjectNotFoundException ex) {
+      Exceptions.printStackTrace(ex);
+    }
+  }
 
-    @Override
-    public void closeWindow() {
-        ((NetbeansDialog)dialog).closeDialog();
-    }
+  @Override
+  public void openFile(ProjectFile pf) {
+    openFile(pf, -1);
+  }
+
+  private boolean performGoto(int lineNo) {
+    JTextComponent editor = EditorRegistry.lastFocusedComponent();
+    Document doc = editor.getDocument();
+    editor.setCaretPosition(NbDocument.findLineOffset((StyledDocument) doc, lineNo - 1));
+    return true;
+  }
+
+  @Override
+  public void closeWindow() {
+    ((NetbeansDialog) dialog).closeDialog();
+  }
 
 }

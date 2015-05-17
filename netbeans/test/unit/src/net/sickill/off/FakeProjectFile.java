@@ -5,47 +5,47 @@ import net.sickill.off.common.AbstractProject;
 import javax.swing.Icon;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 class FakeProjectFile extends ProjectFile {
-    private String pathInProject;
-    private String name;
 
-    public FakeProjectFile(AbstractProject pp, String path) {
-        super(pp);
-        this.pathInProject = path;
-        this.name = path.substring(path.lastIndexOf("/") + 1);
-    }
+  private String pathInProject;
+  private String name;
 
-    @Override
-    public Icon getIcon() {
-        return null;
-    }
+  public FakeProjectFile(AbstractProject pp, String path) {
+    super(pp);
+    this.pathInProject = path;
+    this.name = path.substring(path.lastIndexOf("/") + 1);
+  }
 
-    @Override
-    public String getName() {
-        return name;
-    }
+  @Override
+  public Icon getIcon() {
+    return null;
+  }
 
-    @Override
-    public String getFullPath() {
-        return FakeProject.PROJECT_ROOT + pathInProject;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public long getSize() {
-        return 123456;
-    }
+  @Override
+  public String getFullPath() {
+    return FakeProject.PROJECT_ROOT + pathInProject;
+  }
 
-    @Override
-    public void rename(String newName) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+  @Override
+  public long getSize() {
+    return 123456;
+  }
 
-    @Override
-    public Object getId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+  @Override
+  public void rename(String newName) {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public Object getId() {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
 }

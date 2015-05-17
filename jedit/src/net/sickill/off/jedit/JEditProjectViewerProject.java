@@ -21,115 +21,133 @@ import projectviewer.vpt.VPTGroup;
 import projectviewer.vpt.VPTProject;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 public class JEditProjectViewerProject extends AbstractProject implements EBComponent {
-    View view;
-    VPTProject project;
-    static final Logger logger = Logger.getLogger(JEditProjectViewerProject.class.getName());
 
-    JEditProjectViewerProject(View view) {
-        this.view = view;
-        EditBus.addToBus(this);
+  View view;
+  VPTProject project;
+  private static final Logger logger = Logger.getLogger(JEditProjectViewerProject.class.getName());
+
+  JEditProjectViewerProject(View view) {
+    this.view = view;
+    EditBus.addToBus(this);
+  }
+
+  @Override
+  public void init(OffListModel model) {
+    super.init(model);
+    fetchProjectFiles(ProjectViewer.getActiveProject(view));
+  }
+
+  @Override
+  public String getProjectRootPath() {
+    if (project != null) {
+      return project.getRootPath() + "/";
     }
+
+    return null;
+  }
+
+  private synchronized void fetchProjectFiles(VPTProject p) {
+    if (project != null && project.equals(p)) {
+      logger.info("reindexProject: selected project is the same as already indexed project, leaving");
+      return;
+    }
+
+    project = p;
+    new Thread(new ImportWorker()).start();
+  }
+
+  class ImportWorker implements Runnable {
 
     @Override
-    public void init(OffListModel model) {
-        super.init(model);
-        fetchProjectFiles(ProjectViewer.getActiveProject(view));
-    }
+    public void run() {
+      model.clear();
 
-    @Override
-    public String getProjectRootPath() {
-        if (project != null) {
-            return project.getRootPath() + "/";
+      if (project != null) {
+        logger.log(Level.INFO, "reindexProject: indexing files from project {0}", project.getName());
+        model.setIndexing(true);
+
+        // TODO: remove?
+        try {
+          Thread.sleep(3000);
         }
-        return null;
-    }
-
-    private synchronized void fetchProjectFiles(VPTProject p) {
-        if (project != null && project.equals(p)) {
-            logger.info("reindexProject: selected project is the same as already indexed project, leaving");
-            return;
-        }
-        project = p;
-        new Thread(new ImportWorker()).start();
-    }
-
-    class ImportWorker implements Runnable {
-        @Override
-        public void run() {
-            model.clear();
-            if (project != null) {
-                logger.log(Level.INFO, "reindexProject: indexing files from project {0}", project.getName());
-                model.setIndexing(true);
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(JEditProjectViewerProject.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                for (Object node : project.getOpenableNodes()) {
-                    ProjectFile pf = new JEditProjectViewerFile(JEditProjectViewerProject.this, (VPTFile)node);
-                    model.addFile(pf);
-                }
-                model.setIndexing(false);
-                model.refilter();
-            } else {
-                logger.info("reindexProject: no project selected");
-            }
+        catch (InterruptedException ex) {
+          logger.log(Level.SEVERE, null, ex);
         }
 
-    }
-
-    public void groupActivated(VPTGroup g) {
-        fetchProjectFiles(null);
-    }
-
-    public void projectLoaded(VPTProject project) {
-        fetchProjectFiles(project);
-    }
-
-    public void filesAdded(VPTProject p, Collection<VPTFile> files) {
-        if (files != null) {
-            for (VPTFile file : files) {
-                model.addFile(new JEditProjectViewerFile(this, file));
-            }
+        for (Object node : project.getOpenableNodes()) {
+          ProjectFile pf = new JEditProjectViewerFile(JEditProjectViewerProject.this, (VPTFile) node);
+          model.addFile(pf);
         }
+
+        model.setIndexing(false);
+        model.refilter();
+      }
+      else {
+        logger.info("reindexProject: no project selected");
+      }
     }
 
-    public void filesRemoved(VPTProject p, Collection<VPTFile> files) {
-        if (files != null) {
-            for (VPTFile file : files) {
-                model.removeFile(file);
-            }
-        }
-    }
+  }
 
-    @Override
-    public void handleMessage(EBMessage message) {
-        String className = message.getClass().getCanonicalName();
-        if (className.endsWith("ViewerUpdate")) {
-            ViewerUpdate msg = (ViewerUpdate)message;
-            switch(msg.getType()) {
-            case PROJECT_LOADED:
-                projectLoaded((VPTProject)msg.getNode());
-                break;
-            case GROUP_ACTIVATED:
-                groupActivated((VPTGroup)msg.getNode());
-                break;
-            }
-        } else if (className.endsWith("ProjectUpdate")) {
-            ProjectUpdate msg = (ProjectUpdate)message;
-            VPTProject project = msg.getProject();
-            switch(msg.getType()) {
-            case FILES_CHANGED:
-                filesAdded(project, msg.getAddedFiles());
-                filesRemoved(project, msg.getRemovedFiles());
-                break;
-            case PROPERTIES_CHANGED:
-                break;
-            }
-        }
+  public void groupActivated(VPTGroup g) {
+    fetchProjectFiles(null);
+  }
+
+  public void projectLoaded(VPTProject project) {
+    fetchProjectFiles(project);
+  }
+
+  public void filesAdded(VPTProject p, Collection<VPTFile> files) {
+    if (files != null) {
+      for (VPTFile file : files) {
+        model.addFile(new JEditProjectViewerFile(this, file));
+      }
     }
+  }
+
+  public void filesRemoved(VPTProject p, Collection<VPTFile> files) {
+    if (files != null) {
+      for (VPTFile file : files) {
+        model.removeFile(file);
+      }
+    }
+  }
+
+  @Override
+  public void handleMessage(EBMessage message) {
+    // TODO: use instanceof?
+    String className = message.getClass().getCanonicalName();
+
+    if (className.endsWith("ViewerUpdate")) {
+      ViewerUpdate msg = (ViewerUpdate) message;
+
+      switch (msg.getType()) {
+        case PROJECT_LOADED:
+          projectLoaded((VPTProject) msg.getNode());
+          break;
+
+        case GROUP_ACTIVATED:
+          groupActivated((VPTGroup) msg.getNode());
+          break;
+      }
+    }
+    else if (className.endsWith("ProjectUpdate")) {
+      ProjectUpdate msg = (ProjectUpdate) message;
+      VPTProject project = msg.getProject();
+
+      switch (msg.getType()) {
+        case FILES_CHANGED:
+          filesAdded(project, msg.getAddedFiles());
+          filesRemoved(project, msg.getRemovedFiles());
+          break;
+
+        case PROPERTIES_CHANGED:
+          break;
+      }
+    }
+  }
+
 }

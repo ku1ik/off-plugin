@@ -1,9 +1,10 @@
 package net.sickill.off.common;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 interface SearchStatusListener {
-    public void setSearchSuccess(boolean success);
+
+  public void setSearchSuccess(boolean success);
+
 }

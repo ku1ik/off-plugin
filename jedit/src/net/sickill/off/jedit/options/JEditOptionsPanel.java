@@ -6,26 +6,26 @@ import net.sickill.off.jedit.JEditSettings;
 import org.gjt.sp.jedit.OptionPane;
 
 // use tokens highlighting
-
 public class JEditOptionsPanel extends OffOptionsPanel implements OptionPane {
 
-    public JEditOptionsPanel() {
-        super();
-        s = JEditSettings.getInstance();
-    }
+  public JEditOptionsPanel() {
+    super();
+    s = JEditSettings.getInstance();
+  }
 
-    @Override
-    public void init() {
-        load();
-    }
+  @Override
+  public void init() {
+    load();
+  }
 
-    @Override
-    public void save() {
-        store();
-    }
+  @Override
+  public void save() {
+    store();
+  }
 
-    @Override
-    public Component getComponent() {
-        return this;
-    }
+  @Override
+  public Component getComponent() {
+    return this;
+  }
+
 }

@@ -7,11 +7,12 @@ import net.sickill.off.common.Settings;
 import org.gjt.sp.jedit.gui.DefaultFocusComponent;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 public class JEditOffPanel extends OffPanel implements DefaultFocusComponent {
-    public JEditOffPanel(IDE i, Settings s, AbstractProject p) {
-        super(i, s, p);
-    }
+
+  public JEditOffPanel(IDE i, Settings s, AbstractProject p) {
+    super(i, s, p);
+  }
+
 }

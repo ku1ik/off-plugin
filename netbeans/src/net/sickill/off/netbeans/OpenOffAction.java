@@ -11,9 +11,10 @@ import org.openide.awt.ActionRegistration;
 @ActionReference(path = "Menu/GoTo", position = 0)
 public final class OpenOffAction extends AbstractAction {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        NetbeansDialog dialog = NetbeansDialog.getInstance();
-        dialog.showDialog();
-    }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    NetbeansDialog dialog = NetbeansDialog.getInstance();
+    dialog.showDialog();
+  }
+
 }

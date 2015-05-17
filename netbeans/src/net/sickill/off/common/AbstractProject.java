@@ -1,19 +1,20 @@
 package net.sickill.off.common;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 public abstract class AbstractProject {
-    protected OffListModel model;
 
-    public abstract String getProjectRootPath(); // return path WITH trailing slash
+  protected OffListModel model;
 
-    public void init(OffListModel model) {
-        this.model = model;
-    }
+  public abstract String getProjectRootPath(); // return path WITH trailing slash
 
-    public OffListModel getModel() {
-      return model;
-    }
+  public void init(OffListModel model) {
+    this.model = model;
+  }
+
+  public OffListModel getModel() {
+    return model;
+  }
+
 }

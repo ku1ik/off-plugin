@@ -1,52 +1,54 @@
 package net.sickill.off.jedit;
 
-import net.sickill.off.common.*;
 import javax.swing.Icon;
+import net.sickill.off.common.AbstractProject;
+import net.sickill.off.common.ProjectFile;
 import projectviewer.vpt.VPTFile;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 public class JEditProjectViewerFile extends ProjectFile {
-    VPTFile file;
 
-    public JEditProjectViewerFile(AbstractProject pp, VPTFile node) {
-        super(pp);
-        file = node;
-    }
+  VPTFile file;
 
-    @Override
-    public Icon getIcon() {
-        return file.getIcon(false);
-    }
+  public JEditProjectViewerFile(AbstractProject pp, VPTFile node) {
+    super(pp);
+    file = node;
+  }
 
-    @Override
-    public String getName() {
-        return file.getName();
-    }
+  @Override
+  public Icon getIcon() {
+    return file.getIcon(false);
+  }
 
-    @Override
-    public String getFullPath() {
-        return file.getNodePath();
-    }
+  @Override
+  public String getName() {
+    return file.getName();
+  }
 
-    @Override
-    public long getSize() {
-        return file.getFile().getLength();
-    }
+  @Override
+  public String getFullPath() {
+    return file.getNodePath();
+  }
 
-    @Override
-    public void rename(String newName) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+  @Override
+  public long getSize() {
+    return file.getFile().getLength();
+  }
 
-    @Override
-    public Object getId() {
-        return file;
-    }
+  @Override
+  public void rename(String newName) {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
-    public VPTFile getFile() {
-        return file;
-    }
+  @Override
+  public Object getId() {
+    return file;
+  }
+
+  public VPTFile getFile() {
+    return file;
+  }
+
 }

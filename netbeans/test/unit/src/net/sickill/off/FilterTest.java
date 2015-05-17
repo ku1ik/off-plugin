@@ -10,85 +10,85 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author kill
+ * @author sickill
  */
 public class FilterTest {
-    private Settings settings;
 
-    public FilterTest() {
-    }
+  private Settings settings;
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
+  public FilterTest() {
+  }
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+  }
 
-    @Before
-    public void setUp() {
-        settings = new FakeSettings(); // smart = true, matchFromStart = true
-    }
+  @AfterClass
+  public static void tearDownClass() throws Exception {
+  }
 
-    @After
-    public void tearDown() {
-    }
+  @Before
+  public void setUp() {
+    settings = new FakeSettings(); // smart = true, matchFromStart = true
+  }
 
-    @Test
-    public void testNormalMatch() {
-        settings.setSmartMatch(false);
-        assertTrue(new Filter("foo", settings).matches("foobar.rb"));
-        assertFalse(new Filter("foo", settings).matches("foob/ar.rb"));
-        assertTrue(new Filter("Foo", settings).matches("foobar.rb"));
-        assertFalse(new Filter("foo", settings).matches("floobar"));
-        assertTrue(new Filter("*bar", settings).matches("foobar.rb"));
-        assertTrue(new Filter("ba*r", settings).matches("bazaar"));
-        assertTrue(new Filter("ba\\", settings).matches("ba\\"));
-        assertTrue(new Filter("ba\\nk", settings).matches("ba\\nk"));
-        assertFalse(new Filter("ba\\", settings).matches("bank"));
+  @After
+  public void tearDown() {
+  }
 
-        // from start, name with underscore
-        assertTrue(new Filter("partial", settings).matches("_partial"));
+  @Test
+  public void testNormalMatch() {
+    settings.setSmartMatch(false);
+    assertTrue(new Filter("foo", settings).matches("foobar.rb"));
+    assertFalse(new Filter("foo", settings).matches("foob/ar.rb"));
+    assertTrue(new Filter("Foo", settings).matches("foobar.rb"));
+    assertFalse(new Filter("foo", settings).matches("floobar"));
+    assertTrue(new Filter("*bar", settings).matches("foobar.rb"));
+    assertTrue(new Filter("ba*r", settings).matches("bazaar"));
+    assertTrue(new Filter("ba\\", settings).matches("ba\\"));
+    assertTrue(new Filter("ba\\nk", settings).matches("ba\\nk"));
+    assertFalse(new Filter("ba\\", settings).matches("bank"));
 
-        // with dir
-        assertTrue(new Filter("app/mo", settings).matches("app/model1"));
+    // from start, name with underscore
+    assertTrue(new Filter("partial", settings).matches("_partial"));
 
-        settings.setMatchFromStart(false);
-        assertTrue(new Filter("bar", settings).matches("foobar.rb"));
-        assertTrue(new Filter("Bar", settings).matches("foobar"));
-        assertFalse(new Filter("bar", settings).matches("fublar"));
-        assertTrue(new Filter("ba*r", settings).matches("thebazaar"));
+    // with dir
+    assertTrue(new Filter("app/mo", settings).matches("app/model1"));
 
-        // anywhere, name with underscore
-        assertTrue(new Filter("partial", settings).matches("_partial"));
-    }
+    settings.setMatchFromStart(false);
+    assertTrue(new Filter("bar", settings).matches("foobar.rb"));
+    assertTrue(new Filter("Bar", settings).matches("foobar"));
+    assertFalse(new Filter("bar", settings).matches("fublar"));
+    assertTrue(new Filter("ba*r", settings).matches("thebazaar"));
 
-    @Test
-    public void testSmartMatch() {
-        assertTrue(new Filter("fbr", settings).matches("foobar.rb"));
-        assertTrue(new Filter("f*b*r*", settings).matches("foobar.rb"));
-        assertTrue(new Filter("FBR", settings).matches("foob.rb"));
-        assertTrue(new Filter("kab.c", settings).matches("kab.c"));
-        assertTrue(new Filter("kab.c", settings).matches("kabal.c"));
-        assertFalse(new Filter("blan.cak", settings).matches("blanecak"));
-        assertTrue(new Filter("*br2", settings).matches("foobar2000"));
-        assertTrue(new Filter("ba\\nk", settings).matches("bla\\ncak"));
+    // anywhere, name with underscore
+    assertTrue(new Filter("partial", settings).matches("_partial"));
+  }
 
-        // from start, name with underscore
-        assertTrue(new Filter("partial", settings).matches("_partial"));
+  @Test
+  public void testSmartMatch() {
+    assertTrue(new Filter("fbr", settings).matches("foobar.rb"));
+    assertTrue(new Filter("f*b*r*", settings).matches("foobar.rb"));
+    assertTrue(new Filter("FBR", settings).matches("foob.rb"));
+    assertTrue(new Filter("kab.c", settings).matches("kab.c"));
+    assertTrue(new Filter("kab.c", settings).matches("kabal.c"));
+    assertFalse(new Filter("blan.cak", settings).matches("blanecak"));
+    assertTrue(new Filter("*br2", settings).matches("foobar2000"));
+    assertTrue(new Filter("ba\\nk", settings).matches("bla\\ncak"));
 
-        // with dir
-        assertTrue(new Filter("a/m/us", settings).matches("app/models/user.rb"));
-        assertFalse(new Filter("a/m/us", settings).matches("app.models.user.rb"));
+    // from start, name with underscore
+    assertTrue(new Filter("partial", settings).matches("_partial"));
 
-        settings.setMatchFromStart(false);
-        assertTrue(new Filter("br2", settings).matches("foobar2000"));
-        assertTrue(new Filter("b*r*2*", settings).matches("foobar2000"));
+    // with dir
+    assertTrue(new Filter("a/m/us", settings).matches("app/models/user.rb"));
+    assertFalse(new Filter("a/m/us", settings).matches("app.models.user.rb"));
 
-        // anywhere, name with underscore
-        assertTrue(new Filter("partial", settings).matches("_partial"));
-    }
+    settings.setMatchFromStart(false);
+    assertTrue(new Filter("br2", settings).matches("foobar2000"));
+    assertTrue(new Filter("b*r*2*", settings).matches("foobar2000"));
+
+    // anywhere, name with underscore
+    assertTrue(new Filter("partial", settings).matches("_partial"));
+  }
 
 }
