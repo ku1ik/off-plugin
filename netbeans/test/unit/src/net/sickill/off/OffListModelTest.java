@@ -1,5 +1,6 @@
 package net.sickill.off;
 
+import java.nio.file.Paths;
 import net.sickill.off.common.OffListModel;
 import net.sickill.off.common.OffListElement;
 import net.sickill.off.common.ProjectFile;
@@ -46,6 +47,18 @@ public class OffListModelTest {
   @Test
   public void testFilterWithPath() {
     model.setFilter("a/m/ut");
+    model.refilter();
+    assertEquals(1, model.getSize());
+
+    model.setFilter("a\\m\\ut");
+    model.refilter();
+    assertEquals(1, model.getSize());
+
+    model.setFilter("a/m\\ut");
+    model.refilter();
+    assertEquals(1, model.getSize());
+
+    model.setFilter("a\\m/ut");
     model.refilter();
     assertEquals(1, model.getSize());
   }
@@ -169,8 +182,8 @@ public class OffListModelTest {
     }
   }
 
-    // -----------------------------------------------------------------------------------
-    // helpers
+  // -----------------------------------------------------------------------------------
+  // helpers
   private ProjectFile findFileInResults(String name) {
     for (int i = 0; i < model.getSize(); i++) {
       ProjectFile file = model.getElementAt(i).getFile();
@@ -190,7 +203,7 @@ public class OffListModelTest {
 
   private boolean elementPathMatches(int index, String path) {
     OffListElement ole = model.getElementAt(index);
-    return ole.getFile().getPathInProject().equals(path);
+    return ole.getFile().getPathInProject().equals(Paths.get(path));
   }
 
   private ProjectFile findFileInProject(String name) {

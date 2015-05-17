@@ -19,31 +19,39 @@ public class Filter {
       filter = "*" + filter;
     }
 
-    filter = filter.toLowerCase().replaceAll("\\*{2,}", "*");
+    filter = filter.toLowerCase().replaceAll("\\*+", "*");
 
-    String regex = "(?:[_])?";
+    StringBuilder regex = new StringBuilder("_?");
 
     if (settings.isSmartMatch()) {
-      String[] chars = filter.split("");
+      for (int i = 0; i < filter.length(); i++) {
+        char c = filter.charAt(i);
 
-      for (String c : chars) {
-        if (c.isEmpty()) {
-          continue;
-        }
-
-        if (c.equals("*")) {
-          regex += ".*?";
+        if (c == '*') {
+          regex.append(".*");
         }
         else {
-          regex += "(\\Q" + c + "\\E)[^\\/]*?"; // \Q \E quoting
+          String charPattern = "\\Q" + c + "\\E";
+
+          // Consider slashes and backslashes interchangeable
+          if (c == '\\' || c == '/') {
+            charPattern = "\\\\|\\/";
+          }
+
+          regex.append('(').append(charPattern).append(")[^\\/\\\\]*?");
         }
       }
     }
     else {
-      regex += (filter + "*").replaceAll("([^\\*]+)", "\\\\Q$1\\\\E").replaceAll("\\*", "[^\\/]*?");
+      String filterPattern = (filter + "*")
+        .replaceAll("([^\\*]+)", "\\\\Q$1\\\\E")
+        .replaceAll("\\*", Matcher.quoteReplacement("[^/\\\\]*?"))
+      ;
+
+      regex.append(filterPattern);
     }
 
-    pattern = Pattern.compile(regex);
+    pattern = Pattern.compile(regex.toString());
   }
 
   public boolean matches(String s) {
@@ -55,7 +63,7 @@ public class Filter {
     return stringPattern;
   }
 
-  Matcher matcher(String txt) {
+  public Matcher matcher(String txt) {
     return pattern.matcher(txt);
   }
 

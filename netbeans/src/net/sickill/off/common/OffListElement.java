@@ -1,5 +1,6 @@
 package net.sickill.off.common;
 
+import java.nio.file.Path;
 import java.util.regex.Matcher;
 import javax.swing.Icon;
 
@@ -8,8 +9,9 @@ import javax.swing.Icon;
  */
 public class OffListElement {
 
-  String filename, path;
-  ProjectFile file;
+  String filename;
+  Path path;
+  private final ProjectFile file;
   Matcher matcher;
   int priority = 0;
   boolean withPath;
@@ -24,25 +26,8 @@ public class OffListElement {
     return file;
   }
 
-  private String generateHighlightedLabel() {
-    String fn = file.getName();
-    StringBuilder label = new StringBuilder();
-    int lastStart = 0;
-
-    for (int i = 1; i <= matcher.groupCount(); i++) {
-      label.append(fn, lastStart, matcher.start(i));
-      label.append("<b>");
-      label.append(fn.charAt(matcher.start(i)));
-      label.append("</b>");
-      lastStart = matcher.end(i);
-    }
-
-    label.append(fn, lastStart, fn.length());
-    return label.toString();
-  }
-
   private void buildFilename() {
-    filename = withPath ? file.getName() : generateHighlightedLabel();
+    filename = withPath ? file.getName() : Highlighter.highlight(file.getName(), matcher);
   }
 
   public String getFilename() {
@@ -53,20 +38,8 @@ public class OffListElement {
     return "<html>" + filename + "</html>";
   }
 
-  private void buildPath() {
-    path = file.getDirectory();
-
-    if (!path.isEmpty()) {
-      path = path.substring(0, path.length() - 1) + " ";
-    }
-  }
-
-  public String getPath() {
-    if (path == null) {
-      buildPath();
-    }
-
-    return path;
+  public Path getPath() {
+    return file.getDirectory();
   }
 
   public Icon getIcon() {

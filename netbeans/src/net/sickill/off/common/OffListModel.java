@@ -121,7 +121,9 @@ public class OffListModel extends AbstractListModel<OffListElement> {
 
     if (filter != null) {
       logger.info("[OFF] refiltering model");
-      boolean withPath = filter.toString().contains("/");
+
+      String filterStr = filter.toString();
+      boolean withPath = filterStr.contains("/") || filterStr.contains("\\");
 
       synchronized (mutex) {
         for (ProjectFile file : allFiles) {
@@ -161,8 +163,8 @@ public class OffListModel extends AbstractListModel<OffListElement> {
   }
 
   private void passFilter(ProjectFile file, boolean withPath) {
-    String name = withPath ? file.getPathInProject().toLowerCase() : file.getName().toLowerCase();
-    Matcher matcher = filter.matcher(name);
+    String name = withPath ? file.getPathInProject().toString() : file.getName();
+    Matcher matcher = filter.matcher(name.toLowerCase());
 
     if (matcher.matches()) {
       OffListElement e = new OffListElement(matcher, file, withPath);

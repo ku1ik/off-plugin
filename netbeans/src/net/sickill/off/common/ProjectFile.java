@@ -28,7 +28,7 @@ public abstract class ProjectFile {
     this.project = pp;
   }
 
-  public String getDirectory() {
+  public Path getDirectory() {
     Path fullPath = Paths.get(getFullPath());
     Path rootPath = Paths.get(project.getProjectRootPath());
 
@@ -36,14 +36,14 @@ public abstract class ProjectFile {
     Path parent = relative.getParent();
 
     if (parent == null) {
-      return File.separator;
+      return Paths.get("");
     }
 
-    return parent.toString() + File.separator;
+    return parent;
   }
 
-  public String getPathInProject() {
-    return getDirectory() + getName();
+  public Path getPathInProject() {
+    return getDirectory().resolve(getName());
   }
 
   String getExtension() {

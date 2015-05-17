@@ -1,5 +1,6 @@
 package net.sickill.off.common;
 
+import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,32 +14,20 @@ public class Wildcard {
 
   public Wildcard(String wildcard) {
     this.wildcard = wildcard.replaceAll("[;,]", "\n");
+    pattern = PatternBuilder.build(this.wildcard);
   }
 
-  public Pattern getPattern() {
-    if (pattern == null) {
-      String[] masks = wildcard.split("[\n;,]");
-      String regex = "";
-
-      for (String mask : masks) {
-        if (!mask.isEmpty()) {
-          regex += "(" + Pattern.quote(mask).replaceAll("\\*", "\\\\E.*\\\\Q") + ")|";
-        }
-      }
-
-      regex = regex.replaceFirst("\\|$", "").replaceAll("\\\\Q\\\\E", "");
-      pattern = Pattern.compile(regex);
-    }
-
-    return pattern;
-  }
-
-  public Matcher matcher(String subject) {
-    return getPattern().matcher(subject);
+  private Matcher matcher(String subject) {
+    return pattern.matcher(subject);
   }
 
   public boolean matches(String subject) {
     return matcher(subject).matches();
+  }
+
+  public boolean matches(Path subject) {
+    String string = subject.toString();
+    return matcher(string).matches();
   }
 
 }

@@ -2,10 +2,7 @@ package net.sickill.off;
 
 import net.sickill.off.common.Filter;
 import net.sickill.off.common.Settings;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -16,24 +13,9 @@ public class FilterTest {
 
   private Settings settings;
 
-  public FilterTest() {
-  }
-
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-  }
-
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-
   @Before
   public void setUp() {
     settings = new FakeSettings(); // smart = true, matchFromStart = true
-  }
-
-  @After
-  public void tearDown() {
   }
 
   @Test
@@ -86,6 +68,14 @@ public class FilterTest {
     settings.setMatchFromStart(false);
     assertTrue(new Filter("br2", settings).matches("foobar2000"));
     assertTrue(new Filter("b*r*2*", settings).matches("foobar2000"));
+
+    // Searching by dir name, with and without slash in filter
+    assertFalse(new Filter("mo", settings).matches("app/models/user.rb"));
+    assertFalse(new Filter("mo", settings).matches("app\\models\\user.rb"));
+    assertTrue(new Filter("mo/", settings).matches("app/models/user.rb"));
+    assertTrue(new Filter("mo/", settings).matches("app\\models\\user.rb"));
+    assertTrue(new Filter("mo\\", settings).matches("app/models/user.rb"));
+    assertTrue(new Filter("mo\\", settings).matches("app\\models\\user.rb"));
 
     // anywhere, name with underscore
     assertTrue(new Filter("partial", settings).matches("_partial"));

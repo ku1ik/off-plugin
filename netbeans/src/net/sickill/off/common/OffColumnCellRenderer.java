@@ -36,7 +36,7 @@ public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<Of
   ) {
     labels[0].setIcon(value.getIcon());
     labels[1].setText(value.getFilename());
-    labels[2].setText(value.getPath());
+    labels[2].setText(value.getPath().toString());
 
     if (isSelected) {
       for (JLabel l : labels) {
