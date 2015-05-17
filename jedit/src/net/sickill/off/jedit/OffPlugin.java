@@ -34,7 +34,7 @@ public class OffPlugin extends EditPlugin {
 	public void stop() {
 		Enumeration<View> iter = viewsWithOff.keys();
 		while (iter.hasMoreElements()) {
-			View v = (View) iter.nextElement();
+			View v = iter.nextElement();
 			v.removeWindowListener(windowAdapter);
 		}
 		viewsWithOff.clear();
@@ -48,7 +48,7 @@ public class OffPlugin extends EditPlugin {
 	 *         View.
 	 */
 	public static OffPanel getOffInstance(View view) {
-		OffPanel off = (OffPanel)viewsWithOff.get(view);
+		OffPanel off = viewsWithOff.get(view);
 		if (off == null) {
 			IDE ide = new JEditIDE();
 			JEditProjectViewerProject project = new JEditProjectViewerProject(view);
@@ -62,7 +62,7 @@ public class OffPlugin extends EditPlugin {
 	}
 
  	public static JDialog showDialog(View view) { // TODO: change return value to void
-        JEditDialog dialog = (JEditDialog)dialogs.get(view);
+        JEditDialog dialog = dialogs.get(view);
 		if (dialog == null) {
 			dialog = new JEditDialog(view, getOffInstance(view));
 			dialogs.put(view, dialog);

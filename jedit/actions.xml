@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE ACTIONS SYSTEM "actions.dtd">
-
 <ACTIONS>
     <ACTION NAME="offwindow.show">
         <CODE>
-	    net.sickill.off.jedit.OffPlugin.showDialog(view);
+            net.sickill.off.jedit.OffPlugin.showDialog(view);
         </CODE>
     </ACTION>
 </ACTIONS>
