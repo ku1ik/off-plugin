@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.jedit;
 
 import net.sickill.off.common.*;
@@ -15,15 +10,11 @@ import projectviewer.vpt.VPTFile;
  */
 public class JEditProjectViewerFile extends ProjectFile {
     VPTFile file;
-    
+
     public JEditProjectViewerFile(AbstractProject pp, VPTFile node) {
         super(pp);
         file = node;
     }
-
-//    public int getGroupPriority() {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
 
     public Icon getIcon() {
         return file.getIcon(false);

@@ -14,13 +14,13 @@ public class JEditOptionsPanel extends OffOptionsPanel implements OptionPane {
         s = JEditSettings.getInstance();
     }
 
-	public void init() {
+    public void init() {
         load();
-	}
-	
-	public void save() {
+    }
+
+    public void save() {
         store();
-	}
+    }
 
     public Component getComponent() {
         return this;

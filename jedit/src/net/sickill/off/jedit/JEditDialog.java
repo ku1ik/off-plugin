@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.jedit;
 
 import java.awt.BorderLayout;
@@ -24,7 +19,7 @@ public class JEditDialog extends OffDialog implements KeyListener {
         super(view, "Open File Fast");
         this.off = off;
         addKeyListener(this);
-		getContentPane().add(off, BorderLayout.CENTER);
+        getContentPane().add(off, BorderLayout.CENTER);
     }
 
     public void keyTyped(KeyEvent e) {
@@ -41,8 +36,8 @@ public class JEditDialog extends OffDialog implements KeyListener {
     }
 
     void showDialog() {
-		setVisible(true);
-		off.focusOnDefaultComponent();
+        setVisible(true);
+        off.focusOnDefaultComponent();
     }
 
     @Override

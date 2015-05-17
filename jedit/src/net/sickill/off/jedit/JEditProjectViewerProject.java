@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sickill.off.jedit;
 
 import java.util.Collection;
@@ -21,10 +16,8 @@ import org.gjt.sp.jedit.View;
 import projectviewer.ProjectViewer;
 import projectviewer.event.ViewerUpdate;
 import projectviewer.event.ProjectUpdate;
-import projectviewer.event.StructureUpdate;
 import projectviewer.vpt.VPTFile;
 import projectviewer.vpt.VPTGroup;
-import projectviewer.vpt.VPTNode;
 import projectviewer.vpt.VPTProject;
 
 /**
@@ -131,7 +124,6 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
                 filesRemoved(project, msg.getRemovedFiles());
                 break;
             case PROPERTIES_CHANGED:
-                //propertiesChanged(project);
                 break;
             }
         }
