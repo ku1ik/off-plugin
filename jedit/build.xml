@@ -4,7 +4,7 @@
   <property file="common.properties"/>
 
   <property name="jar.name" value="${ant.project.name}.jar"/>
-  <property name="version" value="1.1"/>
+  <property name="version" value="1.2"/>
   <property name="srcfile" value="${ant.project.name}_src_${version}.zip"/>
 
   <property name="src.dir" value="src"/>
