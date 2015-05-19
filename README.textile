@@ -6,6 +6,10 @@ h2. Introduction
 
 It is inspired by "Textmate's":http://macromates.com/ quick open file dialog. However, it has a lot more features. Basically it works like this: you type only several characters of filename you are searching for and you get list of all files matching your pattern. For example, when you are looking for FooBar.java you can type _fbj_ and you will find it. It really helps navigating through the project (especially bigger ones) as you don't need to use a mouse nor locate a filename visually in project tree but just use filename shortcuts.
 
+h2. Download
+
+You can download the plugins from the "releases page":https://github.com/sickill/off-plugin/releases.
+
 h2. Key features of Open File Fast
 
 * Quick finding and opening any file from selected project
@@ -40,7 +44,3 @@ For example, type:
 h2. Configuration
 
 Open File Fast can be set up to your own preferences and to match your own workflow. You can configure it under _Open File Fast_ tab in Netbeans' _Miscellaneous_ options.
-
-h2. Download
-
-You can download the plugins from the "releases page":https://github.com/sickill/off-plugin/releases.
