@@ -1,47 +1,41 @@
 h1. Open File Fast
 
-h2. MAINTAINER NEEDED!
-
-This project needs a maintainer. Open the Github issue if you want to help. 
-
 h2. Introduction
 
-*Open File Fast* (tm) is a plugin for "Netbeans IDE":http://netbeans.org and "JEdit":http://jedit.org which allows you to find and open file in the project within a second.
+*Open File Fast* is a plugin for "Netbeans IDE":http://netbeans.org and "JEdit":http://jedit.org which allows you to quickly find and open files in your projects.
 
-It is inspired by "Textmate's":http://macromates.com/ quick open file dialog however it has a lot more features. Basically it works like this: you type only several characters of filename you are searching for and you get list of all files matching your pattern. For example when you are looking for FooBar.java you can type _fbj_ and you will find it. It really helps navigating through the project (especially bigger ones) as you don't need to use a mouse nor locate filename visually in project tree but just use filename shortcuts.
+It is inspired by "Textmate's":http://macromates.com/ quick open file dialog. However, it has a lot more features. Basically it works like this: you type only several characters of filename you are searching for and you get list of all files matching your pattern. For example, when you are looking for FooBar.java you can type _fbj_ and you will find it. It really helps navigating through the project (especially bigger ones) as you don't need to use a mouse nor locate a filename visually in project tree but just use filename shortcuts.
 
 h2. Key features of Open File Fast
 
-* quick finding and opening any file from selected project
-* two matching modes:
-** _smart_ (like in Textmate, matching filenames must contain all typed characters, they can be separated by other characters)
-** _exact_ (like Netbeans' Go-To-File, matching filenames must contain exact phrase)
-* matching from start of filename or anywhere in filename
-* support for &#42; wildcard in _exact_ mode
-* changing minimum entered pattern length needed for searching (default: 3)
-* changing delay (time from last keystroke) after which searching starts (default: 300ms)
-* optional cleaning of search input field when O-F-F window opens
-* hiding files you don't work on (matching specified regular expresions) from results
-* moving less important files (matching specified regular expresions) to the bottom of results list
-* results sorted by:
-** file popularity (files opened frequently at the top of list)
-** match accuracy (distance between characters from search phrase in matched filenames)
-* opening multiple files at once (selected with ctrl/shift + mouse)
+* Quick finding and opening any file from selected project
+* Two matching modes:
+** _Smart_ (like in Textmate, matching filenames must contain all typed characters, they can be separated by other characters)
+** _Exact_ (like Netbeans' Go-To-File, matching filenames must contain exact phrase)
+* Matching from start of filename or anywhere in filename
+* Support for &#42; wildcard in _exact_ mode
+* Changing minimum entered pattern length needed for searching (default: 3)
+* Changing delay (time from last keystroke) after which searching starts (default: 300ms)
+* Optional cleaning of search input field when O-F-F window opens
+* Hiding files you don't work on (matching specified regular expresions) from results
+* Moving less important files (matching specified regular expresions) to the bottom of results list
+* Results sorted by:
+** File popularity (files opened frequently at the top of list)
+** Match accuracy (distance between characters from search phrase in matched filenames)
+* Opening multiple files at once (selected with ctrl/shift + mouse)
 
 h2. Usage
 
 Open File Fast plugin installs itself in Netbeans' __Navigate__ menu as __Open File Fast__. I recommend creating a keyboard shortcut for it in _Tools/Options/Keymap/Project_.
 
-When invoked it opens search dialog. Type _some_ characters from filename you want to find. _Some_ as you may skip any characters you want. Use &#42; as a placeholder for any text. You can narrow down the search to files in specified directory by typing directory prefix followed by slash and then filename pattern (see example below).
+When invoked, it opens a search dialog. Type _some_ characters from filename you want to find. _Some_ as you may skip any characters you want. Use &#42; as a placeholder for any text. You can narrow down the search to files in specified directory by typing a directory prefix followed by slash and then a filename pattern.
 
-For example type:
+For example, type:
 * _user_ when looking for _user.rb_ or _UberServer.java_
 * _ush_ when looking for <em>users_helper.rb</em>
 * _&#42;.js_ when you want to list all javascript files (_&#42;_ is not needed here if "Matching from start of filename" is turned off in preferences)
 * _a/m/_ when you want to list all files in _app/models_ directory
 * _a/v/s_ when you are looking for _show.html_ in _app/views_ directory
-
-For some screenshots look "here":http://sickill.net/blog/2009/02/26/open-file-fast-netbeans-plugin-for-quick-opening-project-files.html
 
 h2. Configuration
 
@@ -49,11 +43,4 @@ Open File Fast can be set up to your own preferences and to match your own workf
 
 h2. Download
 
-Grab it here: "off-netbeans-0.9.4.nbm":http://counter.sickill.net/?f=http://sickill.net/assets/off-netbeans-0.9.4.nbm (Netbeans version) or "off-jedit-0.9.4.1.jar":http://counter.sickill.net/?f=http://sickill.net/assets/off-jedit-0.9.4.1.jar (JEdit version). If you want to help or just look into sources they're on "github":http://github.com/sickill/off-plugin/tree/master .
-
-h2. Support OFF!
-
-If you found Open File Fast usefull and want to help in its further development you can spare few bucks via PayPal or use "Donate" button on project's github page.
-
-Thanks to Aliaksandr Kaushovik and Fabio Chelly for donating!
-
+You can download the plugins from the "releases page":https://github.com/sickill/off-plugin/releases.
