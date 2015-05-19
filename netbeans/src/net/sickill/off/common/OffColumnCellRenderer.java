@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -14,11 +16,14 @@ import javax.swing.border.EmptyBorder;
  */
 public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<OffListElement> {
 
+  private static final Border EMPTY_BORDER = new EmptyBorder(1, 1, 1, 1);
+  private static final Border FOCUSED_BORDER = UIManager.getBorder("List.focusCellHighlightBorder");
+
   JLabel[] labels = { new JLabel(), new JLabel(), new JLabel() };
 
   public OffColumnCellRenderer() {
     setLayout(new BorderLayout(4, 0));
-    setBorder(new EmptyBorder(1, 1, 1, 1));
+    setBorder(EMPTY_BORDER);
 
     for (JLabel l : labels) {
       l.setOpaque(true);
@@ -54,6 +59,8 @@ public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<Of
 
       labels[2].setForeground(Color.GRAY);
     }
+
+    setBorder(cellHasFocus ? FOCUSED_BORDER : EMPTY_BORDER);
 
     setEnabled(list.isEnabled());
     setFont(list.getFont());
