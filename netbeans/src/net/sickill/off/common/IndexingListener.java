@@ -5,6 +5,6 @@ package net.sickill.off.common;
  */
 interface IndexingListener {
 
-  public void setIndexing(boolean b);
+  void setIndexing(boolean b);
 
 }

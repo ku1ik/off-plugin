@@ -5,6 +5,6 @@ package net.sickill.off.common;
  */
 interface SearchStatusListener {
 
-  public void setSearchSuccess(boolean success);
+  void setSearchSuccess(boolean success);
 
 }

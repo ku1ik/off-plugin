@@ -1,6 +1,5 @@
 package net.sickill.off.common;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.swing.Icon;

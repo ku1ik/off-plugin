@@ -15,7 +15,7 @@ class FakeProject extends AbstractProject {
   private Collection<ProjectFile> col;
 
   public FakeProject() {
-    col = new ArrayList<ProjectFile>();
+    col = new ArrayList<>();
 
     String[] names = {
       "README",

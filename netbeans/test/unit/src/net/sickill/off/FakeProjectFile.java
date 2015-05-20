@@ -15,7 +15,7 @@ class FakeProjectFile extends ProjectFile {
   public FakeProjectFile(AbstractProject pp, String path) {
     super(pp);
     this.pathInProject = path;
-    this.name = path.substring(path.lastIndexOf("/") + 1);
+    this.name = path.substring(path.lastIndexOf('/') + 1);
   }
 
   @Override
