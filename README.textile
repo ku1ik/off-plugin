@@ -44,3 +44,30 @@ For example, type:
 h2. Configuration
 
 Open File Fast can be set up to your own preferences and to match your own workflow. You can configure it under _Open File Fast_ tab in Netbeans' _Miscellaneous_ options.
+
+h2. Building from source
+
+h3. NetBeans plugin
+
+* You will need a NetBeans installation that includes the NetBeans Platform SDK.
+** This is included by default in the standard Java SE and Java EE variations.
+** If you're using the C/C++ or HTML5 & PHP bundles, you will probably need to install the _NetBeans Plugin Development_ plugin.
+* Clone this repo.
+* In NetBeans, go to _File_ - _Open Project..._ and navigate to the _netbeans_ subdir in the repo.
+** The dir should have a special icon. If it doesn't, your installation probably doesn't have the _NetBeans Plugin Development_ plugin.
+* Right click on the project and select _Create NBM_.
+* If all goes well, this should create a _net-sickill-off.nbm_ file in the _netbeans/build_ dir of the repo.
+* When making changes to the code, keep in mind that the _netbeans/src/net/sickill/off/common_ package contains code that is used by both the NetBeans and the jEdit plugin. If you're planning to submit pull requests with changes to these files, make sure they don't break the jEdit plugin.
+
+h3. jEdit plugin
+
+* You will need to download and install jEdit from http://www.jedit.org/
+* You will also need to download the ProjectViewer plugin from http://plugins.jedit.org/plugins/?ProjectViewer
+** Install it by unpacking _ProjectViewer.jar_ and _kappalayout.jar_ to jEdit's plugin jars directory.
+** See http://plugins.jedit.org/install.php for more info.
+* Clone this repo.
+* Copy _jedit/build.properties.example_ to _jedit/build.properties_ and change _PROVIDE_THIS_VALUE_ to your jEdit installation dir.
+** If you want to build OFF as a user plugin rather than a system plugin, also change the _install.dir_ property.
+** On Windows, you probably need to change backslashes to slashes in the paths.
+* Right click on the project and select _Package_.
+* If all goes well, this should create an _off-jedit.jar_ file in your jEdit plugin jars dir.
