@@ -53,7 +53,7 @@ h3. NetBeans plugin
 ** This is included by default in the standard Java SE and Java EE variations.
 ** If you're using the C/C++ or HTML5 & PHP bundles, you will probably need to install the _NetBeans Plugin Development_ plugin.
 * Clone this repo.
-* In NetBeans, go to _File_ - _Open Project..._ and navigate to the _netbeans_ subdir in the repo.
+* In NetBeans, go to _File_ - _Open Project..._, navigate to the _netbeans_ subdir in the repo and open it.
 ** The dir should have a special icon. If it doesn't, your installation probably doesn't have the _NetBeans Plugin Development_ plugin.
 * Right click on the project and select _Create NBM_.
 * If all goes well, this should create a _net-sickill-off.nbm_ file in the _netbeans/build_ dir of the repo.
