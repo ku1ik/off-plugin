@@ -22,45 +22,6 @@ public class OffList extends JList<OffListElement> implements MouseListener, Key
     addMouseListener(this);
   }
 
-  void moveListDown() {
-    int selectedIndex = getSelectedIndex();
-    int listSize = getModel().getSize();
-
-    if (listSize > 1 && selectedIndex >= 0 && (selectedIndex + 1) < listSize) {
-      selectedIndex++;
-      setSelectedIndex(selectedIndex);
-      ensureIndexIsVisible(selectedIndex);
-    }
-  }
-
-  void moveListUp() {
-    int selectedIndex = getSelectedIndex();
-    int listSize = getModel().getSize();
-
-    if (listSize > 1 && (selectedIndex - 1) >= 0) {
-      selectedIndex--;
-      setSelectedIndex(selectedIndex);
-      ensureIndexIsVisible(selectedIndex);
-    }
-  }
-
-  void moveToStartOfList() {
-    if (getModel().getSize() > 1) {
-      setSelectedIndex(0);
-      ensureIndexIsVisible(0);
-    }
-  }
-
-  void moveToEndOfList() {
-    int listSize = getModel().getSize();
-
-    if (listSize > 1) {
-      int endIndex = listSize - 1;
-      setSelectedIndex(endIndex);
-      ensureIndexIsVisible(endIndex);
-    }
-  }
-
   @Override
   public void keyPressed(KeyEvent e) {
     if (e.getKeyCode() == KeyEvent.VK_ENTER) {

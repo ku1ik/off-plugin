@@ -31,8 +31,10 @@ public class OffPlugin extends EditPlugin {
 
   @Override
   public void stop() {
-    for (View v : viewsWithOff.keySet()) {
-      v.removeWindowListener(windowAdapter);
+    for (View view : viewsWithOff.keySet()) {
+      view.removeWindowListener(windowAdapter);
+      OffPanel off = viewsWithOff.get(view);
+      off.close();
     }
 
     viewsWithOff.clear();
@@ -93,7 +95,9 @@ public class OffPlugin extends EditPlugin {
 
     @Override
     public void windowClosed(WindowEvent evt) {
-      viewsWithOff.remove(evt.getWindow());
+      OffPanel off = viewsWithOff.remove(evt.getWindow());
+      off.close();
+
       JDialog dialog = dialogs.remove(evt.getWindow());
 
       if (dialog != null) {

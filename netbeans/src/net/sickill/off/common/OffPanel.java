@@ -210,6 +210,10 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
   @Override
   public void keyReleased(KeyEvent e) { }
 
+  public void close() {
+    patternInput.close();
+  }
+
   class SearchAction implements ActionListener {
 
     @Override

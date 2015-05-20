@@ -15,4 +15,9 @@ public class Installer extends ModuleInstall {
     NetbeansProject.getInstance().init(listModel);
   }
 
+  @Override
+  public void uninstalled() {
+    NetbeansDialog.off.close();
+  }
+
 }
