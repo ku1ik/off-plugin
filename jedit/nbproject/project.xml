@@ -50,7 +50,25 @@
                         <includes>net/sickill/off/common/**</includes>
                     </source-folder>
                     <source-file>
+                        <location>actions.xml</location>
+                    </source-file>
+                    <source-file>
+                        <location>build.properties</location>
+                    </source-file>
+                    <source-file>
+                        <location>build.properties.example</location>
+                    </source-file>
+                    <source-file>
                         <location>build.xml</location>
+                    </source-file>
+                    <source-file>
+                        <location>common.properties</location>
+                    </source-file>
+                    <source-file>
+                        <location>dockables.xml</location>
+                    </source-file>
+                    <source-file>
+                        <location>Off.props</location>
                     </source-file>
                 </items>
                 <context-menu>
