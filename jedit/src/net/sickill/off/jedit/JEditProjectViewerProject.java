@@ -69,14 +69,6 @@ public class JEditProjectViewerProject extends AbstractProject implements EBComp
         logger.log(Level.INFO, "reindexProject: indexing files from project {0}", project.getName());
         model.setIndexing(true);
 
-        // TODO: remove?
-        try {
-          Thread.sleep(3000);
-        }
-        catch (InterruptedException ex) {
-          logger.log(Level.SEVERE, null, ex);
-        }
-
         for (Object node : project.getOpenableNodes()) {
           ProjectFile pf = new JEditProjectViewerFile(JEditProjectViewerProject.this, (VPTFile) node);
           model.addFile(pf);
