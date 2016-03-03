@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
@@ -76,7 +77,9 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
     JPanel pnlNorth = new JPanel(new BorderLayout());
 
     URL url = OffPanel.class.getResource("search.png");
-    JLabel searchIcon = new JLabel(new ImageIcon(url));
+    JLabel searchIcon = new JLabel("Search: ", new ImageIcon(url), SwingConstants.LEFT);
+    searchIcon.setDisplayedMnemonic(KeyEvent.VK_S);
+    searchIcon.setLabelFor(patternInput);
     pnlNorth.add(searchIcon, BorderLayout.WEST);
     pnlNorth.add(patternInput, BorderLayout.CENTER);
 

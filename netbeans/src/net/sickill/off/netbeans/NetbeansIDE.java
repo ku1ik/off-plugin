@@ -1,11 +1,21 @@
 package net.sickill.off.netbeans;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.DefaultKeyboardFocusManager;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
@@ -23,7 +33,7 @@ import org.openide.util.Exceptions;
 /**
  * @author sickill
  */
-public class NetbeansIDE extends IDE implements ItemListener {
+public class NetbeansIDE extends IDE {
 
   private JComboBox<ProjectItem> projectChooser;
 
@@ -31,7 +41,7 @@ public class NetbeansIDE extends IDE implements ItemListener {
   public void onFocus() {
     Project selected = NetbeansProject.getInstance().getSelectedProject();
     projectChooser.removeAllItems();
-    projectChooser.removeItemListener(this);
+    
 
     for (Project p : OpenProjects.getDefault().getOpenProjects()) {
       ProjectItem item = new ProjectItem(p);
@@ -41,29 +51,66 @@ public class NetbeansIDE extends IDE implements ItemListener {
         projectChooser.setSelectedItem(item);
       }
     }
+      projectChooser.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              if (projectChooser.isPopupVisible()) {
+                // do not change selection, if popup is visible -> it is handled separately
+              }else{
+                  ProjectItem cbItem = (ProjectItem) projectChooser.getSelectedItem();
+                  NetbeansProject.getInstance().setSelectedProject(cbItem.getProject());
+              }
+          }
+      });
 
-    projectChooser.addItemListener(this);
+      projectChooser.addPopupMenuListener(new PopupMenuListener() {
+          Object previouslySelected;
+
+          @Override
+          public void popupMenuCanceled(PopupMenuEvent e) {
+              previouslySelected = null;
+          }
+
+          @Override
+          public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+              ProjectItem cbItem = (ProjectItem) projectChooser.getSelectedItem();
+              if (previouslySelected != cbItem) {
+                  NetbeansProject.getInstance().setSelectedProject(cbItem.getProject());
+              }
+              previouslySelected = null;
+          }
+
+          @Override
+          public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+              previouslySelected = (ProjectItem) projectChooser.getSelectedItem();
+          }
+      });
   }
 
-  @Override
-  public void itemStateChanged(ItemEvent e) {
-    if (e.getStateChange() == ItemEvent.SELECTED) {
-      NetbeansProject.getInstance().setSelectedProject(((ProjectItem) e.getItem()).getProject());
-      off.getPatternInput().requestFocus();
+    Component previousFocusOwner;
+
+    @Override
+    public void onIndexing(boolean indexing) {
+        if (indexing) {
+            previousFocusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+            projectChooser.setEnabled(false);
+        } else {
+            projectChooser.setEnabled(true);
+            if (null != previousFocusOwner) {
+                previousFocusOwner.requestFocusInWindow();
+            }
+            previousFocusOwner = null;
+        }
     }
-  }
-
-  @Override
-  public void onIndexing(boolean indexing) {
-    projectChooser.setEnabled(!indexing);
-  }
 
   @Override
   public void addCustomControls(JPanel panel) {
     projectChooser = new JComboBox<>();
     panel.add(projectChooser, BorderLayout.CENTER);
-    projectChooser.addItemListener(this);
-    panel.add(new JLabel("Project "), BorderLayout.WEST);
+    final JLabel label = new JLabel("Project ");
+    label.setDisplayedMnemonic(KeyEvent.VK_P);
+    label.setLabelFor(projectChooser);
+    panel.add(label, BorderLayout.WEST);
   }
 
   @Override
