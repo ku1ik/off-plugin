@@ -70,6 +70,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="btnVisitHomePage2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -119,7 +120,9 @@
                   <Component id="jScrollPane3" min="-2" pref="88" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="88" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="25" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnVisitHomePage2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -278,6 +281,16 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;These three boxes take globs:&lt;br&gt;&lt;ul&gt;&lt;li&gt;one per line&lt;li&gt;use * to match anything"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="btnVisitHomePage2">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="net/sickill/off/common/Bundle.properties" key="ConfigPanel.btnVisitHomePage.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnVisitHomePage2MouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

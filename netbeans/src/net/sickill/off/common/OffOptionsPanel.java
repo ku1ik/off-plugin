@@ -2,7 +2,11 @@ package net.sickill.off.common;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.swing.JTextArea;
+import org.openide.awt.HtmlBrowser;
+import org.openide.util.Exceptions;
 
 public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
 
@@ -42,6 +46,7 @@ public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
         jScrollPane3 = new javax.swing.JScrollPane();
         morePriorityMask = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
+        btnVisitHomePage2 = new javax.swing.JLabel();
 
         jLabel1.setLabelFor(smartMatch);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "&Matching mode:");
@@ -101,6 +106,13 @@ public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel9, "<html>These three boxes take globs:<br><ul><li>one per line<li>use * to match anything");
 
+        org.openide.awt.Mnemonics.setLocalizedText(btnVisitHomePage2, org.openide.util.NbBundle.getMessage(OffOptionsPanel.class, "ConfigPanel.btnVisitHomePage.text")); // NOI18N
+        btnVisitHomePage2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVisitHomePage2MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,7 +156,8 @@ public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnVisitHomePage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -183,13 +196,23 @@ public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnVisitHomePage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
   private void matchFromStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matchFromStartActionPerformed
     // TODO add your handling code here:
   }//GEN-LAST:event_matchFromStartActionPerformed
+
+    private void btnVisitHomePage2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVisitHomePage2MouseClicked
+        try {
+            HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://github.com/sickill/off-plugin/"));
+        } catch (MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }//GEN-LAST:event_btnVisitHomePage2MouseClicked
 
   public void load() {
     // Example:
@@ -242,6 +265,7 @@ public class OffOptionsPanel extends javax.swing.JPanel implements KeyListener {
   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnVisitHomePage2;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox clearOnOpen;
     private javax.swing.JTextArea ignoreMask;
