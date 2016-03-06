@@ -9,7 +9,7 @@
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
-    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
@@ -127,22 +127,34 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Matching mode:"/>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="smartMatch"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&amp;Matching mode:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Minimum pattern length:"/>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="minPatternLength"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Minimum pattern &amp;length:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Wait"/>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="searchDelay"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&amp;Wait"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Hide files matching:"/>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="ignoreMask"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&amp;Hide files matching:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="smartMatch">
@@ -170,7 +182,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="matchFromStart">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Match from start of filename"/>
+        <Property name="text" type="java.lang.String" value="Match from &amp;start of filename"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="matchFromStartActionPerformed"/>
@@ -195,12 +207,15 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="clearOnOpen">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Clear search pattern on dialog open"/>
+        <Property name="text" type="java.lang.String" value="&amp;Clear search pattern on dialog open"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Increase rank of files matching:"/>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="morePriorityMask"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Increase &amp;rank of files matching:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -237,7 +252,10 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Decrease rank of files matching:"/>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="lessPriorityMask"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&amp;Decrease rank of files matching:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
