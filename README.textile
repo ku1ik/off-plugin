@@ -9,6 +9,7 @@ It is inspired by "Textmate's":http://macromates.com/ quick open file dialog. Ho
 h2. Download
 
 You can download the plugins from the "releases page":https://github.com/sickill/off-plugin/releases.
+The NetBeans plugin can be downloaded from the "NetBeans Plugin Portal":http://plugins.netbeans.org/plugin/16495/open-file-fast
 
 h2. Key features of Open File Fast
 
