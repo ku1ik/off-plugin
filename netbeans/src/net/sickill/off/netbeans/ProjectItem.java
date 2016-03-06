@@ -9,20 +9,20 @@ import org.netbeans.api.project.ProjectUtils;
  */
 public class ProjectItem {
 
-  private Project project;
+    private Project project;
 
-  public ProjectItem(Project p) {
-    project = p;
-  }
+    public ProjectItem(Project p) {
+        project = p;
+    }
 
-  @Override
-  public String toString() {
-    ProjectInformation pi = ProjectUtils.getInformation(project);
-    return pi.getDisplayName() + " [" + project.getProjectDirectory().getPath() + "]";
-  }
+    @Override
+    public String toString() {
+        ProjectInformation pi = ProjectUtils.getInformation(project);
+        return pi.getDisplayName() + " [" + project.getProjectDirectory().getPath() + "]";
+    }
 
-  public Project getProject() {
-    return project;
-  }
+    public Project getProject() {
+        return project;
+    }
 
 }

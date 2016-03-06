@@ -9,25 +9,25 @@ import java.util.regex.Pattern;
  */
 public class Wildcard {
 
-  private String wildcard;
-  private Pattern pattern;
+    private String wildcard;
+    private Pattern pattern;
 
-  public Wildcard(String wildcard) {
-    this.wildcard = wildcard.replaceAll("[;,]", "\n");
-    pattern = PatternBuilder.build(this.wildcard);
-  }
+    public Wildcard(String wildcard) {
+        this.wildcard = wildcard.replaceAll("[;,]", "\n");
+        pattern = PatternBuilder.build(this.wildcard);
+    }
 
-  private Matcher matcher(String subject) {
-    return pattern.matcher(subject);
-  }
+    private Matcher matcher(String subject) {
+        return pattern.matcher(subject);
+    }
 
-  public boolean matches(String subject) {
-    return matcher(subject).matches();
-  }
+    public boolean matches(String subject) {
+        return matcher(subject).matches();
+    }
 
-  public boolean matches(Path subject) {
-    String string = subject.toString();
-    return matcher(string).matches();
-  }
+    public boolean matches(Path subject) {
+        String string = subject.toString();
+        return matcher(string).matches();
+    }
 
 }

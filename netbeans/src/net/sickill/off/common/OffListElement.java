@@ -1,6 +1,5 @@
 package net.sickill.off.common;
 
-import java.nio.file.Path;
 import java.util.regex.Matcher;
 import javax.swing.Icon;
 
@@ -9,64 +8,92 @@ import javax.swing.Icon;
  */
 public class OffListElement {
 
-  String filename;
-  Path path;
-  private final ProjectFile file;
-  Matcher matcher;
-  int priority = 0;
-  boolean withPath;
+    String filenameAsHtml;
+    Matcher matcher;
+    int priority = 0;
+    boolean withPath;
+    private final String fileRelativeToProjectRoot;
+    private String fileNamePlain;
+    private String fullPath;
+    private Icon icon;
+    private int hashCode;
 
-  public OffListElement(Matcher matcher, ProjectFile file, boolean withPath) {
-    this.matcher = matcher;
-    this.file = file;
-    this.withPath = withPath;
-  }
-
-  public ProjectFile getFile() {
-    return file;
-  }
-
-  private void buildFilename() {
-    filename = withPath ? file.getName() : Highlighter.highlight(file.getName(), matcher);
-  }
-
-  public String getFilename() {
-    if (filename == null) {
-      buildFilename();
+    public OffListElement(Matcher matcher, ProjectFile file, boolean withPath, String fileRelativeToProjectRoot) {
+        this.icon = file.getIcon();
+        this.fullPath = file.getFullPath();
+        this.hashCode = fullPath.hashCode();
+        this.fileNamePlain = file.getFileName();
+        this.matcher = matcher;
+        this.withPath = withPath;
+        this.filenameAsHtml = withPath ? fileNamePlain : Highlighter.highlight(fileNamePlain, matcher);
+        this.filenameAsHtml = "<html>" + filenameAsHtml + "</html>";
+        this.fileRelativeToProjectRoot = fileRelativeToProjectRoot;
     }
 
-    return "<html>" + filename + "</html>";
-  }
-
-  public Path getPath() {
-    return file.getDirectory();
-  }
-
-  public Icon getIcon() {
-    return file.getIcon();
-  }
-
-  int getFilterDistance() {
-    int dist = 0;
-
-    for (int i = 1; i < matcher.groupCount(); i++) {
-      dist += matcher.start(i + 1) - matcher.start(i) - 1;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OffListElement other = (OffListElement) obj;
+        if (this.hashCode != other.hashCode) {
+            return false;
+        }
+        return true;
     }
 
-    return dist;
-  }
+    public String getFileRelativeToProjectRoot() {
+        return fileRelativeToProjectRoot;
+    }
 
-  void setPriority(int priority) {
-    this.priority = priority;
-  }
+    public String getPlainFileName() {
+        return fileNamePlain;
+    }
 
-  int getPriority() {
-    return this.priority;
-  }
+    public String getHTMLHighlightedFileName() {
+        return filenameAsHtml;
+    }
 
-  @Override
-  public String toString() {
-    return getFilename();
-  }
+    public String getFullPath() {
+        return fullPath;
+    }
+
+    public Icon getIcon() {
+        return icon;
+    }
+
+    @Override
+    public int hashCode() {
+        return hashCode;
+    }
+
+    int getFilterDistance() {
+        int dist = 0;
+
+        for (int i = 1; i < matcher.groupCount(); i++) {
+            dist += matcher.start(i + 1) - matcher.start(i) - 1;
+        }
+
+        return dist;
+    }
+
+    void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    int getPriority() {
+        return this.priority;
+    }
+
+    @Override
+    public String toString() {
+        return getHTMLHighlightedFileName();
+    }
 
 }

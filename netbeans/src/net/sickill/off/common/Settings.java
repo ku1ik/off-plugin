@@ -5,189 +5,185 @@ package net.sickill.off.common;
  */
 public abstract class Settings {
 
-  public static int DEFAULT_DIALOG_WIDTH = 380;
-  public static int DEFAULT_DIALOG_HEIGHT = 400;
-  public static float DEFAULT_SEARCH_DELAY = 0.2f;
-  public static int DEFAULT_MIN_PATTERN_LENGTH = 3;
-  public static boolean DEFAULT_NAME_SORTING = true;
-  public static boolean DEFAULT_EXTENSION_SORTING = false;
-  public static boolean DEFAULT_SMART_MATCH = true;
-  public static String DEFAULT_IGNORE_MASK = "*gems/*";
-  public static boolean DEFAULT_SHOW_EXTENSION = true;
-  public static boolean DEFAULT_SHOW_PATH = true;
-  public static boolean DEFAULT_SHOW_SIZE = false;
-  public static boolean DEFAULT_POPULARITY_SORTING = true;
-  public static boolean DEFAULT_DISTANCE_SORTING = true;
-  public static boolean DEFAULT_MATCH_FROM_START = true;
-  public static boolean DEFAULT_CLEAR_ON_OPEN = false;
-  public static String DEFAULT_LESS_PRIORITY_MASK = "";
-  public static String DEFAULT_MORE_PRIORITY_MASK = "";
+    public static int DEFAULT_DIALOG_WIDTH = 380;
+    public static int DEFAULT_DIALOG_HEIGHT = 400;
+    public static float DEFAULT_SEARCH_DELAY = 0.2f;
+    public static int DEFAULT_MIN_PATTERN_LENGTH = 3;
+    public static boolean DEFAULT_NAME_SORTING = true;
+    public static boolean DEFAULT_EXTENSION_SORTING = false;
+    public static boolean DEFAULT_SMART_MATCH = true;
+    public static String DEFAULT_IGNORE_MASK = "*gems/*";
+    public static boolean DEFAULT_SHOW_EXTENSION = true;
+    public static boolean DEFAULT_SHOW_PATH = true;
+    public static boolean DEFAULT_SHOW_SIZE = false;
+    public static boolean DEFAULT_POPULARITY_SORTING = true;
+    public static boolean DEFAULT_DISTANCE_SORTING = true;
+    public static boolean DEFAULT_MATCH_FROM_START = true;
+    public static boolean DEFAULT_CLEAR_ON_OPEN = false;
+    public static String DEFAULT_LESS_PRIORITY_MASK = "";
+    public static String DEFAULT_MORE_PRIORITY_MASK = "";
 
-  protected Wildcard lessPriorityWildcard;
-  protected Wildcard morePriorityWildcard;
-  protected Wildcard ignoreWildcard;
+    protected Wildcard lessPriorityWildcard;
+    protected Wildcard morePriorityWildcard;
+    protected Wildcard ignoreWildcard;
 
-  public abstract void setBoolean(String prop, boolean b);
+    public abstract void setBoolean(String prop, boolean b);
 
-  public abstract boolean getBoolean(String prop, boolean def);
+    public abstract boolean getBoolean(String prop, boolean def);
 
-  public abstract void setString(String prop, String s);
+    public abstract void setString(String prop, String s);
 
-  public abstract String getString(String prop, String def);
+    public abstract String getString(String prop, String def);
 
-  public abstract void setInt(String prop, int i);
+    public abstract void setInt(String prop, int i);
 
-  public abstract int getInt(String prop, int def);
+    public abstract int getInt(String prop, int def);
 
-  public abstract void setFloat(String prop, float f);
+    public abstract void setFloat(String prop, float f);
 
-  public abstract float getFloat(String prop, float def);
+    public abstract float getFloat(String prop, float def);
 
-  public Wildcard getLessPriorityWildcard() {
-    if (lessPriorityWildcard == null) {
-      lessPriorityWildcard = new Wildcard(getLessPriorityMask().trim());
+    public Wildcard getLessPriorityWildcard() {
+        if (lessPriorityWildcard == null) {
+            lessPriorityWildcard = new Wildcard(getLessPriorityMask().trim());
+        }
+
+        return lessPriorityWildcard;
     }
 
-    return lessPriorityWildcard;
-  }
+    public Wildcard getMorePriorityWildcard() {
+        if (morePriorityWildcard == null) {
+            morePriorityWildcard = new Wildcard(getMorePriorityMask().trim());
+        }
 
-  public Wildcard getMorePriorityWildcard() {
-    if (morePriorityWildcard == null) {
-      morePriorityWildcard = new Wildcard(getMorePriorityMask().trim());
+        return morePriorityWildcard;
     }
 
-    return morePriorityWildcard;
-  }
+    public Wildcard getIgnoreWildcard() {
+        if (ignoreWildcard == null) {
+            ignoreWildcard = new Wildcard(getIgnoreMask().trim());
+        }
 
-  public Wildcard getIgnoreWildcard() {
-    if (ignoreWildcard == null) {
-      ignoreWildcard = new Wildcard(getIgnoreMask().trim());
+        return ignoreWildcard;
     }
 
-    return ignoreWildcard;
-  }
+    // dialog
+    public void setDialogWidth(int w) {
+        setInt("dialog-width", w);
+    }
 
-  // dialog
+    public int getDialogWidth() {
+        return getInt("dialog-width", Settings.DEFAULT_DIALOG_WIDTH);
+    }
 
-  public void setDialogWidth(int w) {
-    setInt("dialog-width", w);
-  }
+    public void setDialogHeight(int h) {
+        setInt("dialog-height", h);
+    }
 
-  public int getDialogWidth() {
-    return getInt("dialog-width", Settings.DEFAULT_DIALOG_WIDTH);
-  }
+    public int getDialogHeight() {
+        return getInt("dialog-height", Settings.DEFAULT_DIALOG_HEIGHT);
+    }
 
-  public void setDialogHeight(int h) {
-    setInt("dialog-height", h);
-  }
+    // behaviour
+    public float getSearchDelay() {
+        return getFloat("search-delay", Settings.DEFAULT_SEARCH_DELAY);
+    }
 
-  public int getDialogHeight() {
-    return getInt("dialog-height", Settings.DEFAULT_DIALOG_HEIGHT);
-  }
+    public void setSearchDelay(float value) {
+        setFloat("search-delay", value);
+    }
 
-  // behaviour
+    public int getMinPatternLength() {
+        return getInt("min-pattern-length", Settings.DEFAULT_MIN_PATTERN_LENGTH);
+    }
 
-  public float getSearchDelay() {
-    return getFloat("search-delay", Settings.DEFAULT_SEARCH_DELAY);
-  }
+    public void setMinPatternLength(int value) {
+        setInt("min-pattern-length", value);
+    }
 
-  public void setSearchDelay(float value) {
-    setFloat("search-delay", value);
-  }
+    public boolean isSmartMatch() {
+        return getBoolean("smart-match", Settings.DEFAULT_SMART_MATCH);
+    }
 
-  public int getMinPatternLength() {
-    return getInt("min-pattern-length", Settings.DEFAULT_MIN_PATTERN_LENGTH);
-  }
+    public void setSmartMatch(boolean selected) {
+        setBoolean("smart-match", selected);
+    }
 
-  public void setMinPatternLength(int value) {
-    setInt("min-pattern-length", value);
-  }
+    public String getIgnoreMask() {
+        return getString("ignore-mask", Settings.DEFAULT_IGNORE_MASK);
+    }
 
-  public boolean isSmartMatch() {
-    return getBoolean("smart-match", Settings.DEFAULT_SMART_MATCH);
-  }
+    public void setIgnoreMask(String mask) {
+        ignoreWildcard = null;
+        setString("ignore-mask", mask);
+    }
 
-  public void setSmartMatch(boolean selected) {
-    setBoolean("smart-match", selected);
-  }
+    public void setMatchFromStart(boolean selected) {
+        setBoolean("match-from-start", selected);
+    }
 
-  public String getIgnoreMask() {
-    return getString("ignore-mask", Settings.DEFAULT_IGNORE_MASK);
-  }
+    public boolean isClearOnOpen() {
+        return getBoolean("clear-on-open", Settings.DEFAULT_CLEAR_ON_OPEN);
+    }
 
-  public void setIgnoreMask(String mask) {
-    ignoreWildcard = null;
-    setString("ignore-mask", mask);
-  }
+    public void setClearOnOpen(boolean selected) {
+        setBoolean("clear-on-open", selected);
+    }
 
-  public void setMatchFromStart(boolean selected) {
-    setBoolean("match-from-start", selected);
-  }
+    // show
+    public boolean isShowExt() {
+        return getBoolean("show-ext", Settings.DEFAULT_SHOW_EXTENSION);
+    }
 
-  public boolean isClearOnOpen() {
-    return getBoolean("clear-on-open", Settings.DEFAULT_CLEAR_ON_OPEN);
-  }
+    public boolean isShowPath() {
+        return getBoolean("show-path", Settings.DEFAULT_SHOW_PATH);
+    }
 
-  public void setClearOnOpen(boolean selected) {
-    setBoolean("clear-on-open", selected);
-  }
+    public boolean isShowSize() {
+        return getBoolean("show-size", Settings.DEFAULT_SHOW_SIZE);
+    }
 
-  // show
+    // sorting
+    public boolean isNameSorting() {
+        return getBoolean("name-sorting", Settings.DEFAULT_NAME_SORTING);
+    }
 
-  public boolean isShowExt() {
-    return getBoolean("show-ext", Settings.DEFAULT_SHOW_EXTENSION);
-  }
+    public boolean isExtensionSorting() {
+        return getBoolean("extension-sorting", Settings.DEFAULT_EXTENSION_SORTING);
+    }
 
-  public boolean isShowPath() {
-    return getBoolean("show-path", Settings.DEFAULT_SHOW_PATH);
-  }
+    public boolean isPopularitySorting() {
+        return getBoolean("popularity-sorting", Settings.DEFAULT_POPULARITY_SORTING);
+    }
 
-  public boolean isShowSize() {
-    return getBoolean("show-size", Settings.DEFAULT_SHOW_SIZE);
-  }
+    public boolean isCustomSorting() {
+        return false;
+    }
 
-  // sorting
+    public boolean isDistanceSorting() {
+        return getBoolean("distance-sorting", Settings.DEFAULT_DISTANCE_SORTING);
+    }
 
-  public boolean isNameSorting() {
-    return getBoolean("name-sorting", Settings.DEFAULT_NAME_SORTING);
-  }
+    public boolean isMatchFromStart() {
+        return getBoolean("match-from-start", Settings.DEFAULT_MATCH_FROM_START);
+    }
 
-  public boolean isExtensionSorting() {
-    return getBoolean("extension-sorting", Settings.DEFAULT_EXTENSION_SORTING);
-  }
+    public void setLessPriorityMask(String mask) {
+        lessPriorityWildcard = null;
+        setString("less-priority-mask", mask);
+    }
 
-  public boolean isPopularitySorting() {
-    return getBoolean("popularity-sorting", Settings.DEFAULT_POPULARITY_SORTING);
-  }
+    public void setMorePriorityMask(String mask) {
+        morePriorityWildcard = null;
+        setString("more-priority-mask", mask);
+    }
 
-  public boolean isCustomSorting() {
-    return false;
-  }
+    public String getLessPriorityMask() {
+        return getString("less-priority-mask", Settings.DEFAULT_LESS_PRIORITY_MASK);
+    }
 
-  public boolean isDistanceSorting() {
-    return getBoolean("distance-sorting", Settings.DEFAULT_DISTANCE_SORTING);
-  }
-
-  public boolean isMatchFromStart() {
-    return getBoolean("match-from-start", Settings.DEFAULT_MATCH_FROM_START);
-  }
-
-  public void setLessPriorityMask(String mask) {
-    lessPriorityWildcard = null;
-    setString("less-priority-mask", mask);
-  }
-
-  public void setMorePriorityMask(String mask) {
-    morePriorityWildcard = null;
-    setString("more-priority-mask", mask);
-  }
-
-  public String getLessPriorityMask() {
-    return getString("less-priority-mask", Settings.DEFAULT_LESS_PRIORITY_MASK);
-  }
-
-  public String getMorePriorityMask() {
-    return getString("more-priority-mask", Settings.DEFAULT_MORE_PRIORITY_MASK);
-  }
+    public String getMorePriorityMask() {
+        return getString("more-priority-mask", Settings.DEFAULT_MORE_PRIORITY_MASK);
+    }
 
 }

@@ -5,16 +5,14 @@ package net.sickill.off.common;
  */
 public abstract class AbstractProject {
 
-  protected OffListModel model;
+    protected OffListModel model;
 
-  public abstract String getProjectRootPath(); // return path WITH trailing slash
+    public void init(OffListModel model) {
+        this.model = model;
+    }
 
-  public void init(OffListModel model) {
-    this.model = model;
-  }
-
-  public OffListModel getModel() {
-    return model;
-  }
+    public OffListModel getModel() {
+        return model;
+    }
 
 }
