@@ -27,6 +27,7 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
 
   private OffTextField patternInput;
   private OffList resultsList;
+  private JLabel searchIcon;
   private OffListModel listModel;
   private StatusLabel statusBar;
   private boolean indexing = false;
@@ -54,6 +55,9 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
   public void setIndexing(boolean indexing) {
     this.indexing = indexing;
 
+    patternInput.setEnabled(!indexing);
+    searchIcon.setEnabled(!indexing);
+    resultsList.setEnabled(!indexing);
     if (indexing) {
       ide.onIndexing(true);
       statusBar.setIndexing(true);
@@ -77,7 +81,7 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
     JPanel pnlNorth = new JPanel(new BorderLayout());
 
     URL url = OffPanel.class.getResource("search.png");
-    JLabel searchIcon = new JLabel("Search: ", new ImageIcon(url), SwingConstants.LEFT);
+    searchIcon = new JLabel("Search: ", new ImageIcon(url), SwingConstants.LEFT);
     searchIcon.setDisplayedMnemonic(KeyEvent.VK_S);
     searchIcon.setLabelFor(patternInput);
     pnlNorth.add(searchIcon, BorderLayout.WEST);

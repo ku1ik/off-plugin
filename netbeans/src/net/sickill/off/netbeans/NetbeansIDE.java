@@ -6,7 +6,9 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.PopupMenuEvent;
@@ -24,13 +26,18 @@ import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
+import org.openide.util.NbBundle;
 
 /**
  * @author sickill
  */
+@NbBundle.Messages({"lblProject=Project ", "btnReindex=Reindex"})
 public class NetbeansIDE extends IDE {
 
-  private JComboBox<ProjectItem> projectChooser;
+    private JButton btnReindex;
+    private JComponent focusedComponentAfterIndexing;
+    private JLabel label;
+    private JComboBox<ProjectItem> projectChooser;
 
   @Override
   public void onFocus() {
@@ -80,6 +87,18 @@ public class NetbeansIDE extends IDE {
               previouslySelected = (ProjectItem) projectChooser.getSelectedItem();
           }
       });
+      
+      btnReindex.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              NetbeansProject instance = NetbeansProject.getInstance();
+              if (null != instance) {
+                  // focus the search field after indexing
+                  focusedComponentAfterIndexing = off.getPatternInput();
+                  instance.fetchProjectFiles();
+              }
+          }
+    });
   }
 
     Component previousFocusOwner;
@@ -89,23 +108,33 @@ public class NetbeansIDE extends IDE {
         if (indexing) {
             previousFocusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
             projectChooser.setEnabled(false);
+            btnReindex.setEnabled(!indexing);
+            label.setEnabled(!indexing);
         } else {
+            btnReindex.setEnabled(!indexing);
+            label.setEnabled(!indexing);
             projectChooser.setEnabled(true);
-            if (null != previousFocusOwner) {
+            if (null != focusedComponentAfterIndexing) {
+                focusedComponentAfterIndexing.requestFocusInWindow();
+            } else if (null != previousFocusOwner) {
                 previousFocusOwner.requestFocusInWindow();
             }
             previousFocusOwner = null;
+            focusedComponentAfterIndexing = null;
         }
     }
 
   @Override
   public void addCustomControls(JPanel panel) {
     projectChooser = new JComboBox<>();
-    panel.add(projectChooser, BorderLayout.CENTER);
-    final JLabel label = new JLabel("Project ");
+    btnReindex = new JButton(Bundle.btnReindex());
+    btnReindex.setMnemonic(KeyEvent.VK_R);
+    label = new JLabel(Bundle.lblProject());
     label.setDisplayedMnemonic(KeyEvent.VK_P);
     label.setLabelFor(projectChooser);
+    panel.add(projectChooser, BorderLayout.CENTER);
     panel.add(label, BorderLayout.WEST);
+    panel.add(btnReindex, BorderLayout.EAST);
   }
 
   @Override
