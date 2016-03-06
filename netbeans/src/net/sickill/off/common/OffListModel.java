@@ -189,7 +189,10 @@ public class OffListModel extends AbstractListModel<OffListElement> {
 
   @Override
   public OffListElement getElementAt(int index) {
-    return matchingFiles.get(index);
+      if (index >= 0 && index < matchingFiles.size()) {
+          return matchingFiles.get(index);
+      }
+      return null;
   }
 
   @Override

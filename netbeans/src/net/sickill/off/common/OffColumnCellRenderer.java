@@ -40,6 +40,9 @@ public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<Of
     JList<? extends OffListElement> list, OffListElement value,
     int index, boolean isSelected, boolean cellHasFocus
   ) {
+      if (null == value) {
+          return this;
+      }
     labels[0].setIcon(value.getIcon());
     labels[1].setText(value.getFilename());
     labels[2].setText(value.getPath().toString());
