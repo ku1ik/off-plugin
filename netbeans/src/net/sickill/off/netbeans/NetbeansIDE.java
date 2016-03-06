@@ -2,14 +2,9 @@ package net.sickill.off.netbeans;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.DefaultKeyboardFocusManager;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -55,10 +50,10 @@ public class NetbeansIDE extends IDE {
           @Override
           public void actionPerformed(ActionEvent e) {
               if (projectChooser.isPopupVisible()) {
-                // do not change selection, if popup is visible -> it is handled separately
-              }else{
+                  // do not change selection, if popup is visible -> it is handled separately
+              } else {
                   ProjectItem cbItem = (ProjectItem) projectChooser.getSelectedItem();
-                  NetbeansProject.getInstance().setSelectedProject(cbItem.getProject());
+                  setProject(cbItem);
               }
           }
       });
@@ -75,7 +70,7 @@ public class NetbeansIDE extends IDE {
           public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
               ProjectItem cbItem = (ProjectItem) projectChooser.getSelectedItem();
               if (previouslySelected != cbItem) {
-                  NetbeansProject.getInstance().setSelectedProject(cbItem.getProject());
+                  setProject(cbItem);
               }
               previouslySelected = null;
           }
@@ -145,4 +140,10 @@ public class NetbeansIDE extends IDE {
     ((NetbeansDialog) dialog).closeDialog();
   }
 
+    private void setProject(ProjectItem cbItem) {
+        final NetbeansProject instance = NetbeansProject.getInstance();
+        if (null != instance && null != cbItem && null != cbItem.getProject()) {
+            instance.setSelectedProject(cbItem.getProject());
+        }
+    }
 }
