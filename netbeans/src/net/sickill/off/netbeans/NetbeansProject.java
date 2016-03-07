@@ -154,6 +154,7 @@ public class NetbeansProject extends AbstractProject
                         }
                     }
                     Collection<String> groups = getAsString(SourceGroups.getAllSourceGroups(selectedProject));
+                    logger.info("[OFF] SourceGroups: "+groups);
                     final FileObject projectDirectory = selectedProject.getProjectDirectory();
                     model.reinit(groups, projectDirectory.getPath());
                     //start indexing at project directory
