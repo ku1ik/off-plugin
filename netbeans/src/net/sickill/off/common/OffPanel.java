@@ -54,9 +54,6 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
     public void setIndexing(boolean indexing) {
         this.indexing = indexing;
 
-        patternInput.setEnabled(!indexing);
-        searchIcon.setEnabled(!indexing);
-        resultsList.setEnabled(!indexing);
         if (indexing) {
             ide.onIndexing(true);
             statusBar.setIndexing(true);

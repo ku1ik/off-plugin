@@ -108,13 +108,7 @@ public class NetbeansIDE extends IDE {
     public void onIndexing(boolean indexing) {
         if (indexing) {
             previousFocusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-            projectChooser.setEnabled(false);
-            btnReindex.setEnabled(!indexing);
-            label.setEnabled(!indexing);
         } else {
-            btnReindex.setEnabled(!indexing);
-            label.setEnabled(!indexing);
-            projectChooser.setEnabled(true);
             if (null != focusedComponentAfterIndexing) {
                 focusedComponentAfterIndexing.requestFocusInWindow();
             } else if (null != previousFocusOwner) {
