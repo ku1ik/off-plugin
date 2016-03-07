@@ -7,10 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 /**
  * @author sickill
@@ -18,7 +16,6 @@ import javax.swing.border.LineBorder;
 public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<OffListElement> {
 
     private static final Border EMPTY_BORDER = new EmptyBorder(1, 1, 1, 1);
-    private static final Border FOCUSED_BORDER = UIManager.getBorder("List.focusCellHighlightBorder");
 
     private JLabel[] labels = {new JLabel(), new JLabel(), new JLabel()};
 
@@ -62,19 +59,6 @@ public class OffColumnCellRenderer extends JPanel implements ListCellRenderer<Of
 
             labels[2].setForeground(Color.GRAY);
         }
-
-        final Border border;
-
-        if (cellHasFocus) {
-            border = FOCUSED_BORDER;
-        } else // Even if the list is not in focus, highlight the focused row on it
-         if (index == list.getLeadSelectionIndex()) {
-                border = new LineBorder(Color.LIGHT_GRAY);
-            } else {
-                border = EMPTY_BORDER;
-            }
-
-        setBorder(border);
 
         setEnabled(list.isEnabled());
         setFont(list.getFont());
