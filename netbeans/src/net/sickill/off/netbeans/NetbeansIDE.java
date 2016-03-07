@@ -40,66 +40,44 @@ public class NetbeansIDE extends IDE {
     private JComponent focusedComponentAfterIndexing;
     private JLabel label;
     private JComboBox<ProjectItem> projectChooser;
+    final ProjectActionListener projectActionListener = new ProjectActionListener();
+    final ProjectPopupMenuListener projectPopupMenuListener = new ProjectPopupMenuListener();
+    final ReindexActionListener reindexActionListener = new ReindexActionListener();
 
     @Override
     public void onFocus() {
+
+        projectChooser.removeActionListener(projectActionListener);
+        projectChooser.removePopupMenuListener(projectPopupMenuListener);
+        btnReindex.removeActionListener(reindexActionListener);
+
         Project current = NetbeansProject.getInstance().getCurrentProject();
         projectChooser.removeAllItems();
 
         for (Project p : OpenProjects.getDefault().getOpenProjects()) {
             ProjectItem item = new ProjectItem(p);
             projectChooser.addItem(item);
-
-            if (current == p) {
-                projectChooser.setSelectedItem(item);
+        }
+        int itemCount = projectChooser.getItemCount();
+        ProjectItem projectItemForCurrentProject = null;
+        for (int i = 0; i < itemCount; i++) {
+            ProjectItem item = projectChooser.getItemAt(i);
+            if (item.getProject() == current) {
+                projectItemForCurrentProject = item;
+                break;
             }
         }
-        projectChooser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (projectChooser.isPopupVisible()) {
-                    // do not change selection, if popup is visible -> it is handled separately
-                } else {
-                    ProjectItem cbItem = (ProjectItem) projectChooser.getSelectedItem();
-                    setProject(cbItem);
-                }
-            }
-        });
 
-        projectChooser.addPopupMenuListener(new PopupMenuListener() {
-            Object previouslySelected;
-
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {
-                previouslySelected = null;
-            }
-
-            @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-                ProjectItem cbItem = (ProjectItem) projectChooser.getSelectedItem();
-                if (previouslySelected != cbItem) {
-                    setProject(cbItem);
-                }
-                previouslySelected = null;
-            }
-
-            @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                previouslySelected = (ProjectItem) projectChooser.getSelectedItem();
-            }
-        });
-
-        btnReindex.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                NetbeansProject instance = NetbeansProject.getInstance();
-                if (null != instance) {
-                    // focus the search field after indexing
-                    focusedComponentAfterIndexing = off.getPatternInput();
-                    instance.fetchProjectFiles();
-                }
-            }
-        });
+        // add listener
+        projectChooser.addActionListener(projectActionListener);
+        projectChooser.addPopupMenuListener(projectPopupMenuListener);
+        btnReindex.addActionListener(reindexActionListener);
+        // selecting a project, will trigger the listener and thus the indexing
+        if (null != projectItemForCurrentProject) {
+            projectChooser.setSelectedItem(projectItemForCurrentProject);
+        } else {
+            projectChooser.setSelectedItem(0);
+        }
     }
 
     Component previousFocusOwner;
@@ -161,11 +139,54 @@ public class NetbeansIDE extends IDE {
         ((NetbeansDialog) dialog).closeDialog();
     }
 
-    private void setProject(ProjectItem cbItem) {
-        final NetbeansProject instance = NetbeansProject.getInstance();
-        if (null != instance && null != cbItem && null != cbItem.getProject()) {
-            if (instance.getSelectedProject() != cbItem.getProject()) {
-                instance.setSelectedProject(cbItem.getProject());
+    private class ProjectActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (projectChooser.isPopupVisible()) {
+                // do not change selection, if popup is visible -> it is handled separately
+            } else {
+                ProjectItem cbItem = (ProjectItem) projectChooser.getSelectedItem();
+                if (NetbeansProject.getInstance().getSelectedProject() != cbItem.getProject()) {
+                    NetbeansProject.getInstance().setSelectedProject(cbItem.getProject());
+                }
+            }
+        }
+    }
+
+    private class ProjectPopupMenuListener implements PopupMenuListener {
+
+        Object previouslySelected;
+
+        @Override
+        public void popupMenuCanceled(PopupMenuEvent e) {
+            previouslySelected = null;
+        }
+
+        @Override
+        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            ProjectItem cbItem = (ProjectItem) projectChooser.getSelectedItem();
+            if (previouslySelected != cbItem) {
+                NetbeansProject.getInstance().setSelectedProject(cbItem.getProject());
+            }
+            previouslySelected = null;
+        }
+
+        @Override
+        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+            previouslySelected = (ProjectItem) projectChooser.getSelectedItem();
+        }
+    }
+
+    private class ReindexActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            NetbeansProject instance = NetbeansProject.getInstance();
+            if (null != instance) {
+                // focus the search field after indexing
+                focusedComponentAfterIndexing = off.getPatternInput();
+                instance.fetchProjectFiles();
             }
         }
     }
