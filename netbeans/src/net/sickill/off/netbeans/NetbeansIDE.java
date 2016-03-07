@@ -43,14 +43,14 @@ public class NetbeansIDE extends IDE {
 
     @Override
     public void onFocus() {
-        Project selected = NetbeansProject.getInstance().getSelectedProject();
+        Project current = NetbeansProject.getInstance().getCurrentProject();
         projectChooser.removeAllItems();
 
         for (Project p : OpenProjects.getDefault().getOpenProjects()) {
             ProjectItem item = new ProjectItem(p);
             projectChooser.addItem(item);
 
-            if (selected == p) {
+            if (current == p) {
                 projectChooser.setSelectedItem(item);
             }
         }

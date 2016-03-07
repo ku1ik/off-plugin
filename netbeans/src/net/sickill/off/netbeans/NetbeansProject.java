@@ -25,7 +25,7 @@ import org.openide.util.Utilities;
  * @author sickill
  */
 public class NetbeansProject extends AbstractProject
-        implements FileChangeListener, PropertyChangeListener {
+        implements FileChangeListener {
 
     private static NetbeansProject instance;
     private static final Logger logger = Logger.getLogger(NetbeansProject.class.getName());
@@ -43,8 +43,9 @@ public class NetbeansProject extends AbstractProject
     @Override
     public void init(OffListModel model) {
         super.init(model);
-        OpenProjects.getDefault().addPropertyChangeListener(this);
-        getSelectedProject();
+        // select and index a project, when loading
+        Project project = getCurrentProject();
+        setSelectedProject(project);
     }
 
     public synchronized void fetchProjectFiles() {
@@ -61,11 +62,6 @@ public class NetbeansProject extends AbstractProject
     }
 
     public Project getSelectedProject() {
-        if (selectedProject == null) {
-            Project p = getCurrentProject();
-            setSelectedProject(p);
-        }
-
         return selectedProject;
     }
 
@@ -85,15 +81,12 @@ public class NetbeansProject extends AbstractProject
                 return p;
             }
         }
+        for (FileObject fObj : lookup.lookupAll(FileObject.class)) {
+            Project p = FileOwnerQuery.getOwner(fObj);
 
-        Project p = OpenProjects.getDefault().getMainProject();
-
-        if (p != null) {
-            return p;
-        }
-
-        for (Project project : OpenProjects.getDefault().getOpenProjects()) {
-            return project;
+            if (p != null) {
+                return p;
+            }
         }
 
         return null;
@@ -140,7 +133,7 @@ public class NetbeansProject extends AbstractProject
                 }
                 model.clear();
                 if (selectedProject == null) {
-                    logger.info("[OFF] no main project selected");
+                    logger.info("[OFF] no project selected");
                 } else {
                     // During initialization, selectedProject may be an instance of LazyProject.
                     // This will break the group.contains(child) check in collectFiles() because
@@ -246,15 +239,6 @@ public class NetbeansProject extends AbstractProject
 
     @Override
     public void fileAttributeChanged(FileAttributeEvent fe) {
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(OpenProjects.PROPERTY_MAIN_PROJECT)) {
-            logger.info("main project changed");
-            selectedProject = null;
-            getSelectedProject();
-        }
     }
 
 }
