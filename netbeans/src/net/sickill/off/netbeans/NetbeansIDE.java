@@ -7,6 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -20,6 +24,7 @@ import javax.swing.text.StyledDocument;
 import net.sickill.off.common.IDE;
 import org.netbeans.api.editor.EditorRegistry;
 import org.netbeans.api.project.Project;
+import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.cookies.OpenCookie;
 import org.openide.filesystems.FileObject;
@@ -54,7 +59,9 @@ public class NetbeansIDE extends IDE {
         Project current = NetbeansProject.getInstance().getCurrentProject();
         projectChooser.removeAllItems();
 
-        for (Project p : OpenProjects.getDefault().getOpenProjects()) {
+        Set<Project> projects = getAllOpenedProjectsSortedByName();
+
+        for (Project p : projects) {
             ProjectItem item = new ProjectItem(p);
             projectChooser.addItem(item);
         }
@@ -124,6 +131,22 @@ public class NetbeansIDE extends IDE {
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);
         }
+    }
+
+    private Set<Project> getAllOpenedProjectsSortedByName() {
+        Set<Project> projects = new TreeSet<>(new Comparator<Project>() {
+            @Override
+            public int compare(Project o1, Project o2) {
+                String a = "" + ProjectUtils.getInformation(o1).getDisplayName();
+                String b = "" + ProjectUtils.getInformation(o2).getDisplayName();
+                return a.compareToIgnoreCase(b);
+            }
+        });
+        final Project[] openProjects = OpenProjects.getDefault().getOpenProjects();
+        if (openProjects != null && openProjects.length > 0) {
+            projects.addAll(Arrays.asList(openProjects));
+        }
+        return projects;
     }
 
     private boolean performGoto(int lineNo) {
