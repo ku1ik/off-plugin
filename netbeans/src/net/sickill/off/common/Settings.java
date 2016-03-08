@@ -1,5 +1,10 @@
 package net.sickill.off.common;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author sickill
  */
@@ -22,10 +27,14 @@ public abstract class Settings {
     public static boolean DEFAULT_CLEAR_ON_OPEN = false;
     public static String DEFAULT_LESS_PRIORITY_MASK = "";
     public static String DEFAULT_MORE_PRIORITY_MASK = "";
+    public static String DEFAULT_SEARCH_HISTORY = "";
+    public static final String OPTION_SEARCHHISTORY = "search-history";
+    private final int HISTORYSIZE = 10;
 
     protected Wildcard lessPriorityWildcard;
     protected Wildcard morePriorityWildcard;
     protected Wildcard ignoreWildcard;
+    private String SEARCH_HISTORY_SEPARATOR = "@@@@@";
 
     public abstract void setBoolean(String prop, boolean b);
 
@@ -42,6 +51,25 @@ public abstract class Settings {
     public abstract void setFloat(String prop, float f);
 
     public abstract float getFloat(String prop, float def);
+
+    public void addToSearchHistory(String text) {
+        if (null == text || text.trim().isEmpty()) {
+            //dont' save empty/blank texts
+            return;
+        }
+        List<String> texts = new LinkedList<>(getSearchHistory());
+        texts.add(0, text);
+
+        List<String> list = limitListFromFront(texts, HISTORYSIZE);
+        String toString = join(list, SEARCH_HISTORY_SEPARATOR);
+        setString(OPTION_SEARCHHISTORY, toString);
+    }
+
+    public List<String> getSearchHistory() {
+        String string = getString(OPTION_SEARCHHISTORY, DEFAULT_SEARCH_HISTORY);
+        String[] split = string.split(SEARCH_HISTORY_SEPARATOR);
+        return Arrays.asList(split);
+    }
 
     public Wildcard getLessPriorityWildcard() {
         if (lessPriorityWildcard == null) {
@@ -184,6 +212,36 @@ public abstract class Settings {
 
     public String getMorePriorityMask() {
         return getString("more-priority-mask", Settings.DEFAULT_MORE_PRIORITY_MASK);
+    }
+
+    private String join(List<String> items, final String sep) {
+        final int size = items.size();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            sb.append(items.get(i));
+
+            final boolean atTheEnd = (i == size - 1);
+            if (!atTheEnd) {
+                sb.append(sep);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Limits the list by n-items. It returns only the [0..n) items
+     *
+     * @param list
+     * @param size
+     * @return
+     */
+    private List<String> limitListFromFront(List<String> list, int size) {
+        if (null == list || list.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        //keep only n items
+        return list.subList(0, Math.min(size, list.size()));
     }
 
 }

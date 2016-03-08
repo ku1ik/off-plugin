@@ -20,7 +20,7 @@ public abstract class OffDialog extends JDialog implements ComponentListener {
         super(f, name);
         addComponentListener(this);
         addNotify();
-        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         settings = getSettings();
 
         final Dimension dimension = new Dimension(

@@ -3,6 +3,8 @@ package net.sickill.off.netbeans;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import net.sickill.off.common.IDE;
 import net.sickill.off.common.OffDialog;
 import net.sickill.off.common.Settings;
@@ -14,9 +16,8 @@ import org.openide.windows.WindowManager;
  */
 public class NetbeansDialog extends OffDialog {
 
-    static NetbeansDialog instance;
-    static IDE ide;
-    static OffPanel off;
+    private static NetbeansDialog instance;
+    OffPanel off;
 
     public static NetbeansDialog getInstance() {
         if (instance == null) {
@@ -29,13 +30,24 @@ public class NetbeansDialog extends OffDialog {
     public NetbeansDialog() {
         super(WindowManager.getDefault().getMainWindow(), "Open File Fast");
 
-        if (off == null) {
-            ide = new NetbeansIDE();
-            off = new OffPanel(ide, settings, NetbeansProject.getInstance());
-        }
+        IDE ide = new NetbeansIDE();
+        off = new OffPanel(ide, settings, NetbeansProject.getInstance());
+
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                saveRecentSearch();
+            }
+        });
 
         ide.setDialog(this);
         getContentPane().add(off, BorderLayout.CENTER);
+    }
+
+    private void saveRecentSearch() {
+        String recentSearch = off.getPatternInput().getText();
+        getSettings().addToSearchHistory(recentSearch);
     }
 
     public void showDialog() {
@@ -48,6 +60,7 @@ public class NetbeansDialog extends OffDialog {
     }
 
     public void closeDialog() {
+        saveRecentSearch();
         dispose();
         instance = null;
     }

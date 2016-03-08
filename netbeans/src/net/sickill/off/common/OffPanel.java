@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -15,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+import net.sickill.off.netbeans.NetbeansSettings;
 
 /**
  * @author sickill
@@ -144,6 +146,10 @@ public class OffPanel extends JPanel implements KeyListener, IndexingListener, S
         if (settings.isClearOnOpen()) {
             patternInput.setText("");
         } else {
+            List<String> searchHistory = NetbeansSettings.getInstance().getSearchHistory();
+            if (!searchHistory.isEmpty()) {
+                patternInput.setText(searchHistory.get(0));
+            }
             patternInput.selectAll();
             patternInput.requestFocus();
         }

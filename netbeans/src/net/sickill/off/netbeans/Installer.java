@@ -17,8 +17,8 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void uninstalled() {
-        if (null != NetbeansDialog.off) {
-            NetbeansDialog.off.close();
+        if (null != NetbeansDialog.getInstance()) {
+            NetbeansDialog.getInstance().off.close();
         }
     }
 
