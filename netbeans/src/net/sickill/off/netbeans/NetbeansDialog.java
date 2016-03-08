@@ -1,6 +1,8 @@
 package net.sickill.off.netbeans;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.KeyboardFocusManager;
 import net.sickill.off.common.IDE;
 import net.sickill.off.common.OffDialog;
 import net.sickill.off.common.Settings;
@@ -37,6 +39,10 @@ public class NetbeansDialog extends OffDialog {
     }
 
     public void showDialog() {
+        //try to use monitor, where the input focus is
+        Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+        this.setLocationRelativeTo(focusOwner);
+        
         this.setVisible(true);
         off.focusOnDefaultComponent();
     }
