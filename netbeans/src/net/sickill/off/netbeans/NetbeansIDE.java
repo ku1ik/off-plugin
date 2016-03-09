@@ -58,6 +58,7 @@ public class NetbeansIDE extends IDE {
 
         Project current = NetbeansProject.getInstance().getCurrentProject();
         projectChooser.removeAllItems();
+        projectChooser.setRenderer(new ProjectCellRenderer());
 
         Set<Project> projects = getAllOpenedProjectsSortedByName();
 
