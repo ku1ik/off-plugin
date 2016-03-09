@@ -51,8 +51,14 @@ public class NetbeansDialog extends OffDialog {
     }
 
     public void showDialog() {
-        //try to use monitor, where the input focus is
+        // try to use monitor, where the input focus is
+        // therefor get the topmost component based on the input focus
         Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+        if (null != focusOwner) {
+            while (focusOwner.getParent() != null) {
+                focusOwner = focusOwner.getParent();
+            }
+        }
         this.setLocationRelativeTo(focusOwner);
         
         this.setVisible(true);
