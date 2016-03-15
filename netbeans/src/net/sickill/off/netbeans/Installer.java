@@ -8,18 +8,18 @@ import org.openide.modules.ModuleInstall;
  */
 public class Installer extends ModuleInstall {
 
-  @Override
-  public void restored() {
-    final NetbeansSettings settings = NetbeansSettings.getInstance();
-    OffListModel listModel = new OffListModel(settings);
-    NetbeansProject.getInstance().init(listModel);
-  }
+    @Override
+    public void restored() {
+        final NetbeansSettings settings = NetbeansSettings.getInstance();
+        OffListModel listModel = new OffListModel(settings);
+        NetbeansProject.getInstance().init(listModel);
+    }
 
-  @Override
-  public void uninstalled() {
-      if (null != NetbeansDialog.off) {
-          NetbeansDialog.off.close();
-      }
-  }
+    @Override
+    public void uninstalled() {
+        if (null != NetbeansDialog.getInstance()) {
+            NetbeansDialog.getInstance().off.close();
+        }
+    }
 
 }

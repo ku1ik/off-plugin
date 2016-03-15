@@ -9,21 +9,21 @@ import org.junit.Test;
  */
 public class PatternBuilderTest {
 
-  @Test
-  public void testMatches() {
-    assertPattern("*gems/*", ".*\\Qgems\\E(\\\\|\\/).*");
-    assertPattern("jola*", "\\Qjola\\E.*");
-    assertPattern("*.jp*g", ".*\\Q.jp\\E.*\\Qg\\E");
+    @Test
+    public void testMatches() {
+        assertPattern("*gems/*", ".*\\Qgems\\E(\\\\|\\/).*");
+        assertPattern("jola*", "\\Qjola\\E.*");
+        assertPattern("*.jp*g", ".*\\Q.jp\\E.*\\Qg\\E");
 
-    assertPattern(
-      "*.jpg\n*.bmp\njola.*\nmisio/*\n",
-      ".*\\Q.jpg\\E|.*\\Q.bmp\\E|\\Qjola.\\E.*|\\Qmisio\\E(\\\\|\\/).*"
-    );
-  }
+        assertPattern(
+                "*.jpg\n*.bmp\njola.*\nmisio/*\n",
+                ".*\\Q.jpg\\E|.*\\Q.bmp\\E|\\Qjola.\\E.*|\\Qmisio\\E(\\\\|\\/).*"
+        );
+    }
 
-  private void assertPattern(String original, String expected) {
-    String actual = PatternBuilder.build(original).pattern();
-    Assert.assertEquals(expected, actual);
-  }
+    private void assertPattern(String original, String expected) {
+        String actual = PatternBuilder.build(original).pattern();
+        Assert.assertEquals(expected, actual);
+    }
 
 }

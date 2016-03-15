@@ -12,40 +12,43 @@ import javax.swing.WindowConstants;
  */
 public abstract class OffDialog extends JDialog implements ComponentListener {
 
-  protected static Settings settings;
+    protected static Settings settings;
 
-  protected abstract Settings getSettings();
+    protected abstract Settings getSettings();
 
-  public OffDialog(Frame f, String name) {
-    super(f, name);
-    addComponentListener(this);
-    addNotify();
-    setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-    settings = getSettings();
+    public OffDialog(Frame f, String name) {
+        super(f, name);
+        addComponentListener(this);
+        addNotify();
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        settings = getSettings();
 
-    final Dimension dimension = new Dimension(
-      Settings.DEFAULT_DIALOG_WIDTH / 2,
-      Settings.DEFAULT_DIALOG_HEIGHT / 2
-    );
+        final Dimension dimension = new Dimension(
+                Settings.DEFAULT_DIALOG_WIDTH / 2,
+                Settings.DEFAULT_DIALOG_HEIGHT / 2
+        );
 
-    setMinimumSize(dimension);
-    setSize(settings.getDialogWidth(), settings.getDialogHeight());
-    setLocationRelativeTo(null);
-  }
+        setMinimumSize(dimension);
+        setSize(settings.getDialogWidth(), settings.getDialogHeight());
+        setLocationRelativeTo(null);
+    }
 
-  @Override
-  public void componentResized(ComponentEvent e) {
-    settings.setDialogWidth(this.getWidth());
-    settings.setDialogHeight(this.getHeight());
-  }
+    @Override
+    public void componentResized(ComponentEvent e) {
+        settings.setDialogWidth(this.getWidth());
+        settings.setDialogHeight(this.getHeight());
+    }
 
-  @Override
-  public void componentMoved(ComponentEvent e) { }
+    @Override
+    public void componentMoved(ComponentEvent e) {
+    }
 
-  @Override
-  public void componentShown(ComponentEvent e) { }
+    @Override
+    public void componentShown(ComponentEvent e) {
+    }
 
-  @Override
-  public void componentHidden(ComponentEvent e) { }
+    @Override
+    public void componentHidden(ComponentEvent e) {
+    }
 
 }

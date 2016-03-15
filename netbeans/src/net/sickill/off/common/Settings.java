@@ -1,193 +1,247 @@
 package net.sickill.off.common;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author sickill
  */
 public abstract class Settings {
 
-  public static int DEFAULT_DIALOG_WIDTH = 380;
-  public static int DEFAULT_DIALOG_HEIGHT = 400;
-  public static float DEFAULT_SEARCH_DELAY = 0.2f;
-  public static int DEFAULT_MIN_PATTERN_LENGTH = 3;
-  public static boolean DEFAULT_NAME_SORTING = true;
-  public static boolean DEFAULT_EXTENSION_SORTING = false;
-  public static boolean DEFAULT_SMART_MATCH = true;
-  public static String DEFAULT_IGNORE_MASK = "*gems/*";
-  public static boolean DEFAULT_SHOW_EXTENSION = true;
-  public static boolean DEFAULT_SHOW_PATH = true;
-  public static boolean DEFAULT_SHOW_SIZE = false;
-  public static boolean DEFAULT_POPULARITY_SORTING = true;
-  public static boolean DEFAULT_DISTANCE_SORTING = true;
-  public static boolean DEFAULT_MATCH_FROM_START = true;
-  public static boolean DEFAULT_CLEAR_ON_OPEN = false;
-  public static String DEFAULT_LESS_PRIORITY_MASK = "";
-  public static String DEFAULT_MORE_PRIORITY_MASK = "";
+    public static int DEFAULT_DIALOG_WIDTH = 380;
+    public static int DEFAULT_DIALOG_HEIGHT = 400;
+    public static float DEFAULT_SEARCH_DELAY = 0.2f;
+    public static int DEFAULT_MIN_PATTERN_LENGTH = 3;
+    public static boolean DEFAULT_NAME_SORTING = true;
+    public static boolean DEFAULT_EXTENSION_SORTING = false;
+    public static boolean DEFAULT_SMART_MATCH = true;
+    public static String DEFAULT_IGNORE_MASK = "*gems/*";
+    public static boolean DEFAULT_SHOW_EXTENSION = true;
+    public static boolean DEFAULT_SHOW_PATH = true;
+    public static boolean DEFAULT_SHOW_SIZE = false;
+    public static boolean DEFAULT_POPULARITY_SORTING = true;
+    public static boolean DEFAULT_DISTANCE_SORTING = true;
+    public static boolean DEFAULT_MATCH_FROM_START = true;
+    public static boolean DEFAULT_CLEAR_ON_OPEN = false;
+    public static String DEFAULT_LESS_PRIORITY_MASK = "";
+    public static String DEFAULT_MORE_PRIORITY_MASK = "";
+    public static String DEFAULT_SEARCH_HISTORY = "";
+    public static final String OPTION_SEARCHHISTORY = "search-history";
+    private final int HISTORYSIZE = 10;
 
-  protected Wildcard lessPriorityWildcard;
-  protected Wildcard morePriorityWildcard;
-  protected Wildcard ignoreWildcard;
+    protected Wildcard lessPriorityWildcard;
+    protected Wildcard morePriorityWildcard;
+    protected Wildcard ignoreWildcard;
+    private String SEARCH_HISTORY_SEPARATOR = "@@@@@";
 
-  public abstract void setBoolean(String prop, boolean b);
+    public abstract void setBoolean(String prop, boolean b);
 
-  public abstract boolean getBoolean(String prop, boolean def);
+    public abstract boolean getBoolean(String prop, boolean def);
 
-  public abstract void setString(String prop, String s);
+    public abstract void setString(String prop, String s);
 
-  public abstract String getString(String prop, String def);
+    public abstract String getString(String prop, String def);
 
-  public abstract void setInt(String prop, int i);
+    public abstract void setInt(String prop, int i);
 
-  public abstract int getInt(String prop, int def);
+    public abstract int getInt(String prop, int def);
 
-  public abstract void setFloat(String prop, float f);
+    public abstract void setFloat(String prop, float f);
 
-  public abstract float getFloat(String prop, float def);
+    public abstract float getFloat(String prop, float def);
 
-  public Wildcard getLessPriorityWildcard() {
-    if (lessPriorityWildcard == null) {
-      lessPriorityWildcard = new Wildcard(getLessPriorityMask().trim());
+    public void addToSearchHistory(String text) {
+        if (null == text || text.trim().isEmpty()) {
+            //dont' save empty/blank texts
+            return;
+        }
+        List<String> texts = new LinkedList<>(getSearchHistory());
+        texts.add(0, text);
+
+        List<String> list = limitListFromFront(texts, HISTORYSIZE);
+        String toString = join(list, SEARCH_HISTORY_SEPARATOR);
+        setString(OPTION_SEARCHHISTORY, toString);
     }
 
-    return lessPriorityWildcard;
-  }
-
-  public Wildcard getMorePriorityWildcard() {
-    if (morePriorityWildcard == null) {
-      morePriorityWildcard = new Wildcard(getMorePriorityMask().trim());
+    public List<String> getSearchHistory() {
+        String string = getString(OPTION_SEARCHHISTORY, DEFAULT_SEARCH_HISTORY);
+        String[] split = string.split(SEARCH_HISTORY_SEPARATOR);
+        return Arrays.asList(split);
     }
 
-    return morePriorityWildcard;
-  }
+    public Wildcard getLessPriorityWildcard() {
+        if (lessPriorityWildcard == null) {
+            lessPriorityWildcard = new Wildcard(getLessPriorityMask().trim());
+        }
 
-  public Wildcard getIgnoreWildcard() {
-    if (ignoreWildcard == null) {
-      ignoreWildcard = new Wildcard(getIgnoreMask().trim());
+        return lessPriorityWildcard;
     }
 
-    return ignoreWildcard;
-  }
+    public Wildcard getMorePriorityWildcard() {
+        if (morePriorityWildcard == null) {
+            morePriorityWildcard = new Wildcard(getMorePriorityMask().trim());
+        }
 
-  // dialog
+        return morePriorityWildcard;
+    }
 
-  public void setDialogWidth(int w) {
-    setInt("dialog-width", w);
-  }
+    public Wildcard getIgnoreWildcard() {
+        if (ignoreWildcard == null) {
+            ignoreWildcard = new Wildcard(getIgnoreMask().trim());
+        }
 
-  public int getDialogWidth() {
-    return getInt("dialog-width", Settings.DEFAULT_DIALOG_WIDTH);
-  }
+        return ignoreWildcard;
+    }
 
-  public void setDialogHeight(int h) {
-    setInt("dialog-height", h);
-  }
+    // dialog
+    public void setDialogWidth(int w) {
+        setInt("dialog-width", w);
+    }
 
-  public int getDialogHeight() {
-    return getInt("dialog-height", Settings.DEFAULT_DIALOG_HEIGHT);
-  }
+    public int getDialogWidth() {
+        return getInt("dialog-width", Settings.DEFAULT_DIALOG_WIDTH);
+    }
 
-  // behaviour
+    public void setDialogHeight(int h) {
+        setInt("dialog-height", h);
+    }
 
-  public float getSearchDelay() {
-    return getFloat("search-delay", Settings.DEFAULT_SEARCH_DELAY);
-  }
+    public int getDialogHeight() {
+        return getInt("dialog-height", Settings.DEFAULT_DIALOG_HEIGHT);
+    }
 
-  public void setSearchDelay(float value) {
-    setFloat("search-delay", value);
-  }
+    // behaviour
+    public float getSearchDelay() {
+        return getFloat("search-delay", Settings.DEFAULT_SEARCH_DELAY);
+    }
 
-  public int getMinPatternLength() {
-    return getInt("min-pattern-length", Settings.DEFAULT_MIN_PATTERN_LENGTH);
-  }
+    public void setSearchDelay(float value) {
+        setFloat("search-delay", value);
+    }
 
-  public void setMinPatternLength(int value) {
-    setInt("min-pattern-length", value);
-  }
+    public int getMinPatternLength() {
+        return getInt("min-pattern-length", Settings.DEFAULT_MIN_PATTERN_LENGTH);
+    }
 
-  public boolean isSmartMatch() {
-    return getBoolean("smart-match", Settings.DEFAULT_SMART_MATCH);
-  }
+    public void setMinPatternLength(int value) {
+        setInt("min-pattern-length", value);
+    }
 
-  public void setSmartMatch(boolean selected) {
-    setBoolean("smart-match", selected);
-  }
+    public boolean isSmartMatch() {
+        return getBoolean("smart-match", Settings.DEFAULT_SMART_MATCH);
+    }
 
-  public String getIgnoreMask() {
-    return getString("ignore-mask", Settings.DEFAULT_IGNORE_MASK);
-  }
+    public void setSmartMatch(boolean selected) {
+        setBoolean("smart-match", selected);
+    }
 
-  public void setIgnoreMask(String mask) {
-    ignoreWildcard = null;
-    setString("ignore-mask", mask);
-  }
+    public String getIgnoreMask() {
+        return getString("ignore-mask", Settings.DEFAULT_IGNORE_MASK);
+    }
 
-  public void setMatchFromStart(boolean selected) {
-    setBoolean("match-from-start", selected);
-  }
+    public void setIgnoreMask(String mask) {
+        ignoreWildcard = null;
+        setString("ignore-mask", mask);
+    }
 
-  public boolean isClearOnOpen() {
-    return getBoolean("clear-on-open", Settings.DEFAULT_CLEAR_ON_OPEN);
-  }
+    public void setMatchFromStart(boolean selected) {
+        setBoolean("match-from-start", selected);
+    }
 
-  public void setClearOnOpen(boolean selected) {
-    setBoolean("clear-on-open", selected);
-  }
+    public boolean isClearOnOpen() {
+        return getBoolean("clear-on-open", Settings.DEFAULT_CLEAR_ON_OPEN);
+    }
 
-  // show
+    public void setClearOnOpen(boolean selected) {
+        setBoolean("clear-on-open", selected);
+    }
 
-  public boolean isShowExt() {
-    return getBoolean("show-ext", Settings.DEFAULT_SHOW_EXTENSION);
-  }
+    // show
+    public boolean isShowExt() {
+        return getBoolean("show-ext", Settings.DEFAULT_SHOW_EXTENSION);
+    }
 
-  public boolean isShowPath() {
-    return getBoolean("show-path", Settings.DEFAULT_SHOW_PATH);
-  }
+    public boolean isShowPath() {
+        return getBoolean("show-path", Settings.DEFAULT_SHOW_PATH);
+    }
 
-  public boolean isShowSize() {
-    return getBoolean("show-size", Settings.DEFAULT_SHOW_SIZE);
-  }
+    public boolean isShowSize() {
+        return getBoolean("show-size", Settings.DEFAULT_SHOW_SIZE);
+    }
 
-  // sorting
+    // sorting
+    public boolean isNameSorting() {
+        return getBoolean("name-sorting", Settings.DEFAULT_NAME_SORTING);
+    }
 
-  public boolean isNameSorting() {
-    return getBoolean("name-sorting", Settings.DEFAULT_NAME_SORTING);
-  }
+    public boolean isExtensionSorting() {
+        return getBoolean("extension-sorting", Settings.DEFAULT_EXTENSION_SORTING);
+    }
 
-  public boolean isExtensionSorting() {
-    return getBoolean("extension-sorting", Settings.DEFAULT_EXTENSION_SORTING);
-  }
+    public boolean isPopularitySorting() {
+        return getBoolean("popularity-sorting", Settings.DEFAULT_POPULARITY_SORTING);
+    }
 
-  public boolean isPopularitySorting() {
-    return getBoolean("popularity-sorting", Settings.DEFAULT_POPULARITY_SORTING);
-  }
+    public boolean isCustomSorting() {
+        return false;
+    }
 
-  public boolean isCustomSorting() {
-    return false;
-  }
+    public boolean isDistanceSorting() {
+        return getBoolean("distance-sorting", Settings.DEFAULT_DISTANCE_SORTING);
+    }
 
-  public boolean isDistanceSorting() {
-    return getBoolean("distance-sorting", Settings.DEFAULT_DISTANCE_SORTING);
-  }
+    public boolean isMatchFromStart() {
+        return getBoolean("match-from-start", Settings.DEFAULT_MATCH_FROM_START);
+    }
 
-  public boolean isMatchFromStart() {
-    return getBoolean("match-from-start", Settings.DEFAULT_MATCH_FROM_START);
-  }
+    public void setLessPriorityMask(String mask) {
+        lessPriorityWildcard = null;
+        setString("less-priority-mask", mask);
+    }
 
-  public void setLessPriorityMask(String mask) {
-    lessPriorityWildcard = null;
-    setString("less-priority-mask", mask);
-  }
+    public void setMorePriorityMask(String mask) {
+        morePriorityWildcard = null;
+        setString("more-priority-mask", mask);
+    }
 
-  public void setMorePriorityMask(String mask) {
-    morePriorityWildcard = null;
-    setString("more-priority-mask", mask);
-  }
+    public String getLessPriorityMask() {
+        return getString("less-priority-mask", Settings.DEFAULT_LESS_PRIORITY_MASK);
+    }
 
-  public String getLessPriorityMask() {
-    return getString("less-priority-mask", Settings.DEFAULT_LESS_PRIORITY_MASK);
-  }
+    public String getMorePriorityMask() {
+        return getString("more-priority-mask", Settings.DEFAULT_MORE_PRIORITY_MASK);
+    }
 
-  public String getMorePriorityMask() {
-    return getString("more-priority-mask", Settings.DEFAULT_MORE_PRIORITY_MASK);
-  }
+    private String join(List<String> items, final String sep) {
+        final int size = items.size();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            sb.append(items.get(i));
+
+            final boolean atTheEnd = (i == size - 1);
+            if (!atTheEnd) {
+                sb.append(sep);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Limits the list by n-items. It returns only the [0..n) items
+     *
+     * @param list
+     * @param size
+     * @return
+     */
+    private List<String> limitListFromFront(List<String> list, int size) {
+        if (null == list || list.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        //keep only n items
+        return list.subList(0, Math.min(size, list.size()));
+    }
 
 }

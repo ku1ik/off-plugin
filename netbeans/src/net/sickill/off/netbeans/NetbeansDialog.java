@@ -1,6 +1,10 @@
 package net.sickill.off.netbeans;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import net.sickill.off.common.IDE;
 import net.sickill.off.common.OffDialog;
 import net.sickill.off.common.Settings;
@@ -12,43 +16,64 @@ import org.openide.windows.WindowManager;
  */
 public class NetbeansDialog extends OffDialog {
 
-  static NetbeansDialog instance;
-  static IDE ide;
-  static OffPanel off;
+    private static NetbeansDialog instance;
+    OffPanel off;
 
-  public static NetbeansDialog getInstance() {
-    if (instance == null) {
-      instance = new NetbeansDialog();
+    public static NetbeansDialog getInstance() {
+        if (instance == null) {
+            instance = new NetbeansDialog();
+        }
+
+        return instance;
     }
 
-    return instance;
-  }
+    public NetbeansDialog() {
+        super(WindowManager.getDefault().getMainWindow(), "Open File Fast");
 
-  public NetbeansDialog() {
-    super(WindowManager.getDefault().getMainWindow(), "Open File Fast");
+        IDE ide = new NetbeansIDE();
+        off = new OffPanel(ide, settings, NetbeansProject.getInstance());
 
-    if (off == null) {
-      ide = new NetbeansIDE();
-      off = new OffPanel(ide, settings, NetbeansProject.getInstance());
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                saveRecentSearch();
+            }
+        });
+
+        ide.setDialog(this);
+        getContentPane().add(off, BorderLayout.CENTER);
     }
 
-    ide.setDialog(this);
-    getContentPane().add(off, BorderLayout.CENTER);
-  }
+    private void saveRecentSearch() {
+        String recentSearch = off.getPatternInput().getText();
+        getSettings().addToSearchHistory(recentSearch);
+    }
 
-  public void showDialog() {
-    this.setVisible(true);
-    off.focusOnDefaultComponent();
-  }
+    public void showDialog() {
+        // try to use monitor, where the input focus is
+        // therefor get the topmost component based on the input focus
+        Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+        if (null != focusOwner) {
+            while (focusOwner.getParent() != null) {
+                focusOwner = focusOwner.getParent();
+            }
+        }
+        this.setLocationRelativeTo(focusOwner);
+        
+        this.setVisible(true);
+        off.focusOnDefaultComponent();
+    }
 
-  public void closeDialog() {
-    dispose();
-    instance = null;
-  }
+    public void closeDialog() {
+        saveRecentSearch();
+        dispose();
+        instance = null;
+    }
 
-  @Override
-  protected Settings getSettings() {
-    return NetbeansSettings.getInstance();
-  }
+    @Override
+    protected Settings getSettings() {
+        return NetbeansSettings.getInstance();
+    }
 
 }
