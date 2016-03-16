@@ -1,8 +1,0 @@
-# Used by both build.xml and nbproject/project.xml
-
-# The root of your jEdit install. Folder must contain jedit.jar in root.
-jedit.install.dir=PROVIDE_THIS_VALUE
-
-# User installed jars directory
-# ProjectViewer.jar is required to be installed for build to succeed
-install.dir=${jedit.install.dir}/jars
