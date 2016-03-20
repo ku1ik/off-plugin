@@ -32,6 +32,8 @@ The NetBeans plugin can be downloaded from the NetBeans Plugin Portal <a href="h
 <h2>Usage</h2>
 <p>Open File Fast plugin installs itself in Netbeans' <i>Navigate</i> menu as <i>Open File Fast</i>. I recommend creating a keyboard shortcut for it in <em>Tools/Options/Keymap/Project</em>.</p>
 <p>When invoked, it opens a search dialog. Type <em>some</em> characters from filename you want to find. <em>Some</em> as you may skip any characters you want. Use * as a placeholder for any text. You can narrow down the search to files in specified directory by typing a directory prefix followed by slash and then a filename pattern.</p>
+<img src="https://cloud.githubusercontent.com/assets/1857095/13906271/9b8c8004-eed2-11e5-8a16-25e5445eb51f.png">
+
 <p>For example, type:</p>
 <ul>
 	<li><em>user</em> when looking for <em>user.rb</em> or <em>UberServer.java</em></li>
@@ -42,6 +44,7 @@ The NetBeans plugin can be downloaded from the NetBeans Plugin Portal <a href="h
 </ul>
 <h2>Configuration</h2>
 <p>Open File Fast can be set up to your own preferences and to match your own workflow. You can configure it under <em>Open File Fast</em> tab in Netbeans' <em>Miscellaneous</em> options.</p>
+<img src="https://cloud.githubusercontent.com/assets/1857095/13906272/9c5d21d2-eed2-11e5-9d2b-8b1a64219ef4.png">
 
 
 <h2>Updates</h2>
@@ -76,7 +79,7 @@ The NetBeans plugin can be downloaded from the NetBeans Plugin Portal <a href="h
 		<li>If you're using the C/C++ or HTML5 &amp; PHP bundles, you will probably need to install the <em>NetBeans Plugin Development</em> plugin.</li>
 	</ul></li>
 	<li>Clone this repo.</li>
-	<li>In NetBeans, go to <em>File</em> – <em>Open Project…</em>, navigate to the <em>netbeans</em> subdir in the repo and open it.
+	<li>In NetBeans, go to <em>File</em> â€“ <em>Open Projectâ€¦</em>, navigate to the <em>netbeans</em> subdir in the repo and open it.
 	<ul>
 		<li>The dir should have a special icon. If it doesn't, your installation probably doesn't have the <em>NetBeans Plugin Development</em> plugin.</li>
 	</ul></li>
