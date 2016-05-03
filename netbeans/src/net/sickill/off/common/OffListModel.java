@@ -25,7 +25,6 @@ public class OffListModel extends AbstractListModel<OffListElement> {
     public static int MAX_RESULTS = 50;
 
     private Set<ProjectFile> allFiles;
-    private String projectRootDir;
     private Collection<String> sourceGroups;
     private List<OffListElement> matchingFiles;
     private Filter filter;
@@ -42,11 +41,10 @@ public class OffListModel extends AbstractListModel<OffListElement> {
         clear();
     }
 
-    public void reinit(Collection<String> sourceGroups, String projectRootDir) {
+    public void reinit(Collection<String> sourceGroups) {
         clear();
         this.sourceGroups.clear();
         this.sourceGroups.addAll(sourceGroups);
-        this.projectRootDir = projectRootDir;
     }
 
     void setIndexingListener(IndexingListener indexingListener) {
@@ -90,11 +88,15 @@ public class OffListModel extends AbstractListModel<OffListElement> {
     public void addFile(ProjectFile pf) {
         synchronized (mutex) {
             if (!allFiles.contains(pf)) {
-                if (pf.getFullPath().startsWith(projectRootDir)) {
-                    String fileRelativeToProjectRoot = pf.getFullPath().substring(projectRootDir.length());
+                for (String sourceGroup : sourceGroups) {
 
-                    if (!settings.getIgnoreWildcard().matches(fileRelativeToProjectRoot)) {
-                        allFiles.add(pf);
+                    String dir = sourceGroup;
+                    if (pf.getFullPath().startsWith(dir)) {
+                        String fileRelativeToProjectRoot = pf.getFullPath().substring(dir.length());
+
+                        if (!settings.getIgnoreWildcard().matches(fileRelativeToProjectRoot)) {
+                            allFiles.add(pf);
+                        }
                     }
                 }
             }
@@ -153,7 +155,7 @@ public class OffListModel extends AbstractListModel<OffListElement> {
                         if (indexedFile.startsWith(sourceRoot)) {
                             //extract relevant part: com/foo/Bar.java
                             String fileInSourceRoot = indexedFile.substring(sourceRootLength);
-                            passFilter(file, withPath, withPath ? fileInSourceRoot : file.getFileName().toLowerCase(), projectRootDir);
+                            passFilter(file, withPath, withPath ? fileInSourceRoot : file.getFileName().toLowerCase(), sourceRoot);
                         }
                     }
                 }
@@ -196,7 +198,7 @@ public class OffListModel extends AbstractListModel<OffListElement> {
 
         if (matcher.matches()) {
 
-            String fileInProjectRoot = file.getFullPath().substring(projectRoot.length());
+            String fileInProjectRoot = file.getFullPath().substring(projectRoot.length() + 1);
             OffListElement e = new OffListElement(matcher, file, withPath, fileInProjectRoot);
 
             // lower priority

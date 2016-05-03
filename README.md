@@ -28,6 +28,7 @@ The NetBeans plugin can be downloaded from the NetBeans Plugin Portal <a href="h
 		<li>Match accuracy (distance between characters from search phrase in matched filenames)</li>
 	</ul></li>
 	<li>Opening multiple files at once (selected with ctrl/shift + mouse)</li>
+	<li>Switching between search history entries by CTRL-Up/CTRL-Down</li>
 </ul>
 <h2>Usage</h2>
 <p>Open File Fast plugin installs itself in Netbeans' <i>Navigate</i> menu as <i>Open File Fast</i>. I recommend creating a keyboard shortcut for it in <em>Tools/Options/Keymap/Project</em>.</p>
@@ -48,6 +49,11 @@ The NetBeans plugin can be downloaded from the NetBeans Plugin Portal <a href="h
 
 
 <h2>Updates</h2>
+<h3>1.3.1.0</h3>
+<ul>
+<li>[<a href="https://github.com/sickill/off-plugin/issues/46">Bugfix</a>]: Fixed issue in PHP projects, where the source dir was not within the project dir (use source roots for filtering instead)</li>
+ </ul>
+
 <h3>1.3.0.5</h3>
 <ul>
 <li>[<a href="https://github.com/sickill/off-plugin/issues/32">Feature</a>]: Allow manual indexing (introduced reindex button)</li>

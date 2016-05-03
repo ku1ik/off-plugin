@@ -59,7 +59,7 @@ class FakeProject extends AbstractProject {
         final List<String> sourceGroups = Collections.singletonList(PROJECT_ROOT);
         String projectRootDir = PROJECT_ROOT;
 
-        this.model.reinit(sourceGroups, projectRootDir);
+        this.model.reinit(sourceGroups);
         for (ProjectFile pf : col) {
             this.model.addFile(pf);
         }
