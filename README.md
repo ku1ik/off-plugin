@@ -1,3 +1,7 @@
+<hr>
+<h1 style="color: #FF0000">Looking for maintainers, who want to take over the development!</h1>
+<hr>
+
 <h1>Open File Fast</h1>
 <h2>Introduction</h2>
 <p><strong>Open File Fast</strong> is a plugin for <a href="http://netbeans.org">Netbeans IDE</a> which allows you to quickly find and open files in your projects.</p>
